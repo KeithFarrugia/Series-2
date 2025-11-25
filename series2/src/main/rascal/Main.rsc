@@ -7,7 +7,7 @@ import lang::java::m3::AST;
 import Clones::Type1;
 import DateTime;
 
-loc test_project = |project://hsqldb-2.3.1|;
+loc test_project = |project://sig-metrics-test|;
 
 int durationToMillis(Duration d) {
   return  d.years   * 1000 * 60 * 60 * 24 * 365

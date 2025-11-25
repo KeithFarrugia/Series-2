@@ -51,12 +51,12 @@ int findDuplicates(list[str] lines) {
 
         // Print each duplicate block
         for (s <- starts) {
-            //println("Duplicate block starting at line <s>:");
+            println("Duplicate block starting at line <s>:");
             for (k <- [0 .. t]) {
                 duplicated += {s + k};
-                //println("  <lines[s + k]>");   // print each line
+                println("  <lines[s + k]>");   // print each line
             }
-            //println("");  // blank line between blocks
+            println("");  // blank line between blocks
         }
     }
     // for (i <- [0 .. size(lines)-1]) {
