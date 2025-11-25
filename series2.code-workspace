@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "series2"
+		},
+		{
+			"path": "hsqldb-2.3.1"
+		},
+		{
+			"path": "sig-metrics-test"
+		},
+		{
+			"path": "smallsql0.21_src"
+		}
+	]
+}
