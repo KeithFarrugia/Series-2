@@ -65,3 +65,18 @@ list[str] modelToLines(M3 model) {
     
     return [trim(line) | line <- all_lines];
 }
+
+
+
+
+list[Declaration] genASTFromProject(loc location) {
+    M3 model = createM3FromMavenProject(location);
+
+    list[Declaration] ast = [
+        createAstFromFile(f, true)
+        | f <- files(model.containment),  // TODO MAYBE REMOVE >CONTAIMNENT
+        isCompilationUnit(f)
+    ];
+
+    return ast;
+}

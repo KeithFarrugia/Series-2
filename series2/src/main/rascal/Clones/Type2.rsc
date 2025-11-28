@@ -6,6 +6,8 @@ import List;
 import Set;
 import Map;
 import Utility::Hash;
+import Utility::Reader;
+import lang::java::m3::Core;
 import lang::java::m3::AST;
 
 /*
@@ -17,45 +19,49 @@ int DUPLICATION_THRESHOLD = 6;
  * Entry point: count duplicated lines via AST clone detection.
  */
 int countDuplicates(list[Declaration] asts) {
-    list[Declaration] nodes = collectCloneNodes(asts);
-    map[int, list[loc]] bucket = groupByHash(nodes);
-    set[loc] duplicated = collectDuplicateLocations(bucket);
+    list[Declaration] nAsts = [normalise(a) | a <- asts];    
 
+    list[Statement] statements = getStatements(nAsts);
+    
+    map[int, list[loc]] bucket = groupByHash(statements);
+    set[loc] duplicated = collectDuplicateLocations(bucket);
+    println("Duplicated locations found: <duplicated>");
     return size(duplicated);
 }
-
 /*
- * Collect all AST nodes that can contain cloned code.
+ * Extract all statements from a list of compilation units.
  */
-list[Declaration] collectCloneNodes(list[Declaration] asts) {
-    list[Declaration] result = [];
+list[Statement] getStatements(list[Declaration] asts) {
+    list[Statement] statements = [];
 
-    for (cu <- asts) {
+    for (Declaration cu <- asts) {
+        // recursively visit everything in the CU
         visit(cu) {
-            case stmt: Statement => result += [stmt];
-            case block: \block(_) => result += [block];
-            case method: \methodDeclaration(_, _, _, _, _, _, _) => result += [method];
-            case ctor: \constructorDeclaration(_, _, _, _, _) => result += [ctor];
+            // match statements inside methods or nested blocks
+            case \methodDeclaration(_, _, _, _, \block(stmts)) =>
+                statements += stmts;
+
+            case \block(stmts) =>
+                statements += stmts;
         }
     }
 
-    return result;
+    return statements;
 }
 
 /*
- * Filter + normalize + hash AST nodes.
+ * Filter + normalise + hash AST nodes.
  */
-map[int, list[loc]] groupByHash(list[Declaration] nodes) {
+map[int, list[loc]] groupByHash(list[Declaration] asts) {
     map[int, list[loc]] bucket = ();
 
-    for (n <- nodes) {
-        loc L = locOf(n);
+    for (n <- asts) {
+        loc L = n.src;
 
-        if (lines(L) < DUPLICATION_THRESHOLD)
+        if (lines(L) < DUPLICATION_THRESHOLD) // Fix later since we need all groups of 6 lines checkd not methods only
             continue;
 
-        Declaration norm = normalize(n);
-        str s = toString(norm);
+        str s = toString([n]);
         int h = hash(s);
 
         if (h in bucket)
@@ -63,7 +69,7 @@ map[int, list[loc]] groupByHash(list[Declaration] nodes) {
         else
             bucket[h] = [L];
     }
-
+    println("Bucket size: <size(bucket)>");
     return bucket;
 }
 
@@ -75,6 +81,7 @@ set[loc] collectDuplicateLocations(map[int, list[loc]] bucket) {
 
     for (h <- bucket) {
         list[loc] occurrences = bucket[h];
+        println("Occurrences for hash <h>: <occurrences>");
         if (size(occurrences) < 2)
             continue;
 
@@ -93,16 +100,42 @@ set[loc] collectDuplicateLocations(map[int, list[loc]] bucket) {
 int lines(loc L) = L.end.line - L.begin.line + 1;
 
 /*
- * AST normalization for Type II clones.
+ * AST normalisation
  */
-Declaration normalize(Declaration d) {
-    visit(d) {
-        case \id(_): replace \id("ID");
-        case \stringLiteral(_): replace \stringLiteral("LIT");
-        case \intLiteral(_): replace \intLiteral("LIT");
-        case \booleanLiteral(_): replace \booleanLiteral("LIT");
-        case \type(_, _): replace \type("TYPE");
-    }
+Declaration normalise(Declaration d) {
+  // visit returns the transformed tree, so assign it back to d
+  d = visit(d) {
+    case \id(_) => \id("ID")
+    case \stringLiteral(_) => \stringLiteral("STR")
+    case \textBlock(_) => \textBlock("LIT")
+    case \number(_) => \number("LIT")
+    case \characterLiteral(_) => \characterLiteral("LIT")
+    case \booleanLiteral(_) => \booleanLiteral("LIT")
 
-    return d;
+    case \simpleType(_) => \simpleType(id("TYPE"))
+    case \qualifiedType(_, _, _) => \qualifiedType([], id("TYPE"), id("TYPE"))
+    case \arrayType(_) => \arrayType(simpleType(id("TYPE")))
+    case \parameterizedType(_, _) => \parameterizedType(simpleType(id("TYPE")), [])
+    case \unionType(_) => \unionType([simpleType(id("TYPE"))])
+    case \intersectionType(_) => \intersectionType([simpleType(id("TYPE"))])
+    case \wildcard(_) => \simpleType(id("TYPE"))
+
+    case \int() => \simpleType(id("TYPE"))
+    case \float() => \simpleType(id("TYPE"))
+    case \long() => \simpleType(id("TYPE"))
+    case \double() => \simpleType(id("TYPE"))
+    case \byte() => \simpleType(id("TYPE"))
+    case \short() => \simpleType(id("TYPE"))
+    case \char() => \simpleType(id("TYPE"))
+    case \string() => \simpleType(id("TYPE"))
+    case \byte() => \simpleType(id("TYPE"))
+    case \boolean() => \simpleType(id("TYPE"))
+    case \void() => \simpleType(id("TYPE"))
+  };
+  return d;
+}
+
+void testNormalize() {
+    list[Declaration] cu = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    int duplicates = countDuplicates(cu);
 }
