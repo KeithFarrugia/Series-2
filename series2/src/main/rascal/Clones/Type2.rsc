@@ -70,14 +70,13 @@ map[int, list[loc]] groupByHash(list[node] nodes) {
     map[int, list[loc]] bucket = ();
 
     for (node n <- nodes) {
-        L = n.src;
+        L = n.src; // Why does settng loc at the beginning not work?? It's a loc!!!!!
 
         node clean = delAnnotationsRec(n); // I know it says deprecated, but it works
         println("Cleaned Node: <toString(clean)>");
         
         str s = toString(clean);
         int h = hash(s);
-        // println("Node: <s>");
         if (bucket[h]?) {
             bucket[h] += [L];
         } else {
@@ -97,7 +96,7 @@ set[loc] collectDuplicateLocations(map[int, list[loc]] bucket) {
 
     for (h <- bucket) {
         list[loc] occurrences = bucket[h];
-        println("Occurrences for hash <h>: <occurrences>");
+        //println("Occurrences for hash <h>: <occurrences>");
         if (size(occurrences) < 2)
             continue;
 

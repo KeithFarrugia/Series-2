@@ -1,0 +1,19 @@
+Series 2:
+	Refactoring Duplication Metric / changing it to report the detected clones and their locations 
+	
+	Adding a way to parse the AST for duplicated clones (II)
+		1. Normalise AST (replace all var names with ID, method with MTH, literal values with LIT etc) and strip comments/annotations
+			2. Compute a hash for each subtree (where loc.end-loc.start >= 6)
+			3. Group AST subtrees with identical hashes with bucket size >= 2 == TYPE II Clone
+		
+			2. Make a tree edit distance function (between two subtrees)
+			3. Compare with all subtrees (similarity >= 70%)
+
+TODO:
+    1. Fix issues in Type2.rsc:
+        a. Use line count 
+        b. Use sets to take care of uniqueness
+
+    2. Tree edit distance for nodes for Type III
+
+    3. What the fuck to do for Type IV
