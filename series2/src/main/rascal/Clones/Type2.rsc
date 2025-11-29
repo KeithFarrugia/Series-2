@@ -5,6 +5,8 @@ import String;
 import List;
 import Set;
 import Map;
+import Node;
+import Location;
 import Utility::Hash;
 import Utility::Reader;
 import lang::java::m3::Core;
@@ -14,6 +16,7 @@ import lang::java::m3::AST;
  * Minimum number of physical source lines a clone must span.
  */
 int DUPLICATION_THRESHOLD = 6;
+int MASS_THRESHOLD = 12;
 
 /*
  * Entry point: count duplicated lines via AST clone detection.
@@ -21,54 +24,67 @@ int DUPLICATION_THRESHOLD = 6;
 int countDuplicates(list[Declaration] asts) {
     list[Declaration] nAsts = [normalise(a) | a <- asts];    
 
-    list[Statement] statements = getStatements(nAsts);
+    list[node] subtrees = getSubtrees(nAsts);
     
-    map[int, list[loc]] bucket = groupByHash(statements);
+    map[int, list[loc]] bucket = groupByHash(subtrees);
     set[loc] duplicated = collectDuplicateLocations(bucket);
     println("Duplicated locations found: <duplicated>");
     return size(duplicated);
 }
+
 /*
- * Extract all statements from a list of compilation units.
+ * Extract ALL subtrees (nodes) from all compilation units,
+ * but only include nodes whose mass ≥ MASS_THRESHOLD.
  */
-list[Statement] getStatements(list[Declaration] asts) {
-    list[Statement] statements = [];
+list[node] getSubtrees(list[Declaration] cus) {
+    list[node] result = [];
 
-    for (Declaration cu <- asts) {
-        // recursively visit everything in the CU
+    for (cu <- cus) {
         visit(cu) {
-            // match statements inside methods or nested blocks
-            case \methodDeclaration(_, _, _, _, \block(stmts)) =>
-                statements += stmts;
-
-            case \block(stmts) =>
-                statements += stmts;
+            case node x: {
+                int m = mass(x);
+                if (m >= MASS_THRESHOLD) {
+                    result += x;
+                }
+            }
         }
     }
+    return result;
+}
 
-    return statements;
+/*
+ * Compute the tree mass (= number of nodes)
+ */
+int mass(node n) {
+    int m = 0;
+    visit(n) {
+        case node _: m += 1;
+    }
+    return m;
 }
 
 /*
  * Filter + normalise + hash AST nodes.
  */
-map[int, list[loc]] groupByHash(list[Declaration] asts) {
+map[int, list[loc]] groupByHash(list[node] nodes) {
     map[int, list[loc]] bucket = ();
 
-    for (n <- asts) {
-        loc L = n.src;
+    for (node n <- nodes) {
+        L = n.src;
 
-        if (lines(L) < DUPLICATION_THRESHOLD) // Fix later since we need all groups of 6 lines checkd not methods only
-            continue;
-
-        str s = toString([n]);
+        node clean = delAnnotationsRec(n); // I know it says deprecated, but it works
+        println("Cleaned Node: <toString(clean)>");
+        
+        str s = toString(clean);
         int h = hash(s);
-
-        if (h in bucket)
+        // println("Node: <s>");
+        if (bucket[h]?) {
             bucket[h] += [L];
-        else
+        } else {
             bucket[h] = [L];
+        }
     }
+
     println("Bucket size: <size(bucket)>");
     return bucket;
 }
@@ -138,4 +154,5 @@ Declaration normalise(Declaration d) {
 void testNormalize() {
     list[Declaration] cu = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
     int duplicates = countDuplicates(cu);
+    println("NumDuplicates found: <duplicates>");
 }
