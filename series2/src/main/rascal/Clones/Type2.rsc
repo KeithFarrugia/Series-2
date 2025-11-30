@@ -136,6 +136,7 @@ set[loc] collectDuplicateLocations(map[int, list[loc]] bucket) {
             println("Clone of hash <h> at <L>");
             duplicated += {L};
         }
+
     }
 
     return duplicated;
@@ -196,7 +197,7 @@ str normaliseNode (node n) {
     switch (n) {
         // Case 1: Match the top-level \method node.
         case \method(_, _, Type \return, _, list[Declaration] parameters, _, _):
-            return toString(\method([], [], \return, id("ID"), parameters, [], \empty()));
+            return toString(unsetRec((\method([], [], \return, id("ID"), parameters, [], \empty()))));
         
         // Case 2: Match the top-level \block node.
         case \block(list[Statement] _) :
@@ -205,6 +206,18 @@ str normaliseNode (node n) {
 
         case \parameter(_, _, _, _):
             return "empty()";
+
+        case \for(_, _, _,_):
+            return toString(unsetRec(\for([], [],\empty())));
+
+        case \for(_, _, _):
+            return toString(unsetRec(\for(initializers, updaters, \empty())));
+
+        case \class(_, Expression name, _, _, _, _):
+            return toString(unsetRec(\class([], name, [], [], [], [])));
+            
+        case  \class(list[Declaration] body):
+            return toString(unsetRec(\class([])));
         default:
             return "";
     }
@@ -221,7 +234,7 @@ void testBlocks() {
     for (cu <- ast) {
         Declaration norm = normalise(cu);
         loc cuLoc        = norm.src;
-        list[set[str]] lines = tokenizeLines(norm);
+        list[set[str]] lines = tokenizeLines(cu);
 
         println(" ===================================== ");
         println("LINES");
