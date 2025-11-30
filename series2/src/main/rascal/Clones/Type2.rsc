@@ -211,7 +211,7 @@ str normaliseNode (node n) {
             return toString(unsetRec(\for([], [],\empty())));
 
         case \for(_, _, _):
-            return toString(unsetRec(\for(initializers, updaters, \empty())));
+            return toString(unsetRec(\for([], [], \empty())));
 
         case \class(_, Expression name, _, _, _, _):
             return toString(unsetRec(\class([], name, [], [], [], [])));
