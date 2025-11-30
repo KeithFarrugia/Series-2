@@ -216,22 +216,29 @@ void testNormalize() {
     int duplicates = countDuplicates(cu);
     println("NumDuplicates found: <duplicates>");
 }
+
 void testBlocks() {
     list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
     for (cu <- ast) {
         Declaration norm = normalise(cu);
         loc cuLoc        = norm.src;
-        list[set[str]] lines = tokenizeLines(norm);
+        list[TokenizedLine] lines = tokenizeLines(norm);
 
         println(" ===================================== ");
         println("LINES");
-        for(l <- lines ){
-            for(ls <- l){
-                println(ls);
+        for(l <- lines) {
+            println(" --- Line: <l.lineNumber> ----------------- ");
+            // Print the line number and source location
+            println("Line <l.lineNumber> (Loc: <l.sourceLoc>): Tokens {");
+            
+            // Print each token in the set
+            for(token <- l.tokens) {
+                println("    \"<token>\"");
             }
-           
-            println(" ===================================== ");
+            
+            println("}");
         }
+        println(" ===================================== ");
     }
 }
 
@@ -239,11 +246,10 @@ void testBlocks() {
 // --- types and helpers
 // =====================================
 
-data Window = window(
-    loc         fileLoc,    // location of the file / compilation unit
-    int         startLine,  // first line of the window (0-based)
-    int         endLine,    // last line of the window
-    list[str]   tokens      // normalized token sequence of the window
+data TokenizedLine = line(
+    int         lineNumber, // The line number (int)
+    loc         sourceLoc,    // The original source location (loc) of the token
+    set[str]    tokens      // The set of tokenized strings for that line
 );
 
 int getBeginLine(loc l) {
@@ -252,42 +258,52 @@ int getBeginLine(loc l) {
 int getEndLine(loc l) {
     return l.end.line;
 }
-list[set[str]] tokenizeLines(Declaration cu) {
+
+list[TokenizedLine] tokenizeLines(Declaration cu) {
     // walk cu and emit tokens with their src line; group tokens per line
+    // 1. Map for tokens, grouped by line number
     map[int, set[str]] byLine = ();
+    
+    // 2. NEW: Map to store the location (loc) for each line number
+    map[int, loc] locByLine = ();
+
     visit(cu) {
         case node n: {
             if(n.src?){
                 
-                int line                                = getBeginLine(n.src);
-
+                nLoc = n.src;
+                int line = getBeginLine(nLoc);
+                
+                // Store the full loc for the line number
+                locByLine[line] = nLoc; 
+                
                 if(!(byLine[line]?)){
                     byLine[line] = {};
                 }
                 
-
                 str something = normaliseNode(n);
+                
                 if(something == ""){
 
                     tuple[list[node], bool] sub_nodes = filterOutSubNodes(n);
                     if(sub_nodes[1] == false){
-                    byLine[line] += toString(unsetRec(n));
+                        byLine[line] += toString(unsetRec(n));
                     }
                     
                     for(s_n <- sub_nodes[0]){
                         byLine[line] += toString(unsetRec(s_n));
                     }
-
-                }else{
+                } 
+                else if (something != "empty()") {
                     byLine[line] += something;
-                }
-                
+                } 
             }
         }
     }
+
     // return in ascending line order
     list[int] lines = sort([l | l <- domain(byLine)]); // error here
-    return [byLine[l] | l <- lines];
+    return [line(l, locByLine[l], byLine[l]) | l <- lines];
 }
 
 
