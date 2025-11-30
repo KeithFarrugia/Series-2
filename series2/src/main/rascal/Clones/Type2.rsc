@@ -216,7 +216,7 @@ str normaliseNode (node n) {
         case \class(_, Expression name, _, _, _, _):
             return toString(unsetRec(\class([], name, [], [], [], [])));
             
-        case  \class(list[Declaration] body):
+        case  \class(_):
             return toString(unsetRec(\class([])));
         default:
             return "";
