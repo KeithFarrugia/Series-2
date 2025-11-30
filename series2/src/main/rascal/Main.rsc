@@ -6,7 +6,7 @@ import lang::java::m3::Core;
 import lang::java::m3::AST;
 import Clones::Type1;
 import DateTime;
-
+import Utility::TokenAST;
 loc test_project = |project://sig-metrics-test|;
 
 int durationToMillis(Duration d) {
@@ -28,9 +28,9 @@ int durationToMillis(Duration d) {
  * ============================================================================
  */
 test bool testDuplicateLineCount() {
-    M3 model = createM3FromMavenProject(test_project);
-
-    int duplicates = countDuplicates(model);
+    list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    list[TokenizedLine] lines =  tokeniseAST(ast, false);
+    int duplicates = findDuplicates(lines);
 
     // TODO: Replace this once you know the correct value.
     int expected = 14;

@@ -8,10 +8,23 @@ import util::Math;
 import Map;
 import Utility::Hash;
 import Utility::Reader;
+import Utility::TokenAST;
 import lang::java::m3::Core;
 import lang::java::m3::AST;
 
 int DUPLICATION_THRESHOLD = 6;
+
+
+
+
+
+int hashBlock(list[TokenizedLine] lines, int s, int t) {
+    list[set[str]] block = [];
+    for (k <- [0 .. t]) {
+        block += lines[s + k].tokens;
+    }
+    return hash(block);
+}
 /* ============================================================================
  *                             countDuplicates
  * ----------------------------------------------------------------------------
@@ -19,12 +32,8 @@ int DUPLICATION_THRESHOLD = 6;
  *  Delegates the work to findDuplicates after converting the model to lines.
  * ============================================================================
  */
-int countDuplicates(M3 model) {
-    list[str] lines = modelToLines(model);
-    return findDuplicates(lines);
-}
 
-int findDuplicates(list[str] lines) {
+int findDuplicates(list[TokenizedLine] lines) {
     int t = DUPLICATION_THRESHOLD;
     map[int, list[int]] hashMap = ();      // hash -> starting indices
     set[int] duplicated = {};
@@ -34,7 +43,6 @@ int findDuplicates(list[str] lines) {
 
     // 1. Build a hash for every t-line block
     for (i <- [0 .. n - t]) {
-        if (lines[i] == "}") continue;
 
         int h = hashBlock(lines, i, t);
 
