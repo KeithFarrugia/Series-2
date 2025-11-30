@@ -11,7 +11,11 @@ import Utility::Hash;
 import Utility::Reader;
 import lang::java::m3::Core;
 import lang::java::m3::AST;
+extend lang::java::m3::TypeSymbol;
 import util::Math;
+import util::FileSystem;
+import util::Reflective;
+
 /* ============================================================================
  *                        Constants / Configuration
  * ----------------------------------------------------------------------------
@@ -188,6 +192,25 @@ Declaration normalise(Declaration d) {
   return d;
 }
 
+str normaliseNode (node n) {
+    switch (n) {
+        // Case 1: Match the top-level \method node.
+        case \method(_, _, Type \return, _, list[Declaration] parameters, _, _):
+            return toString(\method([], [], \return, id("ID"), parameters, [], \empty()));
+        
+        // Case 2: Match the top-level \block node.
+        case \block(list[Statement] _) :
+            // Return the block with an empty statement list.
+            return toString(\empty());
+
+        case \parameter(_, _, _, _):
+            return "empty()";
+        default:
+            return "";
+    }
+}
+
+
 void testNormalize() {
     list[Declaration] cu = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
     int duplicates = countDuplicates(cu);
@@ -237,18 +260,26 @@ list[set[str]] tokenizeLines(Declaration cu) {
             if(n.src?){
                 
                 int line                                = getBeginLine(n.src);
-                tuple[list[node], bool] sub_nodes       = filterOutSubNodes(n);
 
                 if(!(byLine[line]?)){
                     byLine[line] = {};
                 }
                 
-                if(sub_nodes[1] == false){
+
+                str something = normaliseNode(n);
+                if(something == ""){
+
+                    tuple[list[node], bool] sub_nodes = filterOutSubNodes(n);
+                    if(sub_nodes[1] == false){
                     byLine[line] += toString(unsetRec(n));
-                }
-                
-                for(s_n <- sub_nodes[0]){
-                    byLine[line] += toString(unsetRec(s_n));
+                    }
+                    
+                    for(s_n <- sub_nodes[0]){
+                        byLine[line] += toString(unsetRec(s_n));
+                    }
+
+                }else{
+                    byLine[line] += something;
                 }
                 
             }
@@ -272,177 +303,18 @@ tuple[list[node], bool] filterOutSubNodes(node parent){
                 has_kids = true;
                 if(
                     getBeginLine(n.src) == getBeginLine(parent.src) && 
-                    getEndLine  (n.src) == getBeginLine(parent.src)
+                    getEndLine  (n.src) == getBeginLine(parent.src) 
                 ){
                     sub_nodes += n;
                 }
+
             }
         }
-        
     }
+
     return <sub_nodes, has_kids>;
 }
 
 list[str] flatten(list[list[str]] lls) {
    return concat(lls);
 }
-
-
-// list[Window] windowsFromLines(loc fileLoc, list[list[str]] lines, int B) {
-//   list[Window] windows = [];
-//   int n = size(lines);
-
-//   for (i <- [0 .. n - B]) {
-//     int sIndex = i;
-//     int eIndex = i + B - 1;
-
-//     int startLine = lines[sIndex][0]? ? getBeginLine(lines[sIndex][0]) : sIndex;
-//     int endLine   = lines[eIndex][0]? ? getBeginLine(lines[eIndex][0]) : eIndex;
-
-//     list[str] tokseq = flatten(lines[sIndex .. eIndex]);
-
-//     windows += window(fileLoc, startLine, endLine, tokseq);
-//   }
-//   return windows;
-// }
-
-// int tokenHash(list[str] tokseq) {
-//   str s = intercalate(" ", tokseq);
-//   println("");
-  
-//   //println("WHAT WE ARE HASHING:\n <s>");
-//   println("");
-
-//   return hash(s);
-// }
-
-// set[int] shingleSet(list[str] tokseq, int k) {
-//   set[int] S = {};
-//   int m = size(tokseq);
-//   for (i <- [0 .. m - k]) {
-//     // splice slice so intercalate sees a flat list of tokens:
-//     list[value] slice = [ * tokseq[i .. i+k-1] ];
-//     str s = intercalate(" ", slice);
-//     S += hash(s);
-//   }
-//   return S;
-// }
-
-// // (Placeholder) construct a loc for a window; needs real implementation
-// loc mkLocForWindow(loc cuLoc, int startLine, int endLine) {
-//     cuLoc.begin.line = startLine;
-//     cuLoc.end.line = endLine;
-//   // TODO: compute correct begin/end character positions if you want full loc;
-//   // for now create a loc that spans the lines (begin column=0, end column=0)
-//   //return |file://{cuLoc.uri}|@startLine:0 - |file://{cuLoc.uri}|@endLine:0;
-//   return cuLoc;
-// }
-
-
-// void reportExactMatches(list[Window] ws) {
-//   for (i <- [0 .. size(ws)-2]) {
-//     for (j <- [i+1 .. size(ws)-1]) {
-//       Window w1 = ws[i];
-//       Window w2 = ws[j];
-//       println("Exact clone between <w1.fileLoc> lines <w1.startLine>-<w1.endLine> and <w2.fileLoc> lines <w2.startLine>-<w2.endLine>");
-//     }
-//   }
-// }
-
-// void detectBlocks(list[Declaration] cus, int B = 6, int kShingle = 3) {
-//     map[int, list[Window]] exactBucket   = ();
-//     map[int, list[tuple[Window, set[int]]]] shingleIndex = ();
-
-//     println("Starting detectBlocks on <size(cus)> compilation units.");
-
-//     for (cu <- cus) {
-//         Declaration norm = normalise(cu);
-//         loc cuLoc        = norm.src;
-//         list[list[str]] lines = tokenizeLines(norm);
-
-//         println(" ===================================== ");
-//         println("LINES");
-//         for(l <- lines ){
-//             for(ls <- l){
-//                 println(ls);
-//                 println(" ");
-//             }
-           
-//             println(" ===================================== ");
-//         }
-
-
-//         println("  CU at <cuLoc>: tokenized into <size(lines)> lines.");
-
-//         list[Window] wins = windowsFromLines(cuLoc, lines, B);
-//         println("    - generated <size(wins)> windows of size <B>");
-
-//         for (Window w <- wins) {
-//             int h = tokenHash(w.tokens);
-//             println("Window <w.startLine>-<w.endLine> hash <h>");
-//             if (exactBucket[h]?) {
-//                 exactBucket[h] += [w];
-//             } else {
-//                 exactBucket[h] = [w];
-//             }
-//             set[int] S = shingleSet(w.tokens, kShingle);
-//             println("  Shingle-set size: <size(S)>");
-//             println("  Shingle hashes: <S>"); // print the actual integer hashes
-
-//             // Optional: print the corresponding token sequences for each shingle
-//             println("  Shingle contents:");
-//             for (i <- [0..size(w.tokens)-kShingle]) {
-//                 list[str] slice = w.tokens[i .. i+kShingle-1];
-//                 println("    <slice>");
-//             }
-
-//             int signature = min(S);
-//             println("  Shingle-signature (min hash) <signature>");
-            
-//             tuple[Window, set[int]] entry = <w, S>;
-//             if (shingleIndex[signature]?) {
-//                 shingleIndex[signature] = shingleIndex[signature] + [entry];
-//             } else {
-//                 shingleIndex[signature] = [entry];
-//             }
-//         }
-//     }
-
-//     println("Finished building buckets — exactBucket has <size(exactBucket)> keys.");
-
-//     for (h <- exactBucket) {
-//         list[Window] ws = exactBucket[h];
-//         if (size(ws) > 1) {
-//             println("=== Exact clone bucket for hash <h>: <size(ws)> windows ===");
-//             reportExactMatches(ws);
-//         }
-//     }
-//     // ======================== report approximate Type-2 clones using shingles
-//     println("Inspecting shingleIndex for Type-2 candidates — <size(shingleIndex)> signature keys.");
-//     for (sig <- shingleIndex) {
-//         list[tuple[Window, set[int]]] candidates = shingleIndex[sig];
-//         if (size(candidates) > 1) {
-//             // Compare shingle sets pairwise
-//             for (i <- [0 .. size(candidates)-2]) {
-//                 for (j <- [i+1 .. size(candidates)-1]) {
-//                     Window w1 = candidates[i][0];
-//                     Window w2 = candidates[j][0];
-//                     set[int] s1 = candidates[i][1];
-//                     set[int] s2 = candidates[j][1];
-
-//                     // ======================== check overlap ratio
-//                     int intersectSize = size(s1 & s2);
-//                     int unionSize = size(s1 + s2);
-//                     real similarity = unionSize == 0 ? 0.0 : intersectSize / toReal(unionSize);
-
-//                     // ======================== configurable threshold
-//                     if (similarity >= 0.5) {  // 50% overlap = consider as Type-2 clone
-//                         println("Type-2 clone detected: similarity <similarity>");
-//                         println("  Window 1: <w1.fileLoc> lines <w1.startLine>-<w1.endLine>");
-//                         println("  Window 2: <w2.fileLoc> lines <w2.startLine>-<w2.endLine>");
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
