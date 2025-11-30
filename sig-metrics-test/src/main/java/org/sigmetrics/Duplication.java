@@ -1,8 +1,5 @@
 package org.sigmetrics;
-
-// File: TestClass.java
 public class Duplication {
-
     void adding(){
         int a = 1;   // line 0
         int b = 2;   // line 1
@@ -12,7 +9,6 @@ public class Duplication {
         int f = 6;   // line 5
         int g = 7;   // line 6
     }
-
     void adding2(){
         int a = 1;   // line 7
         int b = 2;   // line 8
@@ -21,8 +17,6 @@ public class Duplication {
         int e = 5;   // line 11
         int f = 6;   // line 12
         int g = 7;   // line 13
-
-        
         int asda = 1;   // line 7
     }
 }
