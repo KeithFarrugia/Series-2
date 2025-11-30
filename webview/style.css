@@ -1,0 +1,164 @@
+/* Ensure the body and main containers take up full remaining space */
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-container {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden; /* Important for scrollable content inside */
+}
+
+/* Base Editor View Layout (Left Side) */
+.code-area {
+    display: grid;
+    grid-template-columns: 3rem 1fr; /* Line numbers width and content width */
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Base Editor Line Numbers */
+#line-numbers, .clone-lines {
+    background-color: #f4f4f4;
+    color: #888;
+    padding: 8px 5px;
+    text-align: right;
+    overflow-y: hidden; /* Controlled by the textarea scroll */
+    user-select: none;
+    height: 100%;
+    
+    /* CRITICAL for synchronization: monospace font and matching line height */
+    font-family: monospace;
+    font-size: 0.875rem; /* Equivalent to Tailwind text-sm */
+    line-height: 1.5rem; /* Equivalent to Tailwind leading-6 */
+}
+
+/* Ensure each line number div takes the correct height */
+#line-numbers div, .clone-lines div {
+    height: 1.5rem; /* Explicit line height */
+}
+
+
+/* Base Editor Content (Textarea) */
+#editor-content {
+    border: none;
+    resize: none;
+    outline: none;
+    padding: 8px;
+    overflow: auto;
+    white-space: pre;
+    height: 100%;
+    width: 100%;
+    
+    /* CRITICAL for synchronization: matching font properties */
+    font-family: monospace;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+}
+
+
+/* --- Clone View Specific Fixes --- */
+
+/* Clone Diff Container: Ensures side-by-side view fills its parent space */
+#clone-diff-container {
+    height: 100%;
+    display: flex;
+    flex-grow: 1;
+    gap: 1rem;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+/* Individual Fragment Container: Vertical flex column that takes half the width */
+.clone-fragment-view {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Takes equal space */
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Code Area inside the fragment (Line numbers + Content) */
+.clone-fragment-view > div:last-child {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    flex-grow: 1; /* Makes this grid fill the remaining height */
+    overflow: hidden;
+}
+
+/* Clone Content (Textarea) */
+.clone-content {
+    /* CRITICAL: Textarea must grow and be scrollable */
+    flex-grow: 1;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    padding: 8px;
+    resize: none;
+    border: none;
+    outline: none;
+    
+    /* CRITICAL: matching font properties */
+    font-family: monospace;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+}
+
+.code-area-wrapper {
+    flex-grow: 1; 
+}
+
+/* Wrapper for the Code Display to make it scrollable and take up full space */
+.code-scroll-wrapper {
+    flex-grow: 1; 
+    overflow-y: auto; /* Allow scrolling for the code content */
+    padding: 8px 0; /* Match padding to line number alignment */
+    width: 100%;
+    height: 100%;
+}
+
+/* Container for all the code lines */
+.clone-content-display {
+    /* Ensures this container doesn't control scroll, the wrapper does */
+    height: fit-content; 
+    width: 100%;
+    /* Same font settings as line numbers and textarea for alignment */
+    font-family: monospace;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    color: #333; /* Ensure text is visible */
+}
+
+/* Style for each line of code */
+.code-line {
+    /* Ensures correct line height */
+    height: 1.5rem; 
+    padding-left: 8px; /* Match left padding of original textarea */
+    white-space: pre; /* Important to preserve indentation */
+    
+}
+
+/* Highlighting Style (for both line numbers and code lines) */
+.clone-highlight {
+    background-color: #fce8a8 !important; /* Light yellow background */
+    color: #1a1a1a; /* Ensure dark text over light background */
+}
+
+/* Ensure <pre> inside the line div doesn't add extra padding/margins */
+.code-line pre {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.clone-lines {
+    /* ... existing styles ... */
+    padding: 8px 5px; /* Change top/bottom padding to match the code wrapper */
+    overflow-y: hidden; 
+}

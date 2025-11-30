@@ -1,0 +1,39 @@
+{
+  "projectRoot": "/dev/software_evo/Series-2/sig-metrics-test",
+  "clones": [
+    {
+      "id": "c1",
+      "type": "Exact Match (Type 1)",
+      "fragmentLength": 7,
+      "locations": [
+        {
+          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
+          "startLine": 4,
+          "endLine": 10
+        },
+        {
+          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
+          "startLine": 14,
+          "endLine": 20
+        }
+      ]
+    },
+    {
+      "id": "c2",
+      "type": "Test (Type 2)",
+      "fragmentLength": 7,
+      "locations": [
+        {
+          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
+          "startLine": 5,
+          "endLine": 10
+        },
+        {
+          "filePath": "src/main/java/org/sigmetrics/Complexity.java",
+          "startLine": 14,
+          "endLine": 23
+        }
+      ]
+    }
+  ]
+}
