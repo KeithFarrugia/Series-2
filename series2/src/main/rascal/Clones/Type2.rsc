@@ -100,7 +100,7 @@ map[int, list[loc]] groupByHash(list[node] nodes) {
     for (node n <- nodes) {
         L = n.src; // Why does settng loc at the beginning not work?? It's a loc!!!!!
 
-        node clean_node = delAnnotationsRec(n); // I know it says deprecated, but it works
+        node clean_node = unsetRec(n); // I know it says deprecated, but it works
         println("Cleaned Node: <toString(clean_node)>");
         
         str s = toString(clean_node);
