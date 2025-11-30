@@ -146,7 +146,7 @@ body {
 
 /* Highlighting Style (for both line numbers and code lines) */
 .clone-highlight {
-    background-color: #fce8a8 !important; /* Light yellow background */
+    background-color: #fce8a8; /* Light yellow background */
     color: #1a1a1a; /* Ensure dark text over light background */
 }
 
@@ -162,3 +162,25 @@ body {
     padding: 8px 5px; /* Change top/bottom padding to match the code wrapper */
     overflow-y: hidden; 
 }
+
+/* --- Highlighting by Clone Type --- */
+
+/* Base highlight (Type 1 - Exact Match) */
+.clone-type-1 {
+    background-color: #fce8a8 !important; /* Yellow (Existing highlight color) */
+}
+
+/* Type 2 - Structural Similarity (e.g., Pink/Red) */
+.clone-type-2 {
+    background-color: #f7b7cf !important; /* Light Pink/Rose */
+}
+
+/* Type 3 - Near Miss (e.g., Light Blue/Cyan) */
+.clone-type-3 {
+    background-color: #a8e8f7 !important; /* Light Blue */
+}
+
+/* Summary Box Highlights */
+.summary-type-1 { border-left: 5px solid #f9d34b; } /* Deep Yellow border */
+.summary-type-2 { border-left: 5px solid #f06292; } /* Deep Pink border */
+.summary-type-3 { border-left: 5px solid #4bcff9; } /* Deep Blue border */

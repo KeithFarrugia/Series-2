@@ -236,12 +236,11 @@ async function verifyPermission(handle, writable) {
  * FIX: Switched to using <div> elements for each line number to ensure
  * precise vertical alignment with the editor content, relying on 'style.css'.
  */
-function updateLineNumbersForTextarea(textarea, numbersDiv) {
-    const newContent = textarea.value;
+function updateLineNumbers() {
+    const newContent = editorContent.value;
     const lineCount = newContent.split('\n').length;
-    
     // 1. Retrieve the original text to search for
-    const originalFragmentText = textarea.dataset.originalFragmentText;
+    const originalFragmentText = editorContent.dataset.originalFragmentText;
     
     // 2. Find the start index of the original fragment in the new content
     const startIndex = newContent.indexOf(originalFragmentText);
@@ -258,20 +257,12 @@ function updateLineNumbersForTextarea(textarea, numbersDiv) {
         const fragmentLineCount = (originalFragmentText.match(/\n/g) || []).length + 1;
         newEndLine = newStartLine + fragmentLineCount - 1;
     } 
-    
-    // Fallback: If the text was modified too much, use the original start line 
-    // to prevent the highlight from disappearing completely.
-    // However, for correctness, if the text is modified, the highlight should likely vanish.
-    // We will stick to the calculated range.
 
     let numbersHtml = '';
     for (let i = 1; i <= lineCount; i++) {
-        const highlightClass = (i >= newStartLine && i <= newEndLine)
-            ? ' clone-highlight'
-            : '';
-        numbersHtml += `<div class="${highlightClass}">${i}</div>`;
+        numbersHtml += `<div class=>${i}</div>`;
     }
-    numbersDiv.innerHTML = numbersHtml;
+    lineNumbers.innerHTML = numbersHtml;
 }
 
 /**
@@ -402,16 +393,24 @@ async function loadSampleJson() {
 function renderCloneAnalysis() {
     if (!currentClonesData) return;
 
+    applyCloneFilter();
+
     // Clear previous content
     cloneList.innerHTML = '';
     cloneDiffContainer.innerHTML = '';
 
     // Render clone summaries
     currentClonesData.clones.forEach((cloneGroup, index) => {
+        // Determine the CSS class based on the type number (1, 2, or 3)
+        const typeClass = `summary-type-${cloneGroup.type}`;
+        
         const summaryDiv = document.createElement('div');
-        summaryDiv.className = 'bg-blue-50 border border-blue-200 p-3 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors';
+        // Use the new class for the left border/visual distinction
+        summaryDiv.className = `bg-blue-50 border border-blue-200 p-3 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors ${typeClass}`;
+        
+        // Use the 'name' field from the JSON
         summaryDiv.innerHTML = `
-            <p class="font-bold text-blue-700">Clone Group #${index + 1}: ${cloneGroup.type}</p>
+            <p class="font-bold text-blue-700">Clone Group #${index + 1}: ${cloneGroup.name}</p>
             <p class="text-sm text-gray-600">Fragment Length: ${cloneGroup.fragmentLength} lines. Duplicates: ${cloneGroup.locations.length}</p>
         `;
         // Pass the entire clone group object to the click handler
@@ -425,7 +424,7 @@ function renderCloneAnalysis() {
     }
 }
 
-function updateCloneLineNumbers(contentElement, lineNumbersElement) {
+function updateCloneLineNumbers(contentElement, lineNumbersElement, cloneType) {
     // 1. Get the current edited content as plain text using the helper
     // The previous implementation relied on a TEXTAREA, this relies on the DIV helper.
     const newContent = getEditableContentText(contentElement);
@@ -436,6 +435,8 @@ function updateCloneLineNumbers(contentElement, lineNumbersElement) {
     
     // 3. Find the start index of the original fragment in the new content
     const startIndex = newContent.indexOf(originalFragmentText);
+
+    const typeClass = `clone-type-${cloneType}`;
 
     let newStartLine = -1;
     let newEndLine = -1;
@@ -453,12 +454,27 @@ function updateCloneLineNumbers(contentElement, lineNumbersElement) {
     // 6. Regenerate line numbers with the new highlight range
     let numbersHtml = '';
     for (let i = 1; i <= lineCount; i++) {
+        // Apply the dynamic type class if it's within the calculated range
         const highlightClass = (i >= newStartLine && i <= newEndLine)
-            ? ' clone-highlight'
+            ? ` ${typeClass}`
             : '';
-        numbersHtml += `<div class="${highlightClass}">${i}</div>`;
+        numbersHtml += `<div class="code-line-number${highlightClass}">${i}</div>`;
     }
     lineNumbersElement.innerHTML = numbersHtml;
+
+    const codeLines = contentElement.querySelectorAll('.code-line');
+
+    codeLines.forEach((lineDiv, i) => {
+        const lineNumber = i + 1; // Line number based on array index (1-based)
+        
+        // 7. Remove all existing clone-type classes
+        lineDiv.classList.remove('clone-type-1', 'clone-type-2', 'clone-type-3');
+        
+        // 8. Apply the new type class if within the bounds
+        if (lineNumber >= newStartLine && lineNumber <= newEndLine) {
+            lineDiv.classList.add(typeClass);
+        }
+    });
 }
 
 /**
@@ -535,6 +551,46 @@ async function saveCloneFragment(filePath, contentElement) {
     }
 }
 
+function applyCloneFilter() {
+    if (!currentClonesData || !currentClonesData.clones) return;
+
+    // Get the status of the checkboxes
+    const checkedTypes = Array.from(document.querySelectorAll('#clone-filter-controls input[type="checkbox"]:checked'))
+        .map(input => parseInt(input.value)); // Get the checked values as numbers
+
+    // Filter the original clone data
+    const filteredClones = currentClonesData.clones.filter(cloneGroup => 
+        checkedTypes.includes(cloneGroup.type)
+    );
+
+    // Clear previous content
+    cloneList.innerHTML = '';
+    cloneDiffContainer.innerHTML = ''; // Also clear the diff view
+
+    // Render filtered clone summaries (reusing logic from renderCloneAnalysis)
+    filteredClones.forEach((cloneGroup, index) => {
+        const typeClass = `summary-type-${cloneGroup.type}`;
+        const summaryDiv = document.createElement('div');
+        summaryDiv.className = `bg-blue-50 border border-blue-200 p-3 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors ${typeClass}`;
+        
+        summaryDiv.innerHTML = `
+            <p class="font-bold text-blue-700">Clone Group #${index + 1}: ${cloneGroup.name}</p>
+            <p class="text-sm text-gray-600">Fragment Length: ${cloneGroup.fragmentLength} lines. Duplicates: ${cloneGroup.locations.length}</p>
+        `;
+        summaryDiv.onclick = () => renderCloneFragments(cloneGroup);
+        cloneList.appendChild(summaryDiv);
+    });
+
+    if (filteredClones.length === 0) {
+        cloneList.innerHTML = '<p class="text-gray-500 text-sm p-4">No clone groups match the current filter selection.</p>';
+    }
+
+    // Automatically render the first filtered clone group if available
+    if (filteredClones.length > 0) {
+        renderCloneFragments(filteredClones[0]);
+    }
+}
+
 /**
  * Renders the side-by-side view for a specific clone group.
  */
@@ -547,7 +603,8 @@ async function renderCloneFragments(cloneGroup) {
     // Fetch all file contents concurrently
     const fileContentsPromises = locations.map(location => getFileContentByPath(location.filePath));
     const fileContents = await Promise.all(fileContentsPromises);
-    
+    const cloneType = cloneGroup.type;
+
     cloneDiffContainer.innerHTML = ''; // Clear loading message
 
     locations.forEach((location, index) => {
@@ -595,13 +652,19 @@ async function renderCloneFragments(cloneGroup) {
         contentBlock.dataset.endline = fileLines.length;
         contentBlock.dataset.originalFragmentText = originalFragmentText;
 
+        contentBlock.addEventListener('input', () => {
+            // Pass the clone type to the update function
+            updateCloneLineNumbers(contentBlock, fragmentLineNumbers, cloneType); 
+        });
+
+        const typeClass = `clone-type-${cloneType}`;
         let codeHtml = '';
         for (let i = 0; i < fileLines.length; i++) {
             const lineNumber = i + 1;
             const lineContent = fileLines[i];
             
             const highlightClass = (lineNumber >= startLine && lineNumber <= endLine)
-                ? ' clone-highlight'
+                ? ` ${typeClass}`
                 : '';
             
             // Use the custom code-line class
@@ -619,7 +682,7 @@ async function renderCloneFragments(cloneGroup) {
         let numbersHtml = '';
         for (let i = 1; i <= fileLines.length; i++) {
             const highlightClass = (i >= startLine && i <= endLine)
-                ? ' clone-highlight'
+                ? ` ${typeClass}`
                 : '';
             numbersHtml += `<div class="${highlightClass}">${i}</div>`; 
         }
@@ -635,10 +698,8 @@ async function renderCloneFragments(cloneGroup) {
             fragmentLineNumbers.scrollTop = e.target.scrollTop;
         });
 
-        // *** NEW: Listen for user input (for line number updates) ***
         contentBlock.addEventListener('input', () => {
-            // Re-calculate and update line numbers on edit
-            updateCloneLineNumbers(contentBlock, fragmentLineNumbers, startLine, endLine);
+            updateCloneLineNumbers(contentBlock, fragmentLineNumbers, cloneType); 
         });
 
         const saveBtn = header.querySelector('.save-fragment-btn');
@@ -689,10 +750,48 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    // ... (your existing load setup) ...
+
+    // NEW: Add listeners for filter controls
+    const filterControls = document.getElementById('clone-filter-controls');
+    if (filterControls) {
+        filterControls.addEventListener('change', applyCloneFilter);
+    }
+});
+
 // 8. Initial setup
 window.addEventListener('load', () => {
     updateLineNumbers(); 
     if (!('showDirectoryPicker' in window)) {
          showMessage("Warning: File System Access API not supported in this browser. Clone viewing capabilities will be limited.", 8000);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // ... (Your existing load setup and filter controls listener) ...
+    
+    // NEW: Accordion/Collapse Logic
+    const filterControls = document.getElementById('clone-filter-controls');
+    const filterHeader = document.getElementById('filter-accordion-header');
+    const filterIcon = document.getElementById('filter-accordion-icon');
+    
+    // Check if elements exist (only available in the clone view)
+    if (filterHeader && filterControls && filterIcon) {
+        
+        // 1. Initial State: Start collapsed to save vertical space
+        // We set this here in JS to ensure the filters work before the view is toggled
+        filterControls.classList.add('hidden');
+        filterIcon.classList.remove('rotate-180'); // Icon pointing down when closed
+
+        // 2. Click Handler
+        filterHeader.addEventListener('click', () => {
+            filterControls.classList.toggle('hidden');
+            // Toggle icon rotation (180deg when open, 0deg when closed)
+            filterIcon.classList.toggle('rotate-180'); 
+        });
+        
+        // Ensure the filter change listener is still attached to the controls
+        filterControls.addEventListener('change', applyCloneFilter);
     }
 });
