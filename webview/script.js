@@ -598,7 +598,7 @@ async function renderCloneFragments(cloneGroup) {
     cloneDiffContainer.innerHTML = '<div class="text-gray-500 p-4 w-full text-center">Loading code fragments...</div>';
 
     // We only support side-by-side (2 fragments) for this simple viewer
-    const locations = cloneGroup.locations.slice(0, 2);
+    const locations = cloneGroup.locations;
 
     // Fetch all file contents concurrently
     const fileContentsPromises = locations.map(location => getFileContentByPath(location.filePath));
@@ -750,16 +750,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    // ... (your existing load setup) ...
-
-    // NEW: Add listeners for filter controls
-    const filterControls = document.getElementById('clone-filter-controls');
-    if (filterControls) {
-        filterControls.addEventListener('change', applyCloneFilter);
-    }
-});
-
 // 8. Initial setup
 window.addEventListener('load', () => {
     updateLineNumbers(); 
@@ -769,10 +759,11 @@ window.addEventListener('load', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // ... (Your existing load setup and filter controls listener) ...
-    
-    // NEW: Accordion/Collapse Logic
     const filterControls = document.getElementById('clone-filter-controls');
+    if (filterControls) {
+        filterControls.addEventListener('change', applyCloneFilter);
+    }
+
     const filterHeader = document.getElementById('filter-accordion-header');
     const filterIcon = document.getElementById('filter-accordion-icon');
     

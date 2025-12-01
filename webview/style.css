@@ -62,26 +62,35 @@ body {
 
 /* --- Clone View Specific Fixes --- */
 
-/* Clone Diff Container: Ensures side-by-side view fills its parent space */
+/* Update #clone-diff-container in style.css */
 #clone-diff-container {
     height: 100%;
     display: flex;
-    flex-grow: 1;
+    /* CRITICAL: Revert to NO wrapping, forcing all fragments onto one line */
+    flex-wrap: nowrap; 
     gap: 1rem;
     padding: 1rem;
-    overflow: hidden;
+    /* CRITICAL: Enable horizontal scrolling for the whole container */
+    overflow-x: auto; 
+    /* Disable vertical scrolling on the container itself (it's handled by inner fragments) */
+    overflow-y: hidden; 
 }
 
-/* Individual Fragment Container: Vertical flex column that takes half the width */
+/* Update .clone-fragment-view in style.css */
 .clone-fragment-view {
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Takes equal space */
-    height: 100%;
-    overflow: hidden;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    /* CRITICAL: Use min-width to prevent shrinking and define the fragment's width */
+    min-width: calc(50% - 0.5rem); 
+    /* Use a fixed width if you want ALL fragments to be exactly 50% */
+    width: calc(50% - 0.5rem); 
+    /* Prevent the fragment from stretching vertically unnecessarily */
+    flex-shrink: 0; 
+    
+    /* Retain existing visual styles */
+    height: 100%; /* Ensure it fills the parent container's height */
+    overflow: hidden; 
+    /* ... rest of your border/shadow styles ... */
 }
 
 /* Code Area inside the fragment (Line numbers + Content) */
@@ -118,6 +127,7 @@ body {
 .code-scroll-wrapper {
     flex-grow: 1; 
     overflow-y: auto; /* Allow scrolling for the code content */
+    overflow-x: auto;
     padding: 8px 0; /* Match padding to line number alignment */
     width: 100%;
     height: 100%;
@@ -127,12 +137,14 @@ body {
 .clone-content-display {
     /* Ensures this container doesn't control scroll, the wrapper does */
     height: fit-content; 
-    width: 100%;
+    width: fit-content;
+    min-width: 100%; 
     /* Same font settings as line numbers and textarea for alignment */
     font-family: monospace;
     font-size: 0.875rem;
     line-height: 1.5rem;
     color: #333; /* Ensure text is visible */
+    white-space: nowrap;
 }
 
 /* Style for each line of code */
@@ -140,7 +152,8 @@ body {
     /* Ensures correct line height */
     height: 1.5rem; 
     padding-left: 8px; /* Match left padding of original textarea */
-    white-space: pre; /* Important to preserve indentation */
+    white-space: nowrap !important;
+    overflow: hidden;
     
 }
 
@@ -155,6 +168,7 @@ body {
     display: inline;
     margin: 0;
     padding: 0;
+    white-space: nowrap !important;
 }
 
 .clone-lines {
