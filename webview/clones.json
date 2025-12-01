@@ -8,9 +8,9 @@
       "fragmentLength": 7,
       "locations": [
         {
-          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
-          "startLine": 4,
-          "endLine": 10
+          "filePath": "src/main/java/org/sigmetrics/Calculator.java",
+          "startLine": 13,
+          "endLine": 19
         },
         {
           "filePath": "src/main/java/org/sigmetrics/Duplication.java",
@@ -18,9 +18,9 @@
           "endLine": 20
         },
         {
-          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
-          "startLine": 8,
-          "endLine": 14
+          "filePath": "src/main/java/org/sigmetrics/Calculator.java",
+          "startLine": 13,
+          "endLine": 19
         }
       ]
     },
@@ -39,6 +39,11 @@
           "filePath": "src/main/java/org/sigmetrics/Complexity.java",
           "startLine": 14,
           "endLine": 23
+        },
+        {
+          "filePath": "src/main/java/org/sigmetrics/Calculator.java",
+          "startLine": 13,
+          "endLine": 19
         }
       ]
     },
