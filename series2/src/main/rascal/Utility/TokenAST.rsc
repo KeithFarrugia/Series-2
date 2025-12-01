@@ -38,9 +38,9 @@ data TokenizedLine = line(
  */
 list[TokenizedLine] sortBySourceLoc(list[TokenizedLine] lines) {
     return sort(lines,
-      bool(TokenizedLine a, TokenizedLine b) {
-         return getBeginLine(a.sourceLoc) < getBeginLine(b.sourceLoc);
-      }
+        bool(TokenizedLine a, TokenizedLine b) {
+            return getBeginLine(a.sourceLoc) < getBeginLine(b.sourceLoc);
+        }
     );
 }
 /* ============================================================================
@@ -123,7 +123,15 @@ str normaliseNode(node n) {
             return toString( 
                 unsetRec(\class([]))
             );
-
+        
+        case \if(Expression condition, _):
+            return  toString(
+               unsetRec( \if(condition, \empty()))
+            );
+        case \if(Expression condition, _, _):
+            return  toString(
+                unsetRec(\if(condition, \empty(), \empty()))
+            );
         /* --------------------------------------------------------------------
          *  Default: any other AST node kind - no normalisation mapping
          * --------------------------------------------------------------------
@@ -278,16 +286,13 @@ list[TokenizedLine] tokenizeLines(Declaration cu) {
  */
 tuple[list[node], bool] filterOutSubNodes(node parent) {
 
-    println("\n\nFILTERING OUT KIDS\n");
 
     list[node] subNodes = [];
     bool hasKids = false;
 
-    println("PARENT:\n <toString(parent)[0 .. 100]> ...");
 
     visit(parent) {
         case node n: {
-            println("CHILD:\n\t<toString(n)[0 .. 100]> ...");
 
             if (n.src?) {
                 hasKids = true;
