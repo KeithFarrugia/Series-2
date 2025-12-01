@@ -18,5 +18,8 @@
 		{
 			"path": "treemap"
 		},
+		{
+			"path": "polymetric"
+		}
 	]
 }
