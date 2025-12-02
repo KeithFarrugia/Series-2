@@ -78,10 +78,10 @@ loc getLocation(loc l){
 }
 
 public bool minNodeLines(loc key) {
-	if (key.end.line - key.begin.line >= 6) {
-		return true;
-	}
-	return false;
+    if (key.end.line - key.begin.line >= 6) {
+        return true;
+    }
+    return false;
 }
 
 
@@ -116,19 +116,21 @@ public num calculateSimilarity(node t1, node t2) {
 
 public lrel[node_loc, node_loc] delSymmPairs(lrel[node_loc, node_loc] clonePairs) {
 
-	lrel[node_loc,  node_loc] newClonePairs = [];
+    lrel[node_loc,  node_loc] newClonePairs = [];
 
-	for (pair <- clonePairs) {
+    for (pair <- clonePairs) {
         
-		tuple[node_loc, node_loc] reversePair = 
+        tuple[node_loc, node_loc] reversePair = 
             <
                 <pair[1][0],pair[1][1]>,
                 <pair[0][0],pair[0][1]>
             >;
 
-		if (reversePair notin newClonePairs) {		
-			newClonePairs += pair;
-		}
-	}
-	return newClonePairs;
+        if (reversePair notin newClonePairs) {		
+            newClonePairs += pair;
+        }
+    }
+    return newClonePairs;
 }
+
+
