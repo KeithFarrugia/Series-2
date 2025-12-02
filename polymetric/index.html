@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Clone Polymetric View</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Software Clone Polymetric View</h1>
+    <div class="controls">
+      <div class="dropdown" id="moduleDropdown">
+        <button class="dropbtn">Modules ▾</button>
+        <div class="dropdown-content" id="moduleList"></div>
+      </div>
+
+      <div class="dropdown" id="typeDropdown">
+        <button class="dropbtn">Clone Types ▾</button>
+        <div class="dropdown-content" id="typeList">
+          <label><input type="checkbox" value="type1" checked /> Type 1</label>
+          <label><input type="checkbox" value="type2" checked /> Type 2</label>
+          <label><input type="checkbox" value="type3" checked /> Type 3</label>
+        </div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-bar" id="legendBar"></div>
+        <div class="legend-labels">
+          <span>Low</span>
+          <span>Duplication %</span>
+          <span>High</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="chartWrap">
+    <div id="chart"></div>
+  </main>
+
+  <div id="tooltip" class="tooltip" style="opacity:0"></div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
