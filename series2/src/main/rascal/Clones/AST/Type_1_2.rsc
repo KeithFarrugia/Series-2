@@ -17,6 +17,7 @@ import util::FileSystem;
 import util::Reflective;
 
 
+map[node, lrel[node, loc]] buckets  = ();
 
 void testOutASTType1(){
     buckets  = ();
@@ -25,26 +26,25 @@ void testOutASTType1(){
     for(d <- ast){
         norm_ast += normaliseDeclaration(d);
     }
-    visit (ast) {
-		case node x: {
-			int currentMass = mass(x);
-			if (currentMass >= MASS_THRESHOLD) {
+    visit (norm_ast) {
+        case node x: {
+            int currentMass = mass(x);
+            if (currentMass >= MASS_THRESHOLD) {
                 addNodeToMap(x);
-			}
-		}
-	}
-
-    println("Done with indexing the subtrees into buckets.");
-    println("Result: ");
-    for(k <- domain(buckets)){
-        println("Key: \n<k>");
-        for (<b, _> <- buckets[k]) {
-            println("\tChild\n\t <b>\n");
+            }
         }
     }
 
-    printCloneSets(findClonesSets());
+    // println("Done with indexing the subtrees into buckets.");
+    // println("Result: ");
+    // for(k <- domain(buckets)){
+    //     println("Key: \n<k>");
+    //     for (<b, _> <- buckets[k]) {
+    //         println("\tChild\n\t <b>\n");
+    //     }
+    // }
 
+    printCloneSets(findClonesSets());
 }
 
 /* ============================================================================
@@ -102,11 +102,15 @@ map[node, lrel[node_loc, node_loc]] findClonesSets(){
                 num similarity = calculateSimilarity(treeRelation[0][0], treeRelation[1][0])*1.0;
                 //println("Similarity: <similarity> \>= <similarityThreshold>");
                 if (similarity >= SIMILARITY_THRESHOLD) {
+                    println("Yeah CHECKING SIMILARITY");
+                    println("NO SHIT SHERLOCK");
                     if (clonesSet[treeRelation[0][0]]?) {
                         clonesSet[treeRelation[0][0]] += treeRelation;
                     } else {
                         clonesSet[treeRelation[0][0]] = [treeRelation];
                     }
+                }else{
+                        println("FUCKING WHAT");
                 }
             }
         }

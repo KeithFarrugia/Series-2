@@ -34,7 +34,6 @@ public int  MASS_THRESHOLD          = 12;
 public real SIMILARITY_THRESHOLD    = 0.7;
 
 
-public map[node, lrel[node, loc]] buckets  = ();
 
 /* ============================================================================
  *                             getSubtrees()

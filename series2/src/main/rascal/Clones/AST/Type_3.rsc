@@ -16,6 +16,35 @@ import util::FileSystem;
 import util::Reflective;
 
 
+map[node, lrel[node, loc]] buckets  = ();
+
+void testOutASTType1(){
+    buckets  = ();
+    list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    list[Declaration] norm_ast = [];
+    for(d <- ast){
+        norm_ast += normaliseDeclaration(d);
+    }
+    visit (norm_ast) {
+        case node x: {
+            int currentMass = mass(x);
+            if (currentMass >= MASS_THRESHOLD) {
+                addNodeToMap(x);
+            }
+        }
+    }
+
+    println("Done with indexing the subtrees into buckets.");
+    println("Result: ");
+    for(k <- domain(buckets)){
+        println("Key: \n<k>");
+        for (<b, _> <- buckets[k]) {
+            println("\tChild\n\t <b>\n");
+        }
+    }
+
+    printCloneSets(findClonesSets());
+}
 
 
 /* ============================================================================
