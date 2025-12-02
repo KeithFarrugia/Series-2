@@ -81,3 +81,29 @@ header h1{font-size:18px;margin:0 8px 0 0;color:#ddd}
   border:1px solid #333;
 }
 .legend-labels{display:flex;gap:6px;width:160px;justify-content:space-between;color:var(--muted);font-size:12px}
+
+.home-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 42px;
+  height: 42px;
+  background: #21262d;
+  color: #e6edf3;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 20px;
+  border: 1px solid #30363d;
+  opacity: 0.6;
+  transition: 0.2s ease;
+  z-index: 99;
+}
+
+.home-btn:hover {
+  opacity: 1;
+  background: #30363d;
+  border-color: #58a6ff;
+}
