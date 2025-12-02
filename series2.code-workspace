@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "smallsql0.21_src"
+		},
+		{
+			"path": "webview"
 		}
 	]
 }
