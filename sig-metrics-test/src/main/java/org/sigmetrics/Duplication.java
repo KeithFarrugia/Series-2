@@ -17,6 +17,6 @@ public class Duplication {
         int d = 4;   // line 10
         int e = 5;   // line 11
         int f = 6;   // line 12
-        int g = 7;   // line 13
+        int h = 7;   // line 13
     }
 }
