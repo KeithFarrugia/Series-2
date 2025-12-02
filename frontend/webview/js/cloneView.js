@@ -270,9 +270,10 @@ export function applyCloneFilter() {
             const summaryDiv = document.createElement('div');
             summaryDiv.className = `bg-blue-50 border border-blue-200 p-3 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors ${typeClass}`;
             
+            summaryDiv.className = `**bg-blue-900** border **border-blue-700** p-3 rounded-lg cursor-pointer **hover:bg-blue-800** transition-colors ${typeClass}`;
             summaryDiv.innerHTML = `
-                <p class="font-bold text-blue-700">Clone Group #${index + 1}: ${cloneGroup.name}</p>
-                <p class="text-sm text-gray-600">Fragment Length: ${cloneGroup.fragmentLength} lines. Duplicates: ${cloneGroup.locations.length}</p>
+                <p class="font-bold **text-blue-300**">Clone Group #${index + 1}: ${cloneGroup.name}</p>
+                <p class="text-sm **text-gray-400**">Fragment Length: ${cloneGroup.fragmentLength} lines. Duplicates: ${cloneGroup.locations.length}</p>
             `;
             summaryDiv.onclick = () => renderCloneFragments(cloneGroup);
             Util.cloneList.appendChild(summaryDiv);

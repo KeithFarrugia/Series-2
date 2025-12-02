@@ -14,11 +14,11 @@ async function buildFileTree(dirHandle, path = '') {
 
     for await (const entry of dirHandle.values()) {
         const li = document.createElement('li');
-        li.className = 'cursor-pointer hover:bg-gray-200 p-1 rounded transition-colors';
+        li.className = 'cursor-pointer hover:bg-gray-700 p-1 rounded transition-colors';
 
         if (entry.kind === 'file') {
             const filename = entry.name;
-            li.innerHTML = `<span class="text-blue-600">📄 ${filename}</span>`;
+            li.innerHTML = `<span class="text-sky-400">📄 ${filename}</span>`;
             li.dataset.filename = filename;
             li.dataset.path = path;
             li.onclick = () => openFile(entry); 
@@ -27,7 +27,7 @@ async function buildFileTree(dirHandle, path = '') {
             const newPath = path ? `${path}/${dirName}` : dirName;
             
             const toggler = document.createElement('span');
-            toggler.className = 'text-gray-900 font-semibold inline-block w-full';
+            toggler.className = '**text-gray-200** font-semibold inline-block w-full';
             toggler.innerHTML = `📁 ${dirName}`;
             toggler.onclick = toggleDirectory;
             li.appendChild(toggler);
