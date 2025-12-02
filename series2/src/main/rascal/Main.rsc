@@ -20,9 +20,6 @@ int durationToMillis(Duration d) {
         + d.milliseconds;
 }
 
-
-
-
 void main() {
     
     datetime t0 = now();
