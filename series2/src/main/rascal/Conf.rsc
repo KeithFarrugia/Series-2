@@ -9,3 +9,5 @@ public data Clone = clone(
     int length,
     int cloneType
 );
+
+list [Clone] Clones = [];
