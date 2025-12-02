@@ -4,9 +4,10 @@ import IO;
 
 import lang::java::m3::Core;
 import lang::java::m3::AST;
-import Clones::Type1;
+import Clones::Token::Type_1_2;
+import Clones::Token::Type_3;
 import DateTime;
-import Utility::TokenAST;
+import List;
 loc test_project = |project://sig-metrics-test|;
 
 int durationToMillis(Duration d) {
@@ -19,35 +20,17 @@ int durationToMillis(Duration d) {
         + d.milliseconds;
 }
 
-/* ============================================================================
- *                          testDuplicateLineCount
- * ----------------------------------------------------------------------------
- *  Ensures that countDuplicates(M3) returns the expected number of duplicated
- *  lines in the test Maven project. This verifies that the final duplicate-line
- *  count, after combining all duplicate blocks, is correct.
- * ============================================================================
- */
-test bool testDuplicateLineCount() {
-    list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
-    list[TokenizedLine] lines =  tokeniseAST(ast, false);
-    int duplicates = findDuplicates(lines);
 
-    // TODO: Replace this once you know the correct value.
-    int expected = 14;
 
-    if (duplicates == expected) {
-        println("✓ DuplicateLineCount test passed.");
-    } else {
-        println("✗ DuplicateLineCount test failed. Expected <expected> duplicate lines, found <duplicates>.");
-    }
-
-    return duplicates == expected;
-}
 
 void main() {
     
     datetime t0 = now();
-    testDuplicateLineCount();
+    // testDuplicateLineCount();
     datetime t1 = now();
-    println("Duplication time <durationToMillis(createDuration(t0, t1))>");
+    // println("Duplication time <durationToMillis(createDuration(t0, t1))>");
+    t0 = now();
+    testType3();
+    t1 = now();
+    println("Duplication time Type 3<durationToMillis(createDuration(t0, t1))>");
 }
