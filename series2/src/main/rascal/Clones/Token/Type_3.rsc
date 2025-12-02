@@ -1,4 +1,4 @@
-module Clones::Type3
+module Clones::Token::Type_3
 
 import IO;
 import String;
@@ -15,6 +15,44 @@ import lang::java::m3::AST;
 int DUPLICATION_THRESHOLD = 6;
 
 
+void testType3() {
+    
+    list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    list[TokenizedLine] lines =  tokeniseAST(ast, false);
+
+    list[tuple[int,int,real]] type3Results = findType3(lines);
+    // TODO: Replace this once you know the correct value.
+    println(" ======================================================== \n FINISHED TYPE 3 ========================================================\n ");
+    if (size(type3Results) == 0) {
+            println("No Type-3 clones found.");
+        } else {
+            for (r <- type3Results) {
+                int i       = r[0];
+                int j       = r[1];
+                real sim    = r[2];
+
+                int start1 = lines[i].lineNumber;
+                int end1   = lines[i + DUPLICATION_THRESHOLD-1].lineNumber;
+
+                int start2 = lines[j].lineNumber;
+                int end2   = lines[j + DUPLICATION_THRESHOLD-1].lineNumber;
+
+                println("Near-duplicate block (lines <start1>-<end1>) vs (lines <start2>-<end2>) — similarity: <sim>");
+                            
+                println("Block 1 (source lines <start1>-<end1>):");
+                for (k <- [0 .. DUPLICATION_THRESHOLD]) {
+                    println("  Line <lines[i + k].lineNumber>: <lines[i + k].tokens>");
+                }
+
+                println("Block 2 (source lines <start2>-<end2>):");
+                for (k <- [0 .. DUPLICATION_THRESHOLD]) {
+                    println("  Line <lines[j + k].lineNumber>: <lines[j + k].tokens>");
+                }
+
+                println("---------------------------------------------------------\n");
+            }
+        }
+}
 /* ============================================================================
  * Flatten a block of t lines into a single set of tokens
  * ============================================================================

@@ -1,4 +1,4 @@
-module Clones::Type1
+module Clones::Token::Type_1_2
 
 import IO;
 import String;
@@ -15,6 +15,30 @@ import lang::java::m3::AST;
 int DUPLICATION_THRESHOLD = 6;
 
 
+/* ============================================================================
+ *                          testDuplicateLineCount
+ * ----------------------------------------------------------------------------
+ *  Ensures that countDuplicates(M3) returns the expected number of duplicated
+ *  lines in the test Maven project. This verifies that the final duplicate-line
+ *  count, after combining all duplicate blocks, is correct.
+ * ============================================================================
+ */
+test bool testDuplicateLineCount() {
+    list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    list[TokenizedLine] lines =  tokeniseAST(ast, false);
+    int duplicates = findDuplicates(lines);
+
+    // TODO: Replace this once you know the correct value.
+    int expected = 14;
+
+    if (duplicates == expected) {
+        println("✓ DuplicateLineCount test passed.");
+    } else {
+        println("✗ DuplicateLineCount test failed. Expected <expected> duplicate lines, found <duplicates>.");
+    }
+
+    return duplicates == expected;
+}
 
 
 

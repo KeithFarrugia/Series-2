@@ -15,6 +15,30 @@ import util::FileSystem;
 import util::Reflective;
 
 
+void testBlocks() {
+    list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    for (cu <- ast) {
+        Declaration norm = normaliseDeclaration(cu);
+        loc cuLoc        = norm.src;
+        list[TokenizedLine] lines = tokenizeLines(cu);
+
+        println(" ===================================== ");
+        println("LINES");
+        for(l <- lines) {
+            println(" --- Line: <l.lineNumber> ----------------- ");
+            // Print the line number and source location
+            println("Line <l.lineNumber> (Loc: <l.sourceLoc>): Tokens {");
+            
+            // Print each token in the set
+            for(token <- l.tokens) {
+                println("    \"<token>\"");
+            }
+            
+            println("}");
+        }
+        println(" ===================================== ");
+    }
+}
 
 /* ============================================================================
  *                               TokenizedLine ADT
@@ -55,12 +79,10 @@ list[TokenizedLine] tokeniseAST(list[Declaration] ast, bool normalise){
         for (a <- ast) {
             Declaration norm    = normaliseDeclaration(a);
             tokenisedAST       += sortBySourceLoc(tokenizeLines(norm));
-        
         }
     }else{
         for (a <- ast) {
             tokenisedAST       += sortBySourceLoc(tokenizeLines(a));
-        
         }
     }
     return tokenisedAST;
