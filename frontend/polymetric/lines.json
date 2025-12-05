@@ -1,0 +1,60 @@
+{
+  "projectRoot": "/dev/software_evo/Series-2/sig-metrics-test",
+  "modules": [
+    {
+      "name": "sigmetrics",
+      "files": [
+        {
+          "name": "Calculator",
+          "filePath": "src/main/java/org/sigmetrics/Calculator.java",
+          "lines_of_code": 150
+        },
+        {
+          "name": "Duplication",
+          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
+          "lines_of_code": 230
+        },
+        {
+          "name": "Complexity",
+          "filePath": "src/main/java/org/sigmetrics/Complexity.java",
+          "lines_of_code": 175
+        },
+        {
+          "name": "App",
+          "filePath": "src/main/java/org/sigmetrics/App.java",
+          "lines_of_code": 90
+        }
+      ]
+    },
+    {
+      "name": "sigmetrics_utils",
+      "files": [
+        {
+          "name": "Utils",
+          "filePath": "src/main/java/org/sigmetrics/utils/Utils.java",
+          "lines_of_code": 120
+        },
+        {
+          "name": "StringHelpers",
+          "filePath": "src/main/java/org/sigmetrics/utils/StringHelpers.java",
+          "lines_of_code": 80
+        }
+      ]
+    },
+    {
+      "name": "sigmetrics_core",
+      "files": [
+        {
+          "name": "CoreEngine",
+          "filePath": "src/main/java/org/sigmetrics/core/CoreEngine.java",
+          "lines_of_code": 310
+        },
+        {
+          "name": "ExecutionPlan",
+          "filePath": "src/main/java/org/sigmetrics/core/ExecutionPlan.java",
+          "lines_of_code": 150
+        }
+      ]
+    }
+  ]
+}

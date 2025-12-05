@@ -1,13 +1,13 @@
 /** Merge overlapping ranges array [{start,end},...] and return merged array */
-function mergeRanges(ranges){
+export function mergeRanges(ranges){
+  // (mergeRanges function remains unchanged)
   if(!ranges || ranges.length===0) return [];
-  // copy and sort by start
   const arr = ranges.map(r=>({start: r.start, end: r.end})).sort((a,b)=>a.start-b.start);
   const out = [arr[0]];
   for(let i=1;i<arr.length;i++){
     const cur = arr[i];
     const last = out[out.length-1];
-    if(cur.start <= last.end + 1){ // overlap or contiguous
+    if(cur.start <= last.end + 1){
       last.end = Math.max(last.end, cur.end);
     } else {
       out.push(cur);
@@ -16,42 +16,69 @@ function mergeRanges(ranges){
   return out;
 }
 
-/** Given a file object, collect all ranges from all types and compute duplicated lines sum (merged),
-    and produce duplicationPercent */
-function computeDuplicationForFile(file){
-  const allRanges = [];
-  if(file.cloneTypes){
-    for(const t of ["type1","type2","type3"]){
-      const key = `${t}_duplicatedLines`;
-      if(Array.isArray(file.cloneTypes[key])){
-        for(const r of file.cloneTypes[key]){
-          if(typeof r.start === "number" && typeof r.end === "number"){
-            // clamp into file bounds
-            const start = Math.max(1, r.start);
-            const end = Math.min(file.lines_of_code || Infinity, r.end);
-            if(end >= start) allRanges.push({start, end});
+/** * Pre-processes file structure by collecting raw, unmerged clone ranges 
+ * and organizing them by clone type, clamping them to file bounds.
+ */
+function prepareFileRawRanges(file, allClones){
+  const cloneTypeRanges = { 'type1': [], 'type2': [], 'type3': [] };
+
+  // Collect raw ranges and group them by type
+  for(const cloneGroup of allClones.clones){
+    const typeKey = `type${cloneGroup.type}`;
+    if (!cloneTypeRanges[typeKey]) continue;
+
+    for(const loc of cloneGroup.locations){
+      if(loc.filePath === file.filePath){
+        if(typeof loc.startLine === "number" && typeof loc.endLine === "number"){
+          // clamp into file bounds
+          const start = Math.max(1, loc.startLine);
+          const end = Math.min(file.lines_of_code || Infinity, loc.endLine);
+          if(end >= start) {
+            cloneTypeRanges[typeKey].push({ start, end });
           }
         }
       }
     }
   }
-  const merged = mergeRanges(allRanges);
-  let duplicatedLines = 0;
-  for(const r of merged) duplicatedLines += (r.end - r.start + 1);
-  const loc = file.lines_of_code || 0;
-  const duplicationPercent = loc>0 ? Math.round((duplicatedLines / loc) * 1000)/10 : 0; // 1 dec
-  file._dup = {
-    duplicatedLines,
-    mergedRanges: merged,
-    duplicationPercent
-  };
+
+  // Store the raw range data by type for filtering and dynamic calculation
+  file._rawCloneRanges = cloneTypeRanges;
 }
 
-/* ------------- Prepare data: compute duplication for each file ------------- */
-export function prepareData(data){
-  for(const module of data.modules){
+
+/* ------------- Prepare data: only prepare raw ranges, no final metrics ------------- */
+/** Merges clone information into the file structure. */
+export function prepareData(fileStructure, cloneData){
+  for(const module of fileStructure.modules){
     for(const file of module.files){
-      computeDuplicationForFile(file);
+      prepareFileRawRanges(file, cloneData);
     }
   }
+}
+
+// NEW FUNCTION: Calculates metrics based on a specific filter set
+export function calculateFilteredDuplication(file, typeFilterSet) {
+    const allRanges = [];
+
+    // 1. Collect ranges only from the types present in the filter set
+    for (const t of typeFilterSet) { // t is like 'type1', 'type2', etc.
+        if (file._rawCloneRanges && file._rawCloneRanges[t]) {
+            allRanges.push(...file._rawCloneRanges[t]);
+        }
+    }
+
+    // 2. Compute merged duplicated lines and percentage
+    const merged = mergeRanges(allRanges);
+    let duplicatedLines = 0;
+    for(const r of merged) duplicatedLines += (r.end - r.start + 1);
+
+    const loc = file.lines_of_code || 0;
+    // Round to 1 decimal place (multiply by 1000, round, divide by 10)
+    const duplicationPercent = loc > 0 ? Math.round((duplicatedLines / loc) * 1000) / 10 : 0;
+
+    return {
+        duplicatedLines,
+        duplicationPercent,
+        mergedRanges: merged // useful for tooltips/drilldown
+    };
 }

@@ -1,37 +1,47 @@
-/* ------------- Build D3 hierarchy (modules -> files). value = lines_of_code ------------- */
-export function buildHierarchy(data, moduleFilterSet, typeFilterSet){
-  // moduleFilterSet: Set of module names to include (if empty => include all)
-  // typeFilterSet: Set of clone types selected (e.g. 'type1','type2','type3'); if empty => include all
+import { calculateFilteredDuplication } from "./data.js"; // Import the new function
 
+/* ------------- Build D3 hierarchy (modules -> files). value = lines_of_code ------------- */
+export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoClones){
+  // data is the file structure merged with raw clone ranges
   const root = { name: data.projectRoot, children: [] };
+  const allCloneTypes = ['type1', 'type2', 'type3']; // Used for checking if a file has *any* clones
+
+  // Fallback: If no type filters are active, treat it as "show all"
+  const activeTypeFilterSet = typeFilterSet.size > 0 ? typeFilterSet : new Set(allCloneTypes);
 
   for(const mod of data.modules){
     if(moduleFilterSet.size && !moduleFilterSet.has(mod.name)) continue;
 
     const modNode = { name: mod.name, children: [] };
     for(const file of mod.files){
-      // apply type filter: determine if file contains any ranges for selected types
-      let passesTypeFilter = true;
-      if(typeFilterSet.size){
-        passesTypeFilter = false;
-        for(const t of typeFilterSet){
-          const key = `${t}_duplicatedLines`;
-          if(file.cloneTypes && Array.isArray(file.cloneTypes[key]) && file.cloneTypes[key].length>0){
-            passesTypeFilter = true; break;
-          }
-        }
+      
+      // Calculate the metrics based *only* on the active type filters
+      const filteredMetrics = calculateFilteredDuplication(file, activeTypeFilterSet);
+      
+      let passesFilter = true;
+      
+      // Filtering Logic: Exclude files that have 0% duplication for the filtered type set
+      if (typeFilterSet.size > 0 && !includeNoClones && filteredMetrics.duplicatedLines === 0) {
+          passesFilter = false;
       }
-      if(!passesTypeFilter) continue;
+      // IMPORTANT EXCEPTION: If the user has *NO* filters selected, we use the 
+      // default metric (which is calculated above by `activeTypeFilterSet`), 
+      // and we always include all files for the initial view.
+      if (typeFilterSet.size === 0) {
+          passesFilter = true; 
+      }
+
+      if(!passesFilter) continue; // Exclude file
 
       // leaf node
       modNode.children.push({
         name: file.name,
         filePath: file.filePath,
         lines_of_code: file.lines_of_code || 0,
-        duplicationPercent: file._dup.duplicationPercent,
-        duplicatedLines: file._dup.duplicatedLines,
-        mergedRanges: file._dup.mergedRanges,
-        cloneTypes: file.cloneTypes || {}
+        // USE THE NEWLY CALCULATED FILTERED METRICS
+        duplicationPercent: filteredMetrics.duplicationPercent,
+        duplicatedLines: filteredMetrics.duplicatedLines,
+        mergedRanges: filteredMetrics.mergedRanges,
       });
     }
 

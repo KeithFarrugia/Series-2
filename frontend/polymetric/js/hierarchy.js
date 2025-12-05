@@ -1,72 +1,97 @@
-/* ------------- Build D3 hierarchy (modules -> files). value = lines_of_code ------------- */
-export function buildHierarchy(data, moduleFilterSet, typeFilterSet){
-  // moduleFilterSet: Set of module names to include (if empty => include all)
-  // typeFilterSet: Set of clone types selected (e.g. 'type1','type2','type3'); if empty => include all
+// hierarchy.js (FIXED: Children not showing due to incorrect property access in filtering)
+import { calculateFilteredDuplication } from "./data.js";
 
+/* ------------- Build D3 hierarchy (modules -> files). value = lines_of_code ------------- */
+export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoClones){
+  // data is the file structure merged with raw clone ranges
   const root = { name: data.projectRoot, children: [] };
+  const allCloneTypes = ['type1', 'type2', 'type3'];
+
+  // Determine which type filters are active for the calculation
+  // If no filters are checked, we treat it as 'show all'
+  const activeTypeFilterSet = typeFilterSet.size > 0 ? typeFilterSet : new Set(allCloneTypes);
 
   for(const mod of data.modules){
     if(moduleFilterSet.size && !moduleFilterSet.has(mod.name)) continue;
 
     const modNode = { name: mod.name, children: [] };
+    
+    // Variables for module-level aggregation
+    let modTotalDuplicationPercentWeighted = 0;
+    let modTotalFileCount = 0;
+
     for(const file of mod.files){
-      // apply type filter: determine if file contains any ranges for selected types
-      let passesTypeFilter = true;
-      if(typeFilterSet.size){
-        passesTypeFilter = false;
-        for(const t of typeFilterSet){
-          const key = `${t}_duplicatedLines`;
-          if(file.cloneTypes && Array.isArray(file.cloneTypes[key]) && file.cloneTypes[key].length>0){
-            passesTypeFilter = true; break;
-          }
-        }
+      
+      // Calculate the metrics based *only* on the active type filters
+      const filteredMetrics = calculateFilteredDuplication(file, activeTypeFilterSet);
+      
+      let passesFilter = true;
+      
+      // Filtering Logic: Exclude files that have 0% duplication for the filtered type set
+      if (typeFilterSet.size > 0 && !includeNoClones && filteredMetrics.duplicatedLines === 0) {
+          passesFilter = false;
       }
-      if(!passesTypeFilter) continue;
+      // If no type filters are active, all files (even 0% duplication) are included
+      if (typeFilterSet.size === 0) {
+          passesFilter = true; 
+      }
+
+      if(!passesFilter) continue; // Exclude file
 
       // leaf node
-      modNode.children.push({
+      const fileNode = {
         name: file.name,
         filePath: file.filePath,
         lines_of_code: file.lines_of_code || 0,
-        duplicationPercent: file._dup.duplicationPercent,
-        duplicatedLines: file._dup.duplicatedLines,
-        mergedRanges: file._dup.mergedRanges,
-        cloneTypes: file.cloneTypes || {},
-        
-      });
+        // *** CRITICAL FIX: Use the calculated filteredMetrics properties ***
+        duplicationPercent: filteredMetrics.duplicationPercent,
+        duplicatedLines: filteredMetrics.duplicatedLines,
+        mergedRanges: filteredMetrics.mergedRanges,
+      };
+      
+      modNode.children.push(fileNode);
+
+      // Accumulate metrics for module-level aggregation (Polymetric View requirement)
+      // Accumulate the duplicationPercent of the files added to the module
+      modTotalDuplicationPercentWeighted += fileNode.duplicationPercent;
+      modTotalFileCount++;
     }
 
     // only add module if it has children after filtering
     if(modNode.children.length>0) {
-      // CALCULATE AVERAGE DUPLICATION PERCENT FOR THE DIRECTORY (modNode)
-      let totalDuplicationPercent = 0;
-      for(const child of modNode.children){
-          totalDuplicationPercent += child.duplicationPercent;
+      
+      // 1. Calculate Average Duplication Percent for the Module (Level 1)
+      if (modTotalFileCount > 0) {
+          modNode.duplicationPercent = modTotalDuplicationPercentWeighted / modTotalFileCount;
+      } else {
+          modNode.duplicationPercent = 0;
       }
-      modNode.duplicationPercent = totalDuplicationPercent / modNode.children.length;
 
-      // Add the file count metric
-      modNode.fileCount = modNode.children.length;
+      // 2. Add the file count metric
+      modNode.fileCount = modTotalFileCount;
 
       root.children.push(modNode);
     }
   }
+  
+  // Attach project-wide averages
   root.projectMetrics = data.projectMetrics;
 
-  let rootTotalDuplicationPercent = 0;
+  // AGGREGATE ROOT METRICS (Polymetric View requirement)
+  let rootTotalDuplicationPercentWeighted = 0;
   let rootTotalFileCount = 0;
 
   if(root.children.length > 0) {
       for(const child of root.children){
-          // Duplication: Sum up the duplication percent of all Level 1 modules
-          // We'll average it out based on the number of files total
-          rootTotalDuplicationPercent += (child.duplicationPercent || 0) * child.fileCount;
+          // Duplication: Calculate weighted average using file count
+          rootTotalDuplicationPercentWeighted += (child.duplicationPercent || 0) * child.fileCount;
           rootTotalFileCount += child.fileCount;
       }
       
       // Calculate the weighted average duplication percent for the project root
       if (rootTotalFileCount > 0) {
-          root.duplicationPercent = Math.round((rootTotalDuplicationPercent / rootTotalFileCount) * 10) / 10;
+          // Weighted average, rounded to 1 decimal
+          root.duplicationPercent = Math.round((rootTotalDuplicationPercentWeighted / rootTotalFileCount) * 10) / 10;
       } else {
           root.duplicationPercent = 0;
       }
