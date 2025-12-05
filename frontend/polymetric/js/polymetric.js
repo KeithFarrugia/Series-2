@@ -25,15 +25,15 @@ export function renderPolymetric(rootData) {
 
   // 1. Convert data to D3 hierarchy (using LOC for value)
   const root = d3.hierarchy(rootData)
-    .sum(d => d.lines_of_code || d.fileCount || 0) // Sum LOC for files, fileCount for dirs
+    .sum(d => d.linesOfCode || d.fileCount || 0) // Sum LOC for files, fileCount for dirs
     .sort((a, b) => b.value - a.value);
 
   // 2. Define the D3 Tree Layout
   const treeLayout = d3.tree()
     .size([height, width - 1200]) // [Y-Max, X-Max]
     .separation((a, b) => { // Tweak separation based on estimated visual height
-      const aHeight = Math.log(a.data.lines_of_code || a.data.fileCount || 1);
-      const bHeight = Math.log(b.data.lines_of_code || b.data.fileCount || 1);
+      const aHeight = Math.log(a.data.linesOfCode || a.data.fileCount || 1);
+      const bHeight = Math.log(b.data.linesOfCode || b.data.fileCount || 1);
       return (Math.log(aHeight) + Math.log(bHeight)) / 20 + 10.5;
     });
 
@@ -43,9 +43,9 @@ export function renderPolymetric(rootData) {
   // 4. Calculate visual dimensions and adjust coordinates
   nodes.forEach(d => {
     // --- HEIGHT (Length) ---
-    if (d.data.lines_of_code !== undefined) {
+    if (d.data.linesOfCode !== undefined) {
       // Files: Height relative to project average LOC
-      d.visualHeight = Math.max(minVisualSize, baseHeight * (d.data.lines_of_code / avgLOC));
+      d.visualHeight = Math.max(minVisualSize, baseHeight * (d.data.linesOfCode / avgLOC));
     } else {
       // Directories (Root/Module): Fixed height for readability
       d.visualHeight = baseHeight;
@@ -110,7 +110,7 @@ export function renderPolymetric(rootData) {
     })
     .attr("stroke", "#222")
     .on("mousemove", (event, d) => {
-      if(d.data.lines_of_code || d.data.fileCount) {
+      if(d.data.linesOfCode || d.data.fileCount) {
         tooltip.style("opacity", 1)
           .style("left", (event.pageX + 12) + "px")
           .style("top", (event.pageY + 12) + "px")
@@ -136,8 +136,8 @@ export function renderPolymetric(rootData) {
         html += `<small>${dd.filePath}</small><br/>`;
     }
 
-    if(dd.lines_of_code !== undefined){
-      html += `LOC: <strong>${dd.lines_of_code}</strong> (Avg LOC: ${Math.round(avgLOC)})<br/>`;
+    if(dd.linesOfCode !== undefined){
+      html += `LOC: <strong>${dd.linesOfCode}</strong> (Avg LOC: ${Math.round(avgLOC)})<br/>`;
     }
 
     if(dd.fileCount !== undefined){

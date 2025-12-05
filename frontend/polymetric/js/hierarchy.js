@@ -1,7 +1,7 @@
 // hierarchy.js (FIXED: Children not showing due to incorrect property access in filtering)
 import { calculateFilteredDuplication } from "./data.js";
 
-/* ------------- Build D3 hierarchy (modules -> files). value = lines_of_code ------------- */
+/* ------------- Build D3 hierarchy (modules -> files). value = linesOfCode ------------- */
 export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoClones){
   // data is the file structure merged with raw clone ranges
   const root = { name: data.projectRoot, children: [] };
@@ -42,7 +42,7 @@ export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoCl
       const fileNode = {
         name: file.name,
         filePath: file.filePath,
-        lines_of_code: file.lines_of_code || 0,
+        linesOfCode: file.linesOfCode || 0,
         // *** CRITICAL FIX: Use the calculated filteredMetrics properties ***
         duplicationPercent: filteredMetrics.duplicationPercent,
         duplicatedLines: filteredMetrics.duplicatedLines,

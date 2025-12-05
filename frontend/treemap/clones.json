@@ -2,10 +2,6 @@
   "projectRoot": "/dev/software_evo/Series-2/sig-metrics-test",
   "clones": [
     {
-      "id": "c1",
-      "name": "Exact Match",
-      "type": 1,
-      "fragmentLength": 7,
       "locations": [
         {
           "filePath": "src/main/java/org/sigmetrics/Calculator.java",
@@ -18,17 +14,17 @@
           "endLine": 20
         },
         {
-          "filePath": "src/main/java/org/sigmetrics/Calculator.java",
+          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
           "startLine": 13,
           "endLine": 19
         }
-      ]
+      ],
+      "fragmentLength": 7,
+      "cloneType": 1,
+      "_id": "c1",
+      "name": "Exact Match"
     },
     {
-      "id": "c2",
-      "name": "Test",
-      "type": 2,
-      "fragmentLength": 7,
       "locations": [
         {
           "filePath": "src/main/java/org/sigmetrics/Duplication.java",
@@ -39,13 +35,12 @@
           "filePath": "src/main/java/org/sigmetrics/Complexity.java",
           "startLine": 14,
           "endLine": 23
-        },
-        {
-          "filePath": "src/main/java/org/sigmetrics/Calculator.java",
-          "startLine": 13,
-          "endLine": 19
         }
-      ]
+      ],
+      "fragmentLength": 6,
+      "cloneType": 2,
+      "_id": "c2",
+      "name": "Near-Miss"
     }
   ]
 }

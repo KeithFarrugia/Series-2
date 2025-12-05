@@ -99,7 +99,7 @@ export function renderCloneAnalysis() {
     // Render clone summaries
     currentClonesData.clones.forEach((cloneGroup, index) => {
         // Determine the CSS class based on the type number (1, 2, or 3)
-        const typeClass = `summary-type-${cloneGroup.type}`;
+        const typeClass = `summary-type-${cloneGroup.cloneType}`;
         
         const summaryDiv = document.createElement('div');
         // Use the new class for the left border/visual distinction
@@ -257,7 +257,7 @@ export function applyCloneFilter() {
 
         // Filter the original clone data
         const filteredClones = currentClonesData.clones.filter(cloneGroup => 
-            checkedTypes.includes(cloneGroup.type)
+            checkedTypes.includes(cloneGroup.cloneType)
         );
 
         // Clear previous content
@@ -266,7 +266,7 @@ export function applyCloneFilter() {
 
         // Render filtered clone summaries (reusing logic from renderCloneAnalysis)
         filteredClones.forEach((cloneGroup, index) => {
-            const typeClass = `summary-type-${cloneGroup.type}`;
+            const typeClass = `summary-type-${cloneGroup.cloneType}`;
             const summaryDiv = document.createElement('div');
             summaryDiv.className = `bg-blue-50 border border-blue-200 p-3 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors ${typeClass}`;
             
@@ -305,7 +305,7 @@ export async function renderCloneFragments(cloneGroup) {
     // Fetch all file contents concurrently
     const fileContentsPromises = locations.map(location => getFileContentByPath(location.filePath));
     const fileContents = await Promise.all(fileContentsPromises);
-    const cloneType = cloneGroup.type;
+    const cloneType = cloneGroup.cloneType;
 
     Util.cloneDiffContainer.innerHTML = ''; // Clear loading message
     locations.forEach((location, index) => {

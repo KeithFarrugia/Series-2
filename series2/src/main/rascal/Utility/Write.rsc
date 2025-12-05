@@ -41,3 +41,7 @@ void writeClonesToJson(list[Clone] clonesList) {
     // to ensure clean JSON output without Rascal internal metadata.
     writeJSON(clonesJson, projectData, indent=2, dropOrigins=true);
 }
+
+void writeLinesOfCodeToJson(ProjectMetrics projectMetrics) {
+    writeJSON(linesJson, projectMetrics, indent=2, dropOrigins=true);
+}

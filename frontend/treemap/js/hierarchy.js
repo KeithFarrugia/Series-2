@@ -1,6 +1,6 @@
 import { calculateFilteredDuplication } from "./data.js"; // Import the new function
 
-/* ------------- Build D3 hierarchy (modules -> files). value = lines_of_code ------------- */
+/* ------------- Build D3 hierarchy (modules -> files). value = linesOfCode ------------- */
 export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoClones){
   // data is the file structure merged with raw clone ranges
   const root = { name: data.projectRoot, children: [] };
@@ -37,7 +37,7 @@ export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoCl
       modNode.children.push({
         name: file.name,
         filePath: file.filePath,
-        lines_of_code: file.lines_of_code || 0,
+        linesOfCode: file.linesOfCode || 0,
         // USE THE NEWLY CALCULATED FILTERED METRICS
         duplicationPercent: filteredMetrics.duplicationPercent,
         duplicatedLines: filteredMetrics.duplicatedLines,

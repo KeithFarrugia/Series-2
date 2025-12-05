@@ -24,7 +24,7 @@ function prepareFileRawRanges(file, allClones){
 
   // Collect raw ranges and group them by type
   for(const cloneGroup of allClones.clones){
-    const typeKey = `type${cloneGroup.type}`;
+    const typeKey = `type${cloneGroup.cloneType}`;
     if (!cloneTypeRanges[typeKey]) continue;
 
     for(const loc of cloneGroup.locations){
@@ -32,7 +32,7 @@ function prepareFileRawRanges(file, allClones){
         if(typeof loc.startLine === "number" && typeof loc.endLine === "number"){
           // clamp into file bounds
           const start = Math.max(1, loc.startLine);
-          const end = Math.min(file.lines_of_code || Infinity, loc.endLine);
+          const end = Math.min(file.linesOfCode || Infinity, loc.endLine);
           if(end >= start) {
             cloneTypeRanges[typeKey].push({ start, end });
           }
@@ -72,7 +72,7 @@ export function calculateFilteredDuplication(file, typeFilterSet) {
     let duplicatedLines = 0;
     for(const r of merged) duplicatedLines += (r.end - r.start + 1);
 
-    const loc = file.lines_of_code || 0;
+    const loc = file.linesOfCode || 0;
     // Round to 1 decimal place (multiply by 1000, round, divide by 10)
     const duplicationPercent = loc > 0 ? Math.round((duplicatedLines / loc) * 1000) / 10 : 0;
 

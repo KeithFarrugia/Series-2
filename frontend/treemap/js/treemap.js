@@ -10,8 +10,8 @@ export function renderTreemap(rootData){
     .attr("width", width)
     .attr("height", height);
 
-  // create hierarchy: modules are parents; value -> lines_of_code (area)
-  const droot = d3.hierarchy(rootData).sum(d => d.lines_of_code || 0).sort((a,b)=>b.value-a.value);
+  // create hierarchy: modules are parents; value -> linesOfCode (area)
+  const droot = d3.hierarchy(rootData).sum(d => d.linesOfCode || 0).sort((a,b)=>b.value-a.value);
 
   const treemap = d3.treemap()
     .size([width, height])
@@ -107,7 +107,7 @@ export function renderTreemap(rootData){
   function renderTooltip(d){
     const dd = d.data;
     let html = `<strong>${dd.name}</strong><br/><small>${dd.filePath || ""}</small><br/>`;
-    html += `LOC: <strong>${dd.lines_of_code}</strong><br/>`;
+    html += `LOC: <strong>${dd.linesOfCode}</strong><br/>`;
     html += `Duplicated lines: <strong>${dd.duplicatedLines}</strong> (${dd.duplicationPercent}%)<br/>`;
     if(Array.isArray(dd.mergedRanges) && dd.mergedRanges.length){
       html += `<div style="margin-top:6px"><strong>Ranges</strong><br/>`;
