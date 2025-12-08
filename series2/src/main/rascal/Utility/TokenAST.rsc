@@ -178,7 +178,6 @@ str normaliseNode(node n) {
 Declaration normaliseDeclaration(Declaration d) {
 
     d = visit(d) {
-
         /* ---------------------------- Identifiers --------------------------- */
         case \id                (_)         => \id              ("ID")
 
@@ -191,13 +190,13 @@ Declaration normaliseDeclaration(Declaration d) {
 
         /* ------------------------------ Types ------------------------------- */
         case \simpleType        (_)         => \simpleType        (id("TYPE"))
-        case \qualifiedType     (_, _, _)   => \qualifiedType     ([], id("TYPE"), id("TYPE"))
+        case \qualifiedType     (_, Type typeQualifier, _) => \qualifiedType     ([], simpleType(id("TYPE")), id("TYPE"))
+        case \qualifiedType     (_, Expression expr, _)   => \qualifiedType     ([], id("TYPE"), id("TYPE"))
         case \arrayType         (_)         => \arrayType         (simpleType (id("TYPE")))
         case \parameterizedType (_, _)      => \parameterizedType (simpleType (id("TYPE")), [])
         case \unionType         (_)         => \unionType         ([simpleType(id("TYPE"))])
         case \intersectionType  (_)         => \intersectionType  ([simpleType(id("TYPE"))])
-        case \wildcard          (_)         => \simpleType        (id("TYPE"))
-
+     
         /* --------------------------- Primitives ----------------------------- */
         case \int               ()          => \simpleType(id("TYPE"))
         case \float             ()          => \simpleType(id("TYPE"))

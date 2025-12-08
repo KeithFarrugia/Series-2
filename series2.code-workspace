@@ -14,6 +14,12 @@
 		},
 		{
 			"path": "frontend"
+		},
+		{
+			"path": "benchmark-project"
+		},
+		{
+			"path": "clone-demo"
 		}
 	]
 }

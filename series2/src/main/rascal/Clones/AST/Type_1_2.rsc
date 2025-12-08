@@ -2,6 +2,7 @@ module Clones::AST::Type_1_2
 
 import Clones::AST::Common_AST;
 import Utility::TokenAST;
+import Utility::Reader;
 import IO;
 import String;
 import List;
@@ -21,12 +22,13 @@ map[node, lrel[node, loc]] buckets  = ();
 
 void testOutASTType1(){
     buckets  = ();
-    list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    // list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    list[Declaration] ast = genASTFromProject(|project://smallsql0.21_src|);
     list[Declaration] norm_ast = [];
-    for(d <- ast){
-        norm_ast += normaliseDeclaration(d);
-    }
-    visit (norm_ast) {
+    // for(d <- ast){
+    //     norm_ast += normaliseDeclaration(d);
+    // }
+    visit (ast) {
         case node x: {
             int currentMass = mass(x);
             if (currentMass >= MASS_THRESHOLD) {
@@ -43,7 +45,7 @@ void testOutASTType1(){
     //         println("\tChild\n\t <b>\n");
     //     }
     // }
-
+    // println("Finished, size of clones map: <size(findClonesSets())>");
     printCloneSets(findClonesSets());
 }
 
