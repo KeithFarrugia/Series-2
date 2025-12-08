@@ -45,8 +45,8 @@ void testOutASTType1(){
     //         println("\tChild\n\t <b>\n");
     //     }
     // }
-    // println("Finished, size of clones map: <size(findClonesSets())>");
-    printCloneSets(findClonesSets());
+    map[node, lrel[node_loc, node_loc]] cloneSet = removeInternalCloneClasses(findClonesSets());
+    printCloneSets(cloneSet);
 }
 
 /* ============================================================================
@@ -101,18 +101,10 @@ map[node, lrel[node_loc, node_loc]] findClonesSets(){
             complementBucket = delSymmPairs(complementBucket);
                 
             for (treeRelation <- complementBucket) {
-                num similarity = calculateSimilarity(treeRelation[0][0], treeRelation[1][0])*1.0;
-                //println("Similarity: <similarity> \>= <similarityThreshold>");
-                if (similarity >= SIMILARITY_THRESHOLD) {
-                    println("Yeah CHECKING SIMILARITY");
-                    println("NO SHIT SHERLOCK");
-                    if (clonesSet[treeRelation[0][0]]?) {
-                        clonesSet[treeRelation[0][0]] += treeRelation;
-                    } else {
-                        clonesSet[treeRelation[0][0]] = [treeRelation];
-                    }
-                }else{
-                        println("FUCKING WHAT");
+                if (clonesSet[treeRelation[0][0]]?) {
+                    clonesSet[treeRelation[0][0]] += treeRelation;
+                } else {
+                    clonesSet[treeRelation[0][0]] = [treeRelation];
                 }
             }
         }
