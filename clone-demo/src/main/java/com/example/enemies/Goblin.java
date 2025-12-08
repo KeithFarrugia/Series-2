@@ -6,19 +6,25 @@ import com.example.utils.RandomUtils;
 public class Goblin {
     private int hp;
     private int attack;
+    private int evasion;
 
 
     public Goblin() {
         this.hp = 20;
         this.attack = 5;
+        this.evasion = 10;
     }
 
 
-    // CLONE TYPE 1: exact across enemies
+    // CLONE TYPE 1: exact across enemies/characters (>= 6 lines)
     public void printStats() {
-        System.out.println("Enemy: Goblin");
-        System.out.println("HP: " + hp);
-        System.out.println("ATK: " + attack);
+        System.out.println("===============================");
+        System.out.println("ENEMY STATS: Goblin");
+        System.out.println("-------------------------------");
+        System.out.println("Health: " + hp + " HP");
+        System.out.println("Attack Power: " + attack + " ATK");
+        System.out.println("Evasion Rate: " + evasion + " %");
+        System.out.println("===============================");
     }
 
 
@@ -28,7 +34,21 @@ public class Goblin {
 
 
     public void hit(int dmg) {
+        // Small chance to evade the hit
+        if (RandomUtils.randBetween(1, 100) < evasion) {
+            System.out.println("Goblin dodged the attack!");
+            return;
+        }
+
         hp -= dmg;
         if (hp < 0) hp = 0;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void printHP() {
+        System.out.println("Goblin HP: " + hp);
     }
 }

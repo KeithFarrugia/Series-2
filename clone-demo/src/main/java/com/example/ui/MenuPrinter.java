@@ -4,7 +4,7 @@ package com.example.ui;
 public class MenuPrinter {
 
 
-    // CLONE TYPE 3: similar to ConsoleRenderer.printHeader but extra space
+    // Not a target clone (too short)
     public void showTitle(String text) {
         System.out.println("********************");
         System.out.println(" " + text);
@@ -12,7 +12,7 @@ public class MenuPrinter {
     }
 
 
-    // CLONE TYPE 3: slightly different formatting
+    // Not a target clone (too short)
     public void showOption(String text) {
         System.out.println("[ ] " + text);
     }

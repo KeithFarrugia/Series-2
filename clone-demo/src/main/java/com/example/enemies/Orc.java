@@ -7,25 +7,31 @@ import com.example.utils.RandomUtils;
 public class Orc {
     private int life;
     private int power;
+    private int resistance;
 
 
     public Orc() {
         this.life = 35;
         this.power = 7;
+        this.resistance = 5;
     }
 
 
-    // CLONE TYPE 3: similar to Goblin.printStats but extra line and diff names
+    // CLONE TYPE 3: similar to Goblin.printStats (deletion/insertion of lines) (>= 6 lines)
     public void printStats() {
-        System.out.println("Enemy: Orc");
-        System.out.println("HP: " + life);
-        System.out.println("ATK: " + power);
-        System.out.println("The orc growls...");
+        System.out.println("===============================");
+        System.out.println("ENEMY STATS: Orc");
+        // Extra line inserted here
+        System.out.println("Status: " + (life > 0 ? "FIGHTING" : "DEFEATED"));
+        System.out.println("-------------------------------");
+        System.out.println("Health: " + life + " HP");
+        System.out.println("Attack Power: " + power + " ATK");
+        System.out.println("Resistance: " + resistance + " RES");
+        System.out.println("===============================");
     }
 
 
     public int smash() {
-        // CLONE TYPE 4: semantically same as Goblin.dealDamage but different structure
         int min = power - 2;
         int max = power + 2;
         return RandomUtils.randBetween(min, max);
@@ -35,5 +41,13 @@ public class Orc {
     public void suffer(int dmg) {
         life -= dmg;
         if (life < 0) life = 0;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void printLife() {
+        System.out.println("Orc Life: " + life);
     }
 }
