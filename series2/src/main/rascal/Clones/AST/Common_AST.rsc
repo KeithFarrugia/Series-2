@@ -133,3 +133,130 @@ public lrel[node_loc, node_loc] delSymmPairs(lrel[node_loc, node_loc] clonePairs
 }
 
 
+
+
+list[node] checkForInnerClones(tuple[node,loc] tree, map[node, lrel[node_loc, node_loc]] cloneSet) {
+    list[node] subNodes = [];
+    visit (tree[0]) {
+        case node x: {
+            // Only if the tree is not equal to itself, and has a certain mass.
+            if (x != tree[0] && x.src?) {
+                loc location = getLocation(x.src);
+                
+                tuple[node,loc] current = <x, location>;
+                bool member  = false;
+                
+                for (cCloneSet <- domain(cloneSet)) {
+                    for (currentPair <- cloneSet[cCloneSet]) {
+                        if (
+                            (current[1] <= currentPair[0][1] && currentPair[0][0] == current[0]) || 
+                            (current[1] <= currentPair[1][1] && currentPair[1][0] == current[0]) ){
+                            if (cloneSet[current[0]]?) {
+                                if (size(cloneSet[current[0]]) == size(cloneSet[cCloneSet])) {
+                                    member = true;
+                                }
+                            }
+                        } 
+                    }
+                }
+
+                if(member){
+                    subNodes += x;
+                }
+                
+            }
+        }
+    }
+    return subNodes;
+}
+
+
+public bool contains(loc outer, loc inner){
+    return outer.begin.line <= inner.begin.line &&
+    outer.end.line   >= inner.end.line;
+}
+
+
+
+public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
+    map[node, lrel[node_loc, node_loc]] cloneSet
+) {
+    
+    println("\n\n==================================================================");
+    println("Starting removeInternalCloneClasses");
+    println("Initial cloneSet size <size(cloneSet)>");
+
+    for(nodeKey <- cloneSet){
+        println("\n ------------------------------------");
+        println(" Inspecting nodeKey: \n <nodeKey> \n ------------------------------------ \n");
+
+        visit(nodeKey){
+            case node subKey: {
+                println("  Visiting subKey <subKey>");
+
+                // ================================
+                // Skip self-comparison
+                // ================================
+                if(subKey == nodeKey){
+                    println("    Skipping self-comparison for <subKey>");
+                } 
+                // ================================
+                else if(cloneSet[subKey]?){
+                    println("    subKey exists in cloneSet");
+
+                    // ================================
+                    // Check if all subKey pairs are contained in nodeKey
+                    // ================================
+                    bool allContained = true;
+
+                    for(i <- [0 .. size(cloneSet[subKey])-1]){
+                        tuple[node_loc, node_loc] pair = cloneSet[subKey][i];
+                        <sn1, sl1> = pair[0];
+                        <sn2, sl2> = pair[1];
+
+                        println("      Checking pair index <i> : <pair>");
+                        println("      sl1 <sl1>, sl2 <sl2>");
+
+                        bool foundParent = false;
+                        for(<<_, l1>, <_, l2>> <- cloneSet[nodeKey]){
+                            if(
+                               (contains(l1, sl1) && contains(l2, sl2)) ||
+                               (contains(l2, sl1) && contains(l1, sl2))
+                            ){
+                                foundParent = true;
+                                println("        Found matching parent pair!");
+                                break;
+                            }
+                        }
+
+                        if(!foundParent){
+                            println("        No parent found for pair <pair>");
+                            allContained = false;
+                            break;
+                        }
+                    }
+
+                    if(allContained){
+                        println("    subKey <subKey> is fully contained in nodeKey <nodeKey>, removing subKey");
+                        cloneSet = delete(cloneSet, subKey);
+                    }
+                    else {
+                        println("    subKey <subKey> not fully contained, keeping it");
+                    }
+                } 
+                else {
+                    println("    subKey NOT in cloneSet");
+                }
+            }
+        }
+    }
+    
+    println("Finished removeInternalCloneClasses");
+    println("Final cloneSet size <size(cloneSet)>");
+
+    return cloneSet;
+}
+
+
+
+

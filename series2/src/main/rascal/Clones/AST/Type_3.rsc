@@ -1,6 +1,7 @@
 module Clones::AST::Type_3
 
 import Clones::AST::Common_AST;
+import Utility::TokenAST;
 import IO;
 import String;
 import List;
@@ -18,7 +19,7 @@ import util::Reflective;
 
 map[node, lrel[node, loc]] buckets  = ();
 
-void testOutASTType1(){
+void testOutASTType3(){
     buckets  = ();
     list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
     list[Declaration] norm_ast = [];
@@ -43,7 +44,9 @@ void testOutASTType1(){
         }
     }
 
-    printCloneSets(findClonesSets());
+    map[node, lrel[node_loc, node_loc]] cloneSet = removeInternalCloneClasses(findClonesSets());
+    
+    printCloneSets(cloneSet);
 }
 
 
@@ -58,61 +61,58 @@ void testOutASTType1(){
  * ============================================================================
  */
 void addNodeToMap(
-    node key, node subTree, int cloneType, int similarityThreshold
+    node n
 ) {
-    loc     location            = getLocation(subTree.src);
-    node    bestKeyMatch;
-
+    loc location = getLocation(n.src);
+    println("Adding node <n> at location <location>");
 
     if (minNodeLines(location) == false) {
+        println("  Node does not meet minimum line requirement, skipping");
         return;
     }
 
-    /* ------------------------------------------------
-     * Try and find the closest matching existing 
-     * bucket that passes the similarity treshold
-     * If we find one we will insert this node together
-     * with it
-     */
-    int i       = 0;
-    num topSim  = 0;
+    node key = unsetRec(n);
+    n = unsetRec(n);
+    int i = 0;
+    num topSim = 0;
+    node bestKeyMatch;
+
     for (buck <- domain(buckets)) {
         i += 1;
         num similarity = calculateSimilarity(buck, key);
-        if (
-            similarity >= similarityThreshold && 
-            similarity >  topSim
-        ) {
+        println("  Comparing with bucket key <buck>, similarity = <similarity>");
+        if (similarity >= SIMILARITY_THRESHOLD && similarity > topSim) {
             topSim = similarity;
-            bestKeyMatch = buck; 
+            bestKeyMatch = buck;
+            println("    New best match found, updating key to <bestKeyMatch>");
         }
     }
-    
+
     if (topSim > 0) {
         key = bestKeyMatch;
+        println("  Using best matching key <key>");
     }
-    
-    
 
-    /* ------------------------------------------------
-     * This insertes the bucket at the key
-     */
     if (buckets[key]?) {
         bool allow = true;
         for (clonePair <- buckets[key]) {
             if (location < getLocation(clonePair[1])) {
                 allow = false;
+                println("    Node is before existing clone in bucket, skipping insert");
                 break;
             } else if (getLocation(clonePair[1]) < location) {
-                buckets[key] = buckets[key] - clonePair; 
+                buckets[key] = buckets[key] - clonePair;
+                println("    Removing older clone pair <clonePair> from bucket");
             }
         }
     
         if (allow == true) {
-            buckets[key] += <subTree,location>;
+            buckets[key] += <n,location>;
+            println("    Added node to bucket under key <key>");
         }
     } else {
-        buckets[key] = [<subTree,location>];
+        buckets[key] = [<n,location>];
+        println("  Created new bucket for key <key>");
     }
 }
 
@@ -121,7 +121,7 @@ void addNodeToMap(
 
 
 
-void findClonesSets(){
+map[node, lrel[node_loc, node_loc]] findClonesSets(){
     map[node, lrel[node_loc, node_loc]] clonesSet = ();
 
     for (bucket <- buckets) {
@@ -141,5 +141,26 @@ void findClonesSets(){
                 }
             }
         }
+    }
+    return clonesSet;
+}
+
+
+void printCloneSets(map[node, lrel[node_loc, node_loc]] clonesSet) {
+    int classId = 1;
+
+    for (k <- domain(clonesSet)) {
+        println("==========================================");
+        println("Clone Class <classId>");
+        println("AST Key:");
+        println("<k>");
+        println("Pairs:");
+
+        for (<L, R> <- clonesSet[k]) {
+            println("  \t (< L[1] >)  \nCLONE OF\n \t <R[1] >");
+        }
+
+        classId += 1;
+        println("");
     }
 }
