@@ -1,0 +1,40 @@
+{
+  "projectRoot": "sig-metrics-test",
+  "modules": [
+    {
+      "name": "dumb",
+      "files": [
+        {
+          "name": "Dumb.java",
+          "filePath": "src/main/java/org/sigmetrics/dumb/Dumb.java",
+          "linesOfCode": 11
+        }
+      ]
+    },
+    {
+      "name": "sigmetrics",
+      "files": [
+        {
+          "name": "App.java",
+          "filePath": "src/main/java/org/sigmetrics/App.java",
+          "linesOfCode": 8
+        },
+        {
+          "name": "Complexity.java",
+          "filePath": "src/main/java/org/sigmetrics/Complexity.java",
+          "linesOfCode": 43
+        },
+        {
+          "name": "Duplication.java",
+          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
+          "linesOfCode": 21
+        },
+        {
+          "name": "Calculator.java",
+          "filePath": "src/main/java/org/sigmetrics/Calculator.java",
+          "linesOfCode": 65
+        }
+      ]
+    }
+  ]
+}

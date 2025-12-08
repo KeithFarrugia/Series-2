@@ -1,163 +1,46 @@
 {
   "projectRoot": "/dev/software_evo/Series-2/sig-metrics-test",
-  "modules": [
+  "clones": [
     {
-      "name": "sigmetrics",
-      "files": [
+      "locations": [
         {
-          "name": "Calculator",
           "filePath": "src/main/java/org/sigmetrics/Calculator.java",
-          "lines_of_code": 150,
-          "cloneTypes": {
-            "type1": 2,
-            "type1_duplicatedLines": [
-              { "start": 12, "end": 19 },
-              { "start": 45, "end": 51 }
-            ],
-            "type2": 1,
-            "type2_duplicatedLines": [
-              { "start": 88, "end": 90 }
-            ],
-            "type3": 0,
-            "type3_duplicatedLines": []
-          }
+          "startLine": 13,
+          "endLine": 19
         },
         {
-          "name": "Duplication",
           "filePath": "src/main/java/org/sigmetrics/Duplication.java",
-          "lines_of_code": 230,
-          "cloneTypes": {
-            "type1": 5,
-            "type1_duplicatedLines": [
-              { "start": 10, "end": 25 },
-              { "start": 40, "end": 58 },
-              { "start": 75, "end": 92 },
-              { "start": 110, "end": 115 },
-              { "start": 150, "end": 170 }
-            ],
-            "type2": 3,
-            "type2_duplicatedLines": [
-              { "start": 180, "end": 188 },
-              { "start": 190, "end": 199 },
-              { "start": 200, "end": 205 }
-            ],
-            "type3": 1,
-            "type3_duplicatedLines": [
-              { "start": 210, "end": 214 }
-            ]
-          }
+          "startLine": 14,
+          "endLine": 20
         },
         {
-          "name": "Complexity",
+          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
+          "startLine": 13,
+          "endLine": 19
+        }
+      ],
+      "fragmentLength": 7,
+      "cloneType": 1,
+      "_id": "c1",
+      "name": "Exact Match"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
+          "startLine": 5,
+          "endLine": 10
+        },
+        {
           "filePath": "src/main/java/org/sigmetrics/Complexity.java",
-          "lines_of_code": 175,
-          "cloneTypes": {
-            "type1": 1,
-            "type1_duplicatedLines": [
-              { "start": 60, "end": 67 }
-            ],
-            "type2": 0,
-            "type2_duplicatedLines": [],
-            "type3": 2,
-            "type3_duplicatedLines": [
-              { "start": 120, "end": 125 },
-              { "start": 130, "end": 136 }
-            ]
-          }
-        },
-        {
-          "name": "App",
-          "filePath": "src/main/java/org/sigmetrics/App.java",
-          "lines_of_code": 90,
-          "cloneTypes": {
-            "type1": 0,
-            "type1_duplicatedLines": [],
-            "type2": 0,
-            "type2_duplicatedLines": [],
-            "type3": 0,
-            "type3_duplicatedLines": []
-          }
+          "startLine": 14,
+          "endLine": 23
         }
-      ]
-    },
-    {
-      "name": "sigmetrics_utils",
-      "files": [
-        {
-          "name": "Utils",
-          "filePath": "src/main/java/org/sigmetrics/utils/Utils.java",
-          "lines_of_code": 120,
-          "cloneTypes": {
-            "type1": 1,
-            "type1_duplicatedLines": [
-              { "start": 14, "end": 20 }
-            ],
-            "type2": 0,
-            "type2_duplicatedLines": [],
-            "type3": 0,
-            "type3_duplicatedLines": []
-          }
-        },
-        {
-          "name": "StringHelpers",
-          "filePath": "src/main/java/org/sigmetrics/utils/StringHelpers.java",
-          "lines_of_code": 80,
-          "cloneTypes": {
-            "type1": 0,
-            "type1_duplicatedLines": [],
-            "type2": 1,
-            "type2_duplicatedLines": [
-              { "start": 30, "end": 37 }
-            ],
-            "type3": 0,
-            "type3_duplicatedLines": []
-          }
-        }
-      ]
-    },
-    {
-      "name": "sigmetrics_core",
-      "files": [
-        {
-          "name": "CoreEngine",
-          "filePath": "src/main/java/org/sigmetrics/core/CoreEngine.java",
-          "lines_of_code": 310,
-          "cloneTypes": {
-            "type1": 3,
-            "type1_duplicatedLines": [
-              { "start": 50, "end": 80 },
-              { "start": 140, "end": 150 },
-              { "start": 200, "end": 225 }
-            ],
-            "type2": 2,
-            "type2_duplicatedLines": [
-              { "start": 230, "end": 240 },
-              { "start": 250, "end": 260 }
-            ],
-            "type3": 1,
-            "type3_duplicatedLines": [
-              { "start": 270, "end": 275 }
-            ]
-          }
-        },
-        {
-          "name": "ExecutionPlan",
-          "filePath": "src/main/java/org/sigmetrics/core/ExecutionPlan.java",
-          "lines_of_code": 150,
-          "cloneTypes": {
-            "type1": 0,
-            "type1_duplicatedLines": [],
-            "type2": 1,
-            "type2_duplicatedLines": [
-              { "start": 90, "end": 100 }
-            ],
-            "type3": 1,
-            "type3_duplicatedLines": [
-              { "start": 110, "end": 115 }
-            ]
-          }
-        }
-      ]
+      ],
+      "fragmentLength": 6,
+      "cloneType": 2,
+      "_id": "c2",
+      "name": "Near-Miss"
     }
   ]
 }
