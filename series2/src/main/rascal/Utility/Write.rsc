@@ -30,13 +30,10 @@ import lang::json::IO;
 
 // Define a function that creates the JSON structure and returns it as a string
 void writeClonesToJson(list[Clone] clonesList) {
-    // 1. Define the project root path
-    str rootPath = "/dev/software_evo/Series-2/sig-metrics-test";
-
-    // 2. Create the top-level ProjectClones data structure
+    // 1. Create the top-level ProjectClones data structure
     ProjectClones projectData = projectClones(rootPath, clonesList);
     
-    // 3. Write the structure directly to the file as JSON
+    // 2. Write the structure directly to the file as JSON
     // We use an indent of 2 for pretty-printing, and dropOrigins=true 
     // to ensure clean JSON output without Rascal internal metadata.
     writeJSON(clonesJson, projectData, indent=2, dropOrigins=true);

@@ -37,3 +37,9 @@ public str cleanSource(str sourcestr) {
 
     return finalCleanstr;
 }
+
+public str stripCompilationUnitPrefix(str location){
+    str cleaned = replaceAll(location, "java+compilationUnit:///", "");
+
+    return cleaned;
+}

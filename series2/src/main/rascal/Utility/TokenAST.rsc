@@ -10,6 +10,7 @@ import Location;
 import lang::java::m3::Core;
 import lang::java::m3::AST;
 extend lang::java::m3::TypeSymbol;
+import Utility::CleanCode;
 import util::Math;
 import util::FileSystem;
 import util::Reflective;
@@ -19,7 +20,7 @@ Location toLocation(list[TokenizedLine] lines, int startIndex, int t) {
     TokenizedLine first = lines[startIndex];
     TokenizedLine last  = lines[startIndex + t];
 
-    str filePath       = first.sourceLoc.uri;
+    str filePath       = stripCompilationUnitPrefix(first.sourceLoc.uri);
     int startLine      = first.sourceLoc.begin.line;
     int endLine        = last.sourceLoc.end.line;
 

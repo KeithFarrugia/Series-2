@@ -1,15 +1,15 @@
 {
-  "projectRoot": "/dev/software_evo/Series-2/sig-metrics-test",
+  "projectRoot": "/dev/software_evo/Series-2/clone-demo",
   "clones": [
     {
       "locations": [
         {
-          "filePath": "java+compilationUnit:///src/main/java/com/example/utils/RandomUtils.java",
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
           "startLine": 13,
           "endLine": 33
         },
         {
-          "filePath": "java+compilationUnit:///src/main/java/com/example/utils/MathUtils.java",
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
           "startLine": 17,
           "endLine": 37
         }
@@ -22,12 +22,12 @@
     {
       "locations": [
         {
-          "filePath": "java+compilationUnit:///src/main/java/com/example/utils/RandomUtils.java",
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
           "startLine": 10,
           "endLine": 18
         },
         {
-          "filePath": "java+compilationUnit:///src/main/java/com/example/utils/MathUtils.java",
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
           "startLine": 14,
           "endLine": 22
         }
@@ -40,12 +40,12 @@
     {
       "locations": [
         {
-          "filePath": "java+compilationUnit:///src/main/java/com/example/utils/RandomUtils.java",
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
           "startLine": 11,
           "endLine": 19
         },
         {
-          "filePath": "java+compilationUnit:///src/main/java/com/example/utils/MathUtils.java",
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
           "startLine": 15,
           "endLine": 23
         }
@@ -58,12 +58,12 @@
     {
       "locations": [
         {
-          "filePath": "java+compilationUnit:///src/main/java/com/example/utils/RandomUtils.java",
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
           "startLine": 9,
           "endLine": 18
         },
         {
-          "filePath": "java+compilationUnit:///src/main/java/com/example/utils/MathUtils.java",
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
           "startLine": 13,
           "endLine": 22
         }
