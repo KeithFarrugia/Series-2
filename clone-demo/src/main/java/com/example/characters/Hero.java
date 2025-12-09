@@ -7,32 +7,106 @@ import com.example.utils.RandomUtils;
 
 public class Hero {
     private String name;
-    private int health;
+    public int health;
     private int attack;
+    private int armor;
+    private int level;
+    private int experience;
+    private int xp;
+    private int gold;
 
-
-    public Hero(String name, int health, int attack) {
+    public Hero(String name, int health, int attack, int armor) {
         this.name = name;
         this.health = health;
         this.attack = attack;
+        this.armor = armor;
+        this.level = 1;
+        this.experience = 0;
+        this.gold = 0;
     }
 
-
-    // CLONE TYPE 1: exact block reused across characters
+    // CLONE TYPE 1: exact block reused across characters and enemies (>= 6 lines)
     public void printStats() {
-        System.out.println("Name: " + name);
-        System.out.println("Health: " + health);
-        System.out.println("Attack: " + attack);
+        System.out.println("===============================");
+        System.out.println("HERO STATS: " + name + " (Lvl " + level + ")"); // MODIFIED LINE
+        System.out.println("-------------------------------");
+        System.out.println("Health: " + health + " HP");
+        System.out.println("Attack Power: " + attack + " ATK");
+        System.out.println("Armor Rating: " + armor + " DEF");
+        System.out.println("Current Gold: " + gold + " G"); // NEW LINE
+        System.out.println("Experience: " + experience + "/" + calculateXpToNextLevel()); // NEW LINE
+        System.out.println("===============================");
     }
 
 
-    public int performAttack() {
-        // random damage
-        return RandomUtils.randBetween(attack - 2, attack + 2);
+    // CLONE TYPE 4: Semantic clone of Mage.cast() but implemented differently (>= 6 lines)
+    public int slash() {
+        // Calculate a random damage value
+        int minDamage = attack - 2;
+        int maxDamage = attack + 2;
+        int damage = RandomUtils.randBetween(minDamage, maxDamage);
+        
+        // Add a small bonus based on armor
+        damage += (armor / 5);
+
+        return damage;
     }
 
 
     public void takeDamage(int dmg) {
-        health = MathUtils.clamp(health - dmg, 0, 999);
+        // Simple damage reduction by armor
+        int effectiveDamage = Math.max(1, dmg - (armor / 2));
+        health = MathUtils.clamp(health - effectiveDamage, 0, 999);
+    }
+
+    public void addXp(int xp) {
+        this.experience += xp;
+        System.out.println(name + " gained " + xp + " experience!");
+        
+        while (this.experience >= calculateXpToNextLevel()) {
+            levelUp();
+        }
+    }
+    
+    private int calculateXpToNextLevel() {
+        // Simple scaling formula: 100 * Level
+        return 100 * level; 
+    }
+    
+    private void levelUp() {
+        this.experience -= calculateXpToNextLevel();
+        this.level++;
+        this.health += 5; // Base stat growth
+        this.attack += 2;
+        this.armor += 1;
+        System.out.println("🌟 " + name + " leveled up to Level " + level + "! 🌟");
+    }
+    
+    public void addGold(int amount) {
+        this.gold += amount;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void printHealth() {
+        System.out.println(name + " has " + health + " HP remaining.");
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public int getLevel() {
+        return level;
     }
 }

@@ -23,12 +23,12 @@ map[node, lrel[node, loc]] buckets  = ();
 void testOutASTType1(){
     buckets  = ();
     // list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
-    list[Declaration] ast = genASTFromProject(|project://smallsql0.21_src|);
+    list[Declaration] ast = genASTFromProject(|project://clone-demo|);
     list[Declaration] norm_ast = [];
-    // for(d <- ast){
-    //     norm_ast += normaliseDeclaration(d);
-    // }
-    visit (ast) {
+    for(d <- ast){
+        norm_ast += normaliseDeclaration(d);
+    }
+    visit (norm_ast) {
         case node x: {
             int currentMass = mass(x);
             if (currentMass >= MASS_THRESHOLD) {
@@ -46,7 +46,8 @@ void testOutASTType1(){
     //     }
     // }
     map[node, lrel[node_loc, node_loc]] cloneSet = removeInternalCloneClasses(findClonesSets());
-    printCloneSets(cloneSet);
+    println("number of type 1 clones: <size(domain(cloneSet))>");
+    // printCloneSets(cloneSet);
 }
 
 /* ============================================================================
