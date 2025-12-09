@@ -26,8 +26,8 @@ int DUPLICATION_THRESHOLD = 6;
  */
 list[Clone] testDuplicateLineCount() {
     // list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
-    list[Declaration] ast = genASTFromProject(|project://clone-demo|);
-    list[TokenizedLine] lines =  tokeniseAST(ast, false);
+    list[Declaration] ast = genASTFromProject(|project://smallsql0.21_src|);
+    list[TokenizedLine] lines =  tokeniseAST(ast, true);
     return findDuplicates (lines, 1);
 }
 

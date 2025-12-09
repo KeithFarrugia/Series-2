@@ -30,11 +30,11 @@ export function renderPolymetric(rootData) {
 
   // 2. Define the D3 Tree Layout
   const treeLayout = d3.tree()
-    .size([height, width - 1200]) // [Y-Max, X-Max]
-    .separation((a, b) => { // Tweak separation based on estimated visual height
-      const aHeight = Math.log(a.data.linesOfCode || a.data.fileCount || 1);
-      const bHeight = Math.log(b.data.linesOfCode || b.data.fileCount || 1);
-      return (Math.log(aHeight) + Math.log(bHeight)) / 20 + 10.5;
+    .size([height + 800 , width - 1200])
+    .separation((a, b) => {
+      // Use node depth/level for separation
+      return a.parent === b.parent ? 2.5 : 4; 
+      // This ensures constant vertical spacing between siblings (1.5) and non-siblings (2.5)
     });
 
   // 3. Compute the layout
