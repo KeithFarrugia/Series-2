@@ -24,7 +24,7 @@ int durationToMillis(Duration d) {
 }
 
 void main() {
-    writeClonesToJson(testDuplicateLineCount());
+    writeClonesToJson(testType3());
     writeLinesOfCodeToJson(getAllFilesFromProjectRoot(projectRoot));
     // datetime t0 = now();
     // // testDuplicateLineCount();

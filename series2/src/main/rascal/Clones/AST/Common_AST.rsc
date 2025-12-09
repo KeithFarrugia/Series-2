@@ -17,7 +17,109 @@ extend lang::java::m3::TypeSymbol;
 import util::Math;
 import util::FileSystem;
 import util::Reflective;
+import Conf;
 
+
+
+bool overlapsOrExtends(Location a, Location b) {
+    return a.startLine <= b.endLine + 1
+        && b.startLine <= a.endLine + 1
+        && a.filePath == b.filePath; // must be same file
+}
+Location mergeLocations(Location a, Location b) {
+    int s       = min(a.startLine, b.startLine);
+    int end     = max(a.endLine, b.endLine);
+
+    return location(a.filePath, s, end);
+}
+
+bool clonesOverlap(Clone c1, Clone c2) {
+    for (l1 <- c1.locations) {
+        for (l2 <- c2.locations) {
+            if (overlapsOrExtends(l1, l2))
+                return true;
+        }
+    }
+    return false;
+}
+
+Clone mergeTwoClones(Clone c1, Clone c2) {
+    list[Location] mergedLocs = [];
+
+    // merge each pair of overlapping fragments
+    for (l1 <- c1.locations) {
+        bool merged = false;
+        for (l2 <- c2.locations) {
+            if (overlapsOrExtends(l1, l2)) {
+                mergedLocs += mergeLocations(l1, l2);
+                merged = true;
+            }
+        }
+        if (!merged) mergedLocs += l1;
+    }
+
+    // add remaining locations from c2 that didn't merge
+    for (l2 <- c2.locations) {
+        bool covered = false;
+        for (m <- mergedLocs) {
+            if (overlapsOrExtends(m, l2)) {
+                covered = true;
+                break;
+            }
+        }
+        if (!covered) mergedLocs += l2;
+    }
+
+    int newLength = 0;
+
+    for (l <- mergedLocs) {
+        int len = l.endLine - l.startLine + 1;
+        if (len > newLength) {
+            newLength = len;
+        }
+    }
+
+    return clone(
+        mergedLocs,
+        newLength,
+        c1.cloneType,
+        "<c1._id>_<c2._id>",
+        "<c1.name>-MERGED-<c2.name>"
+    );
+}
+
+list[Clone] mergeCloneList(list[Clone] clones) {
+    bool changed = true;
+
+    while (changed) {
+        changed = false;
+        list[Clone] newList = [];
+        set[int] mergedIndices = {};
+
+        for (i <- index(clones)) {
+            if (i in mergedIndices) continue;
+
+            Clone current = clones[i];
+
+            for (j <- index(clones)) {
+                if (i == j || j in mergedIndices) continue;
+
+                if (clonesOverlap(current, clones[j])) {
+                    current = mergeTwoClones(current, clones[j]);
+                    mergedIndices += {j};
+                    changed = true;
+                }
+            }
+
+            mergedIndices += {i};
+            newList += current;
+        }
+
+        clones = newList;
+    }
+
+    return clones;
+}
 /* ============================================================================
  *                        Constants / Configuration
  * ----------------------------------------------------------------------------

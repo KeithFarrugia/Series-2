@@ -12,16 +12,26 @@ import Utility::TokenAST;
 import lang::java::m3::Core;
 import lang::java::m3::AST;
 import Conf;
+import Utility::CloneMerger;
 
 int DUPLICATION_THRESHOLD = 6;
 
-
-void testType3() {
+bool sameFileBlock(list[TokenizedLine] lines, int s, int t) {
+    str file = lines[s].sourceLoc.uri;
+    for (k <- [0 .. t]) {
+        if (lines[s + k].sourceLoc.uri != file) {
+            return false;
+        }
+    }
+    return true;
+}
+list[Clone] testType3() {
     
-    list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
-    list[TokenizedLine] lines =  tokeniseAST(ast, false);
+    list[Declaration] ast = genASTFromProject(|project://clone-demo|);
+    // list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    list[TokenizedLine] lines =  tokeniseAST(ast, true);
 
-    list[Clone] type3Results = findType3(lines);
+    return mergeClonePairList(findType3(lines));
     // TODO: Replace this once you know the correct value.
     // println(" ======================================================== \n FINISHED TYPE 3 ========================================================\n ");
     // if (size(type3Results) == 0) {
@@ -84,26 +94,31 @@ real jaccard(set[str] A, set[str] B) {
  * ============================================================================
  */
 list[Clone] findType3(list[TokenizedLine] lines) {
+    
+    lines = removeEmptyTokenLines(lines);
 
     real SIM_THRESHOLD = 0.70;
     int  t = DUPLICATION_THRESHOLD;
     list[Clone] clones = [];
 
     int n = size(lines);
-    list[set[str]] blocks = [ flattenBlock(lines, i, t) | i <- [0 .. n - t] ];
+    list[set[str]] blocks =
+    [ sameFileBlock(lines, i, t) ? flattenBlock(lines, i, t) : {} 
+    | i <- [0 .. n - t]
+    ];
 
     println("\n ============== DEBUG: TYPE-3 COMPARISON START ============== \n");
     println("Total blocks: <size(blocks)>");
     println("Threshold: <SIM_THRESHOLD>  (t = <t> lines per block)\n");
 
     for (i <- [0 .. n - t]) {
-
+        if (!sameFileBlock(lines, i, t)) continue;
         println("---------------------------------------------------------");
         println("BLOCK <i> tokens: <blocks[i]>");
         println("---------------------------------------------------------");
 
         for (j <- [i + 1 .. n - t]) {
-
+            if (!sameFileBlock(lines, j, t)) continue;
             real sim = jaccard(blocks[i], blocks[j]);
             if (sim >= SIM_THRESHOLD && sim < 1.0) {
 

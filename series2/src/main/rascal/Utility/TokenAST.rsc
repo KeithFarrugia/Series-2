@@ -15,10 +15,12 @@ import util::Math;
 import util::FileSystem;
 import util::Reflective;
 import Conf;
-
+list[TokenizedLine] removeEmptyTokenLines(list[TokenizedLine] lines) {
+    return [ l | l <- lines, size(l.tokens) > 0 ];
+}
 Location toLocation(list[TokenizedLine] lines, int startIndex, int t) {
     TokenizedLine first = lines[startIndex];
-    TokenizedLine last  = lines[startIndex + t];
+    TokenizedLine last  = lines[startIndex + t-1];
 
     str filePath       = stripCompilationUnitPrefix(first.sourceLoc.uri);
     int startLine      = first.sourceLoc.begin.line;
