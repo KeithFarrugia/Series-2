@@ -15,6 +15,7 @@ extend lang::java::m3::TypeSymbol;
 import util::Math;
 import util::FileSystem;
 import util::Reflective;
+import Conf;
 
 
 map[node, lrel[node, loc]] buckets  = ();

@@ -11,6 +11,7 @@ import Utility::Reader;
 import Utility::TokenAST;
 import lang::java::m3::Core;
 import lang::java::m3::AST;
+import Conf;
 
 int DUPLICATION_THRESHOLD = 6;
 
@@ -23,21 +24,14 @@ int DUPLICATION_THRESHOLD = 6;
  *  count, after combining all duplicate blocks, is correct.
  * ============================================================================
  */
-test bool testDuplicateLineCount() {
+ProjectClones testDuplicateLineCount() {
     list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
     list[TokenizedLine] lines =  tokeniseAST(ast, false);
-    int duplicates = findDuplicates(lines);
-
-    // TODO: Replace this once you know the correct value.
-    int expected = 14;
-
-    if (duplicates == expected) {
-        println("✓ DuplicateLineCount test passed.");
-    } else {
-        println("✗ DuplicateLineCount test failed. Expected <expected> duplicate lines, found <duplicates>.");
-    }
-
-    return duplicates == expected;
+    list[Clone] clones = findDuplicates(lines, 1);
+    return projectClones(
+        "project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java",
+        clones
+    );
 }
 
 
@@ -57,10 +51,12 @@ int hashBlock(list[TokenizedLine] lines, int s, int t) {
  * ============================================================================
  */
 
-int findDuplicates(list[TokenizedLine] lines) {
+
+list[Clone] findDuplicates(list[TokenizedLine] lines, int cloneType) {
     int t = DUPLICATION_THRESHOLD;
     map[int, list[int]] hashMap = ();      // hash -> starting indices
     set[int] duplicated = {};
+    list[Clone] clones = [];
 
     int n = size(lines);
     if (n < t) return 0;
@@ -80,26 +76,31 @@ int findDuplicates(list[TokenizedLine] lines) {
     for (h <- hashMap) {
         list[int] starts = hashMap[h];
         if (size(starts) < 2) continue;
+        
 
-        // Print each duplicate block
-        for (s <- starts) {
-            println("Duplicate block starting at line <s>:");
-            for (k <- [0 .. t]) {
-                duplicated += {s + k};
-                println("  <lines[s + k]>");   // print each line
+        for (i <- starts) {
+            for (j <- starts) {
+                if (i < j) {
+                    // Build location objects
+                    Location loc1 = toLocation(lines, i, t);
+                    Location loc2 = toLocation(lines, j, t);
+
+                    str id = "<h>-<i>-<j>";
+                    str name = "TokenClone_<i>_<j>";
+
+                    clones += clone(
+                        [loc1, loc2],    // two clone fragment locations
+                        t,               // fragment length
+                        cloneType,               // clone type → token-based ⇒ Type-2
+                        id,
+                        name
+                    );
+                }
             }
-            println("");  // blank line between blocks
         }
+       
     }
-    // for (i <- [0 .. size(lines)-1]) {
-    //     println("Line <i>: <lines[i]>");
-    // }
-    // for (h <- sort([k | k <- hashMap])) { // sort keys for readability
-    //     list[int] indices = hashMap[h];
-    //     println("Hash <h>  Starting lines: <indices>");
-    // }
-    // println("SIZE OF HASH MAP: <size(hashMap)>");
 
-    return size(duplicated);
+    return clones;
 }
 
