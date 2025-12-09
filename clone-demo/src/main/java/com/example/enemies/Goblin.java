@@ -15,8 +15,6 @@ public class Goblin {
         this.evasion = 10;
     }
 
-
-    // CLONE TYPE 1: exact across enemies/characters (>= 6 lines)
     public void printStats() {
         System.out.println("===============================");
         System.out.println("ENEMY STATS: Goblin");

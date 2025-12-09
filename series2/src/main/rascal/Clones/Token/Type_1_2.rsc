@@ -24,14 +24,11 @@ int DUPLICATION_THRESHOLD = 6;
  *  count, after combining all duplicate blocks, is correct.
  * ============================================================================
  */
-ProjectClones testDuplicateLineCount() {
-    list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+list[Clone] testDuplicateLineCount() {
+    // list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    list[Declaration] ast = genASTFromProject(|project://clone-demo|);
     list[TokenizedLine] lines =  tokeniseAST(ast, false);
-    list[Clone] clones = findDuplicates(lines, 1);
-    return projectClones(
-        "project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java",
-        clones
-    );
+    return findDuplicates (lines, 1);
 }
 
 
@@ -59,7 +56,7 @@ list[Clone] findDuplicates(list[TokenizedLine] lines, int cloneType) {
     list[Clone] clones = [];
 
     int n = size(lines);
-    if (n < t) return 0;
+    if (n < t) return [];
 
     // 1. Build a hash for every t-line block
     for (i <- [0 .. n - t]) {

@@ -90,6 +90,7 @@ public class Mage {
         return (int)(150 * level); 
     }
     
+    // Type 2 clone
     private void levelUp() {
         this.experience -= calculateXpToNextLevel();
         this.level++;

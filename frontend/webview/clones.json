@@ -4,43 +4,74 @@
     {
       "locations": [
         {
-          "filePath": "src/main/java/org/sigmetrics/Calculator.java",
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
           "startLine": 13,
-          "endLine": 19
+          "endLine": 33
         },
         {
-          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
-          "startLine": 14,
-          "endLine": 20
-        },
-        {
-          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
-          "startLine": 13,
-          "endLine": 19
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 17,
+          "endLine": 37
         }
       ],
-      "fragmentLength": 7,
+      "fragmentLength": 6,
       "cloneType": 1,
-      "_id": "c1",
-      "name": "Exact Match"
+      "_id": "-2036891973-7-34",
+      "name": "TokenClone_7_34"
     },
     {
       "locations": [
         {
-          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
-          "startLine": 5,
-          "endLine": 10
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 10,
+          "endLine": 18
         },
         {
-          "filePath": "src/main/java/org/sigmetrics/Complexity.java",
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
           "startLine": 14,
+          "endLine": 22
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1146294642-5-32",
+      "name": "TokenClone_5_32"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 11,
+          "endLine": 19
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 15,
           "endLine": 23
         }
       ],
       "fragmentLength": 6,
-      "cloneType": 2,
-      "_id": "c2",
-      "name": "Near-Miss"
+      "cloneType": 1,
+      "_id": "-1475281451-6-33",
+      "name": "TokenClone_6_33"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 9,
+          "endLine": 18
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 13,
+          "endLine": 22
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-439949642-4-31",
+      "name": "TokenClone_4_31"
     }
   ]
 }

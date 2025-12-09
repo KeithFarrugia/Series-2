@@ -8,6 +8,7 @@ import Clones::Token::Type_1_2;
 import Clones::Token::Type_3;
 import DateTime;
 import List;
+import Utility::Write;
 loc test_project = |project://sig-metrics-test|;
 
 int durationToMillis(Duration d) {
@@ -21,13 +22,13 @@ int durationToMillis(Duration d) {
 }
 
 void main() {
-    
-    datetime t0 = now();
-    // testDuplicateLineCount();
-    datetime t1 = now();
-    // println("Duplication time <durationToMillis(createDuration(t0, t1))>");
-    t0 = now();
-    testType3();
-    t1 = now();
-    println("Duplication time Type 3<durationToMillis(createDuration(t0, t1))>");
+    writeClonesToJson(testDuplicateLineCount());
+    // datetime t0 = now();
+    // // testDuplicateLineCount();
+    // datetime t1 = now();
+    // // println("Duplication time <durationToMillis(createDuration(t0, t1))>");
+    // t0 = now();
+    // testType3();
+    // t1 = now();
+    // println("Duplication time Type 3<durationToMillis(createDuration(t0, t1))>");
 }

@@ -73,6 +73,7 @@ public class Hero {
         return 100 * level; 
     }
     
+    // Type 2 clone with Mage
     private void levelUp() {
         this.experience -= calculateXpToNextLevel();
         this.level++;
