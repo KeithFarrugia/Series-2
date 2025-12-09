@@ -67,7 +67,7 @@ public class BattleSimulator {
             } else if (orc.getLife() > 0) {
                 int damage = hero.slash();
                 renderer.printLine("-> " + hero.getName() + " attacks Orc for " + damage + " damage.");
-                gameWindow.displayAction(hero.getName(), "Orc", "Slash"); // Call the UI
+                gameWindow.displayAction(hero.getName(), "Orc", "Slash");
                 battlePanel.waitForAnimation(); 
                 orc.suffer(damage);
             }
@@ -76,7 +76,7 @@ public class BattleSimulator {
             if (orc.getLife() > 0) {
                 int damage = mage.cast();
                 renderer.printLine("-> " + mage.getAlias() + " casts on Orc for " + damage + " magic damage.");
-                gameWindow.displayAction(mage.getAlias(), "Orc", "Cast"); // Call the UI
+                gameWindow.displayAction(mage.getAlias(), "Orc", "Cast");
                 battlePanel.waitForAnimation(); 
                 orc.suffer(damage);
             }

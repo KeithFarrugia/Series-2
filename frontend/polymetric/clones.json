@@ -1,46 +1,1949 @@
 {
-  "projectRoot": "/dev/software_evo/Series-2/sig-metrics-test",
+  "projectRoot": "/dev/software_evo/Series-2/clone-demo",
   "clones": [
     {
       "locations": [
         {
-          "filePath": "src/main/java/org/sigmetrics/Calculator.java",
-          "startLine": 13,
-          "endLine": 19
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 4,
+          "endLine": 10
         },
         {
-          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
-          "startLine": 14,
-          "endLine": 20
-        },
-        {
-          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
-          "startLine": 13,
-          "endLine": 19
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 5,
+          "endLine": 11
         }
       ],
-      "fragmentLength": 7,
+      "fragmentLength": 6,
       "cloneType": 1,
-      "_id": "c1",
-      "name": "Exact Match"
+      "_id": "1629831624-89-90",
+      "name": "TokenClone_89_90"
     },
     {
       "locations": [
         {
-          "filePath": "src/main/java/org/sigmetrics/Duplication.java",
-          "startLine": 5,
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 4,
           "endLine": 10
         },
         {
-          "filePath": "src/main/java/org/sigmetrics/Complexity.java",
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 6,
+          "endLine": 12
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-89-91",
+      "name": "TokenClone_89_91"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 4,
+          "endLine": 10
+        },
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 7,
+          "endLine": 13
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-89-92",
+      "name": "TokenClone_89_92"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 4,
+          "endLine": 10
+        },
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 8,
+          "endLine": 15
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-89-93",
+      "name": "TokenClone_89_93"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 4,
+          "endLine": 10
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 3,
+          "endLine": 9
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-89-397",
+      "name": "TokenClone_89_397"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 4,
+          "endLine": 10
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 4,
+          "endLine": 11
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-89-398",
+      "name": "TokenClone_89_398"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 5,
+          "endLine": 11
+        },
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 6,
+          "endLine": 12
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-90-91",
+      "name": "TokenClone_90_91"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 5,
+          "endLine": 11
+        },
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 7,
+          "endLine": 13
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-90-92",
+      "name": "TokenClone_90_92"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 5,
+          "endLine": 11
+        },
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 8,
+          "endLine": 15
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-90-93",
+      "name": "TokenClone_90_93"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 5,
+          "endLine": 11
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 3,
+          "endLine": 9
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-90-397",
+      "name": "TokenClone_90_397"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 5,
+          "endLine": 11
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 4,
+          "endLine": 11
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-90-398",
+      "name": "TokenClone_90_398"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 6,
+          "endLine": 12
+        },
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 7,
+          "endLine": 13
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-91-92",
+      "name": "TokenClone_91_92"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 6,
+          "endLine": 12
+        },
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 8,
+          "endLine": 15
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-91-93",
+      "name": "TokenClone_91_93"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 6,
+          "endLine": 12
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 3,
+          "endLine": 9
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-91-397",
+      "name": "TokenClone_91_397"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 6,
+          "endLine": 12
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 4,
+          "endLine": 11
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-91-398",
+      "name": "TokenClone_91_398"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 7,
+          "endLine": 13
+        },
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 8,
+          "endLine": 15
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-92-93",
+      "name": "TokenClone_92_93"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 7,
+          "endLine": 13
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 3,
+          "endLine": 9
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-92-397",
+      "name": "TokenClone_92_397"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 7,
+          "endLine": 13
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 4,
+          "endLine": 11
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-92-398",
+      "name": "TokenClone_92_398"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 8,
+          "endLine": 15
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 3,
+          "endLine": 9
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-93-397",
+      "name": "TokenClone_93_397"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 8,
+          "endLine": 15
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 4,
+          "endLine": 11
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-93-398",
+      "name": "TokenClone_93_398"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 3,
+          "endLine": 9
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 4,
+          "endLine": 11
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1629831624-397-398",
+      "name": "TokenClone_397_398"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 13,
+          "endLine": 20
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 10,
+          "endLine": 17
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "280895780-128-496",
+      "name": "TokenClone_128_496"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 17,
+          "endLine": 26
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 21,
+          "endLine": 30
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "867261178-10-37",
+      "name": "TokenClone_10_37"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 80,
+          "endLine": 90
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 97,
+          "endLine": 1
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1694683406-176-553",
+      "name": "TokenClone_176_553"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 108,
+          "endLine": 116
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 116,
+          "endLine": 124
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1404402714-334-340",
+      "name": "TokenClone_334_340"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 59,
+          "endLine": 71
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 59,
+          "endLine": 71
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "82524250-163-532",
+      "name": "TokenClone_163_532"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 10,
+          "endLine": 18
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 14,
+          "endLine": 22
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1168590189-5-32",
+      "name": "TokenClone_5_32"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 11,
+          "endLine": 19
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 15,
+          "endLine": 23
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1600163202-6-33",
+      "name": "TokenClone_6_33"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 19,
+          "endLine": 29
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 23,
+          "endLine": 33
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1483601774-12-39",
+      "name": "TokenClone_12_39"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 104,
+          "endLine": 112
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 112,
+          "endLine": 120
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "109771946-330-336",
+      "name": "TokenClone_330_336"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 104,
+          "endLine": 112
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 120,
+          "endLine": 128
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "109771946-330-342",
+      "name": "TokenClone_330_342"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 112,
+          "endLine": 120
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 120,
+          "endLine": 128
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "109771946-336-342",
+      "name": "TokenClone_336_342"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 21,
+          "endLine": 30
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 26,
+          "endLine": 35
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1156364836-226-575",
+      "name": "TokenClone_226_575"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 107,
+          "endLine": 115
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 115,
+          "endLine": 123
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "60090314-333-339",
+      "name": "TokenClone_333_339"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 107,
+          "endLine": 115
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 123,
+          "endLine": 131
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "60090314-333-345",
+      "name": "TokenClone_333_345"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 115,
+          "endLine": 123
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 123,
+          "endLine": 131
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "60090314-339-345",
+      "name": "TokenClone_339_345"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 15,
+          "endLine": 25
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 19,
+          "endLine": 29
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "441244861-9-36",
+      "name": "TokenClone_9_36"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 33,
+          "endLine": 42
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 31,
+          "endLine": 40
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "2038825236-145-513",
+      "name": "TokenClone_145_513"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 20,
+          "endLine": 28
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 17,
+          "endLine": 26
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "2041656882-134-502",
+      "name": "TokenClone_134_502"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 6,
+          "endLine": 14
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 7,
+          "endLine": 15
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1302331982-215-561",
+      "name": "TokenClone_215_561"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 4,
+          "endLine": 12
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 3,
+          "endLine": 10
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "855911292-121-490",
+      "name": "TokenClone_121_490"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 16,
+          "endLine": 23
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 13,
+          "endLine": 20
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-990068424-131-499",
+      "name": "TokenClone_131_499"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 35,
+          "endLine": 44
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 33,
+          "endLine": 42
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1853771198-147-515",
+      "name": "TokenClone_147_515"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 13,
+          "endLine": 23
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 17,
+          "endLine": 27
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-346861018-7-34",
+      "name": "TokenClone_7_34"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 14,
+          "endLine": 21
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 11,
+          "endLine": 18
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1472725280-129-497",
+      "name": "TokenClone_129_497"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 8,
+          "endLine": 14
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 6,
+          "endLine": 12
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1866358512-123-492",
+      "name": "TokenClone_123_492"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 7,
+          "endLine": 15
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 8,
+          "endLine": 16
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1533712834-216-562",
+      "name": "TokenClone_216_562"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 1,
+          "endLine": 12
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 1,
+          "endLine": 13
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "16410320-213-559",
+      "name": "TokenClone_213_559"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 29,
+          "endLine": 39
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 41,
+          "endLine": 51
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "415771856-417-425",
+      "name": "TokenClone_417_425"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 77,
+          "endLine": 83
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 94,
+          "endLine": 100
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1558234088-173-550",
+      "name": "TokenClone_173_550"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 28,
+          "endLine": 4
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 32,
+          "endLine": 4
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1165380278-17-44",
+      "name": "TokenClone_17_44"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 3,
+          "endLine": 10
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 4,
+          "endLine": 12
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-996777898-254-255",
+      "name": "TokenClone_254_255"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 28,
+          "endLine": 34
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 26,
+          "endLine": 32
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-137385294-140-508",
+      "name": "TokenClone_140_508"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 103,
+          "endLine": 111
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 111,
+          "endLine": 119
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-2081067799-329-335",
+      "name": "TokenClone_329_335"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 103,
+          "endLine": 111
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 119,
+          "endLine": 127
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-2081067799-329-341",
+      "name": "TokenClone_329_341"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 111,
+          "endLine": 119
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 119,
+          "endLine": 127
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-2081067799-335-341",
+      "name": "TokenClone_335_341"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 19,
+          "endLine": 25
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 16,
+          "endLine": 22
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "329233162-133-501",
+      "name": "TokenClone_133_501"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 14,
+          "endLine": 24
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 18,
+          "endLine": 28
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "661599122-8-35",
+      "name": "TokenClone_8_35"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 9,
+          "endLine": 15
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 7,
+          "endLine": 13
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "236406528-124-493",
+      "name": "TokenClone_124_493"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 7,
+          "endLine": 15
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 10,
+          "endLine": 19
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1933897706-3-30",
+      "name": "TokenClone_3_30"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 21,
+          "endLine": 29
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 18,
+          "endLine": 27
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "851124678-135-503",
+      "name": "TokenClone_135_503"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 34,
+          "endLine": 43
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 32,
+          "endLine": 41
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1579747574-146-514",
+      "name": "TokenClone_146_514"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 15,
+          "endLine": 22
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 17,
+          "endLine": 26
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-651935448-130-408",
+      "name": "TokenClone_130_408"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 15,
+          "endLine": 22
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 12,
+          "endLine": 19
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-651935448-130-498",
+      "name": "TokenClone_130_498"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 17,
+          "endLine": 26
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 12,
+          "endLine": 19
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-651935448-408-498",
+      "name": "TokenClone_408_498"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 30,
+          "endLine": 36
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 28,
+          "endLine": 34
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1321230294-142-510",
+      "name": "TokenClone_142_510"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 28,
+          "endLine": 36
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 40,
+          "endLine": 48
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-547780908-416-424",
+      "name": "TokenClone_416_424"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 58,
+          "endLine": 67
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 58,
+          "endLine": 67
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "174069025-162-531",
+      "name": "TokenClone_162_531"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 18,
+          "endLine": 28
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 22,
+          "endLine": 32
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1551816887-11-38",
+      "name": "TokenClone_11_38"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 36,
+          "endLine": 45
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 34,
+          "endLine": 43
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1137313284-148-516",
+      "name": "TokenClone_148_516"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 1,
+          "endLine": 11
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 1,
+          "endLine": 15
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1018513615-0-27",
+      "name": "TokenClone_0_27"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 76,
+          "endLine": 82
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 93,
+          "endLine": 99
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1074511088-172-549",
+      "name": "TokenClone_172_549"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 78,
+          "endLine": 86
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 95,
+          "endLine": 103
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1865929562-174-551",
+      "name": "TokenClone_174_551"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 10,
+          "endLine": 16
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 8,
+          "endLine": 15
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-531625056-125-494",
+      "name": "TokenClone_125_494"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 32,
+          "endLine": 38
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 30,
+          "endLine": 36
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-457064634-144-512",
+      "name": "TokenClone_144_512"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 1,
+          "endLine": 11
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 1,
+          "endLine": 9
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1155760818-120-489",
+      "name": "TokenClone_120_489"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 18,
+          "endLine": 24
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 15,
+          "endLine": 21
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1707499606-132-500",
+      "name": "TokenClone_132_500"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 5,
+          "endLine": 14
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 7,
+          "endLine": 18
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-661978018-2-29",
+      "name": "TokenClone_2_29"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 8,
+          "endLine": 18
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 9,
+          "endLine": 20
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1525338530-217-563",
+      "name": "TokenClone_217_563"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 5,
+          "endLine": 13
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 4,
+          "endLine": 11
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1380405928-122-491",
+      "name": "TokenClone_122_491"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 57,
+          "endLine": 66
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 57,
+          "endLine": 66
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "2147055604-161-530",
+      "name": "TokenClone_161_530"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 79,
+          "endLine": 87
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 96,
+          "endLine": 104
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1956080796-175-552",
+      "name": "TokenClone_175_552"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 29,
+          "endLine": 35
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 27,
+          "endLine": 33
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-554067858-141-509",
+      "name": "TokenClone_141_509"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 56,
+          "endLine": 64
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 56,
+          "endLine": 64
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1446006986-160-529",
+      "name": "TokenClone_160_529"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 3,
+          "endLine": 13
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 4,
+          "endLine": 14
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1260965686-214-560",
+      "name": "TokenClone_214_560"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 23,
+          "endLine": 31
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 27,
+          "endLine": 35
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1860891566-13-40",
+      "name": "TokenClone_13_40"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 31,
+          "endLine": 37
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 29,
+          "endLine": 35
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "415628326-143-511",
+      "name": "TokenClone_143_511"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 9,
+          "endLine": 17
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 13,
+          "endLine": 21
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1592689890-4-31",
+      "name": "TokenClone_4_31"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 106,
+          "endLine": 114
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 114,
+          "endLine": 122
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "30045157-332-338",
+      "name": "TokenClone_332_338"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 106,
+          "endLine": 114
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 122,
+          "endLine": 130
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "30045157-332-344",
+      "name": "TokenClone_332_344"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 114,
+          "endLine": 122
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 122,
+          "endLine": 130
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "30045157-338-344",
+      "name": "TokenClone_338_344"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 22,
+          "endLine": 30
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 19,
+          "endLine": 28
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-609855322-136-504",
+      "name": "TokenClone_136_504"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 25,
+          "endLine": 33
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 22,
+          "endLine": 31
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "162988892-139-507",
+      "name": "TokenClone_139_507"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 61,
+          "endLine": 67
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 76,
+          "endLine": 84
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "996752902-438-451",
+      "name": "TokenClone_438_451"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 23,
+          "endLine": 31
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 20,
+          "endLine": 29
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1002081580-137-505",
+      "name": "TokenClone_137_505"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 23,
+          "endLine": 31
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
           "startLine": 14,
           "endLine": 23
         }
       ],
       "fragmentLength": 6,
-      "cloneType": 2,
-      "_id": "c2",
-      "name": "Near-Miss"
+      "cloneType": 1,
+      "_id": "-1002081580-137-566",
+      "name": "TokenClone_137_566"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 20,
+          "endLine": 29
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 14,
+          "endLine": 23
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1002081580-505-566",
+      "name": "TokenClone_505_566"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 105,
+          "endLine": 113
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 113,
+          "endLine": 121
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1137153598-331-337",
+      "name": "TokenClone_331_337"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 105,
+          "endLine": 113
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 121,
+          "endLine": 129
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1137153598-331-343",
+      "name": "TokenClone_331_343"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 113,
+          "endLine": 121
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 121,
+          "endLine": 129
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1137153598-337-343",
+      "name": "TokenClone_337_343"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 26,
+          "endLine": 3
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 30,
+          "endLine": 3
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-76373801-16-43",
+      "name": "TokenClone_16_43"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 52,
+          "endLine": 63
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 52,
+          "endLine": 63
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1968599608-159-528",
+      "name": "TokenClone_159_528"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 3,
+          "endLine": 13
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 4,
+          "endLine": 17
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1927433583-1-28",
+      "name": "TokenClone_1_28"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 24,
+          "endLine": 32
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 28,
+          "endLine": 36
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-1347415844-14-41",
+      "name": "TokenClone_14_41"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 25,
+          "endLine": 1
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 29,
+          "endLine": 1
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1212752403-15-42",
+      "name": "TokenClone_15_42"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 12,
+          "endLine": 19
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 9,
+          "endLine": 16
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "855978278-127-495",
+      "name": "TokenClone_127_495"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 29,
+          "endLine": 6
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 33,
+          "endLine": 5
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1597391156-18-45",
+      "name": "TokenClone_18_45"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 24,
+          "endLine": 32
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 21,
+          "endLine": 30
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1814776226-138-506",
+      "name": "TokenClone_138_506"
     }
   ]
 }

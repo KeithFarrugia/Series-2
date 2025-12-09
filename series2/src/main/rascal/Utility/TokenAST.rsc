@@ -22,7 +22,7 @@ Location toLocation(list[TokenizedLine] lines, int startIndex, int t) {
 
     str filePath       = stripCompilationUnitPrefix(first.sourceLoc.uri);
     int startLine      = first.sourceLoc.begin.line;
-    int endLine        = last.sourceLoc.end.line;
+    int endLine        = last.sourceLoc.begin.line;
 
     return location(filePath, startLine, endLine);
 }

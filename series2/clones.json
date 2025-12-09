@@ -6,12 +6,12 @@
         {
           "filePath": "src/main/java/com/example/utils/RandomUtils.java",
           "startLine": 13,
-          "endLine": 33
+          "endLine": 23
         },
         {
           "filePath": "src/main/java/com/example/utils/MathUtils.java",
           "startLine": 17,
-          "endLine": 37
+          "endLine": 27
         }
       ],
       "fragmentLength": 6,
@@ -60,12 +60,12 @@
         {
           "filePath": "src/main/java/com/example/utils/RandomUtils.java",
           "startLine": 9,
-          "endLine": 18
+          "endLine": 17
         },
         {
           "filePath": "src/main/java/com/example/utils/MathUtils.java",
           "startLine": 13,
-          "endLine": 22
+          "endLine": 21
         }
       ],
       "fragmentLength": 6,

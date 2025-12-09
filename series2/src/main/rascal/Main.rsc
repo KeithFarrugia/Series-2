@@ -9,6 +9,8 @@ import Clones::Token::Type_3;
 import DateTime;
 import List;
 import Utility::Write;
+import Utility::LinesOfCode;
+import Conf;
 loc test_project = |project://sig-metrics-test|;
 
 int durationToMillis(Duration d) {
@@ -23,6 +25,7 @@ int durationToMillis(Duration d) {
 
 void main() {
     writeClonesToJson(testDuplicateLineCount());
+    writeLinesOfCodeToJson(getAllFilesFromProjectRoot(projectRoot));
     // datetime t0 = now();
     // // testDuplicateLineCount();
     // datetime t1 = now();

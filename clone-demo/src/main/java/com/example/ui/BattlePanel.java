@@ -54,8 +54,6 @@ public class BattlePanel extends JPanel implements java.awt.event.ActionListener
     }
 
     private void loadImages() {
-        // NOTE: If your Mage image is named wizard.png, you MUST use "wizard.png" here.
-        // Assuming your ls output was correct and you fix the Main class accordingly.
         heroImage = loadImage("hero.png");
         mageImage = loadImage("mage.png"); 
         goblinImage = loadImage("goblin.png");
@@ -81,7 +79,7 @@ public class BattlePanel extends JPanel implements java.awt.event.ActionListener
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (animating) {
             animationFrame++;
-            if (animationFrame > ANIMATION_FRAMES) { // Use the increased frame count
+            if (animationFrame > ANIMATION_FRAMES) {
                 animationTimer.stop();
                 animating = false;
                 // Notify the BattleSimulator that the animation is finished

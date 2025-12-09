@@ -28,13 +28,13 @@ public class Hero {
     // CLONE TYPE 2: renamed variables
     public void printStats() {
         System.out.println("===============================");
-        System.out.println("HERO STATS: " + name + " (Lvl " + level + ")"); // MODIFIED LINE
+        System.out.println("HERO STATS: " + name + " (Lvl " + level + ")"); 
         System.out.println("-------------------------------");
         System.out.println("Health: " + health + " HP");
         System.out.println("Attack Power: " + attack + " ATK");
         System.out.println("Armor Rating: " + armor + " DEF");
-        System.out.println("Current Gold: " + gold + " G"); // NEW LINE
-        System.out.println("Experience: " + experience + "/" + calculateXpToNextLevel()); // NEW LINE
+        System.out.println("Current Gold: " + gold + " G"); 
+        System.out.println("Experience: " + experience + "/" + calculateXpToNextLevel()); 
         System.out.println("===============================");
     }
 
