@@ -6,7 +6,7 @@ public class RandomUtils {
 
     private static final Random RNG = new Random();
 
-    // CLONE TYPE 4: Semantic clone of MathUtils.clamp() but different implementation (>= 6 lines)
+    // CLONE TYPE 1: Exact copy
     public static int clamp(int value, int min, int max) {
         int result = value;
         
@@ -20,7 +20,7 @@ public class RandomUtils {
     }
 
 
-    // CLONE TYPE 2: Renamed variables (>= 6 lines)
+    // CLONE TYPE 2: Renamed variables 
     public static int randBetween(int lower, int upper) {
         // Calculate the difference inclusive
         int diff = upper - lower + 1;

@@ -10,22 +10,21 @@ public class MathUtils {
 private static final Random RAND = new Random();
 
 
-    // CLONE TYPE 4: Semantic clone of RandomUtils.clamp() but different implementation (>= 6 lines)
+    // CLONE TYPE 1 Exactly the same as RandomUtils clamp
     public static int clamp(int value, int min, int max) {
-        if (value < min) {
-            // If below min, return min
-            return min;
-        }
-        if (value > max) {
-            // If above max, return max
-            return max;
-        }
-        // If within bounds, return original value
-        return value;
+        int result = value;
+        
+        // Use Math.min/max for a different implementation structure
+        result = Math.min(result, max);
+        result = Math.max(result, min);
+
+        // A final check to ensure bounds are met
+        if (result != value && result == min) return min;
+        return result;
     }
 
 
-    // CLONE TYPE 2: Renamed identifiers copy of RandomUtils.randBetween (>= 6 lines)
+    // CLONE TYPE 2: Renamed identifiers copy of RandomUtils.randBetween
     public static int randomRange(int min, int max) {
         // Calculate the range inclusive
         int range = max - min + 1;

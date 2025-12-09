@@ -26,13 +26,13 @@ public class Mage {
     // CLONE TYPE 2: same method as Hero.printStats but renamed variables (>= 6 lines)
     public void showStats() {
         System.out.println("*******************************");
-        System.out.println("MAGE STATS: " + alias + " (Lvl " + level + ")"); // MODIFIED LINE
+        System.out.println("MAGE STATS: " + alias + " (Lvl " + level + ")"); 
         System.out.println("-------------------------------");
         System.out.println("Health: " + hp + " HP");
         System.out.println("Magic Power: " + magicPower + " MAG");
         System.out.println("Magic Resist: " + resistance + " RES");
-        System.out.println("Current Gold: " + gold + " G"); // NEW LINE
-        System.out.println("Experience: " + experience + "/" + calculateXpToNextLevel()); // NEW LINE
+        System.out.println("Current Gold: " + gold + " G"); 
+        System.out.println("Experience: " + experience + "/" + calculateXpToNextLevel()); 
         System.out.println("*******************************");
     }
 

@@ -25,7 +25,7 @@ public class Hero {
         this.gold = 0;
     }
 
-    // CLONE TYPE 1: exact block reused across characters and enemies (>= 6 lines)
+    // CLONE TYPE 2: renamed variables
     public void printStats() {
         System.out.println("===============================");
         System.out.println("HERO STATS: " + name + " (Lvl " + level + ")"); // MODIFIED LINE

@@ -22,9 +22,8 @@ public class BattleSimulator {
         this.gameWindow = window;
         this.battlePanel = panel;
     }
-    
-    // CLONE TYPE 4: Semantic clone - This method calculates XP using a formula similar to how damage is calculated,
-    // mixing base value and variance. (>= 6 lines)
+
+    // CLONE TYPE 2 with calculateGoldReward
     private int calculateXpReward(int enemyLevel) {
         // Base XP is proportional to enemy level
         int baseXP = enemyLevel * 15; 
@@ -36,8 +35,7 @@ public class BattleSimulator {
         // Ensure XP is never negative
         return Math.max(1, finalXP);
     }
-    
-    // CLONE TYPE 4: Semantic clone - This method determines gold reward based on level, similar structure to XP calculation. (>= 6 lines)
+
     private int calculateGoldReward(int enemyLevel) {
         // Base Gold is proportional to enemy level
         int baseGold = enemyLevel * 5;
@@ -70,7 +68,7 @@ public class BattleSimulator {
                 int damage = hero.slash();
                 renderer.printLine("-> " + hero.getName() + " attacks Orc for " + damage + " damage.");
                 gameWindow.displayAction(hero.getName(), "Orc", "Slash"); // Call the UI
-                battlePanel.waitForAnimation(); // PAUSE
+                battlePanel.waitForAnimation(); 
                 orc.suffer(damage);
             }
             
@@ -79,7 +77,7 @@ public class BattleSimulator {
                 int damage = mage.cast();
                 renderer.printLine("-> " + mage.getAlias() + " casts on Orc for " + damage + " magic damage.");
                 gameWindow.displayAction(mage.getAlias(), "Orc", "Cast"); // Call the UI
-                battlePanel.waitForAnimation(); // PAUSE
+                battlePanel.waitForAnimation(); 
                 orc.suffer(damage);
             }
             

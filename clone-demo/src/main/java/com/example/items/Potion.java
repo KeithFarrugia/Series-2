@@ -34,7 +34,7 @@ public class Potion implements Usable {
 
     @Override
     public boolean use(Mage mage) {
-        // Assume Mage can't use HP Potion for simplicity
+        // Mage can't use HP Potion
         System.out.println(mage.getAlias() + " can only use mana items.");
         return false;
     }
