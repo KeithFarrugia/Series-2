@@ -11,6 +11,7 @@ import Utility::Reader;
 import Utility::TokenAST;
 import lang::java::m3::Core;
 import lang::java::m3::AST;
+import Conf;
 
 int DUPLICATION_THRESHOLD = 6;
 
@@ -82,11 +83,11 @@ real jaccard(set[str] A, set[str] B) {
  * Type-3 clone detector with DEBUG OUTPUT
  * ============================================================================
  */
-list[tuple[int,int,real]] findType3(list[TokenizedLine] lines) {
+list[Clone] findType3(list[TokenizedLine] lines) {
 
     real SIM_THRESHOLD = 0.70;
     int  t = DUPLICATION_THRESHOLD;
-    list[tuple[int,int,real]] results = [];
+    list[Clone] clones = [];
 
     int n = size(lines);
     list[set[str]] blocks = [ flattenBlock(lines, i, t) | i <- [0 .. n - t] ];
@@ -104,26 +105,26 @@ list[tuple[int,int,real]] findType3(list[TokenizedLine] lines) {
         for (j <- [i + 1 .. n - t]) {
 
             real sim = jaccard(blocks[i], blocks[j]);
-
-            // Print comparisons that are close or passing threshold
-            if (sim >= 0.40) {
-                println("Comparing block <i> with block <j> → similarity = <sim>");
-            }
-
             if (sim >= SIM_THRESHOLD && sim < 1.0) {
-                println("\n************** TYPE-3 NEAR-MISS FOUND **************");
-                println("Block <i>  ~  Block <j>");
-                println("Similarity: <sim>");
-                println("Block <i> tokens:\n  <blocks[i]>");
-                println("Block <j> tokens:\n  <blocks[j]>");
-                println("***************************************************\n");
 
-                results += <i, j, sim>;
+                Location loc1 = toLocation(lines, i, t);
+                Location loc2 = toLocation(lines, j, t);
+
+                str id = "T3_<i>_<j>";
+                str name = "Type3Clone_<i>_<j>";
+
+                clones += clone(
+                    [loc1, loc2],
+                    t,          // fragment length
+                    3,          // clone type → Type-3
+                    id,
+                    name
+                );
             }
         }
     }
 
     println("\n============== DEBUG: TYPE-3 COMPARISON END ================\n");
 
-    return results;
+    return clones;
 }

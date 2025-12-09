@@ -13,7 +13,18 @@ extend lang::java::m3::TypeSymbol;
 import util::Math;
 import util::FileSystem;
 import util::Reflective;
+import Conf;
 
+Location toLocation(list[TokenizedLine] lines, int startIndex, int t) {
+    TokenizedLine first = lines[startIndex];
+    TokenizedLine last  = lines[startIndex + t];
+
+    str filePath       = first.sourceLoc.uri;
+    int startLine      = first.sourceLoc.begin.line;
+    int endLine        = last.sourceLoc.end.line;
+
+    return location(filePath, startLine, endLine);
+}
 
 void testBlocks() {
     list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
