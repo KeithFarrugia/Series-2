@@ -30,9 +30,14 @@ function prepareFileRawRanges(file, allClones){
     for(const loc of cloneGroup.locations){
       if(loc.filePath === file.filePath){
         if(typeof loc.startLine === "number" && typeof loc.endLine === "number"){
-          // clamp into file bounds
+          // We must use the absolute line numbers provided by the cloning tool
+          // as they refer to the physical lines, allowing clones outside the
+          // non-commented LOC range to be counted.
           const start = Math.max(1, loc.startLine);
-          const end = Math.min(file.linesOfCode || Infinity, loc.endLine);
+          // Set the end line to the tool's reported end line, bypassing LOC validation.
+          const end = loc.endLine; 
+
+          // We only check for valid range length.
           if(end >= start) {
             cloneTypeRanges[typeKey].push({ start, end });
           }
