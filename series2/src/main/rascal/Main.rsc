@@ -56,7 +56,7 @@ void main() {
 
         default: println("Invalid method chosen.");
     }
-
+    prinltn("<size(clones)> detected");
     writeClonesToJson(clones);
     writeLinesOfCodeToJson(getAllFilesFromProjectRoot(projectRoot));
 }
