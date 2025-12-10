@@ -50,4 +50,18 @@ public class Orc {
     public void printLife() {
         System.out.println("Orc Life: " + life);
     }
+
+    // Type 1 clone, exact copy
+    public int rage(){
+        int initialDamage = 5;
+        int roll = RandomUtils.randBetween(1,20);
+        if(roll < 5)
+            return initialDamage;
+        else if (roll <11)
+            return initialDamage + 3;
+        else if (roll <16)
+            return initialDamage + 5;
+        else 
+            return initialDamage * 3;
+    }
 }

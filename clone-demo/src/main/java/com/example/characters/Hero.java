@@ -38,7 +38,6 @@ public class Hero {
         System.out.println("===============================");
     }
 
-
     // CLONE TYPE 4: Semantic clone of Mage.cast() but implemented differently (>= 6 lines)
     public int slash() {
         // Calculate a random damage value
@@ -51,7 +50,6 @@ public class Hero {
 
         return damage;
     }
-
 
     public void takeDamage(int dmg) {
         // Simple damage reduction by armor
@@ -109,5 +107,16 @@ public class Hero {
 
     public int getLevel() {
         return level;
+    }
+
+    // Type 1, exact clone copied and pasted
+    public static String getStatusColor(String status) {
+        if ("FIGHTING".equals(status)) {
+            return "GREEN";
+        } else if ("DEFEATED".equals(status)) {
+            return "RED";
+        } else {
+            return "WHITE";
+        }
     }
 }

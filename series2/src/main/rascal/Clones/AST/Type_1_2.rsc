@@ -21,14 +21,19 @@ import Conf;
 
 map[node, lrel[node, loc]] buckets  = ();
 
-list[Clone] testOutASTType1And2(){
+list [Clone] findClonesOfType1Or2AST(int cloneType){
     buckets  = ();
-    // list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
-    list[Declaration] ast = genASTFromProject(|project://clone-demo|);
+    list[Declaration] ast = genASTFromProject(projectRoot);
     list[Declaration] norm_ast = [];
-    for(d <- ast){
-        norm_ast += normaliseDeclaration(d);
+    
+    if(cloneType == 2){
+        for(d <- ast){
+            norm_ast += normaliseDeclaration(d);
+        }
+    }else{
+        norm_ast = ast;
     }
+
     visit (norm_ast) {
         case node x: {
             int currentMass = mass(x);
@@ -38,16 +43,7 @@ list[Clone] testOutASTType1And2(){
         }
     }
 
-    // println("Done with indexing the subtrees into buckets.");
-    // println("Result: ");
-    // for(k <- domain(buckets)){
-    //     println("Key: \n<k>");
-    //     for (<b, _> <- buckets[k]) {
-    //         println("\tChild\n\t <b>\n");
-    //     }
-    // }
-    return buildASTCloneList(removeInternalCloneClasses(findClonesSets()), 1);
-    
+    return buildASTCloneList(removeInternalCloneClasses(findClonesSets()), cloneType);
 }
 
 /* ============================================================================
@@ -80,15 +76,6 @@ void addNodeToMap(
     }
 }
 
-
-
-
-
-
-
-
-
-
 map[node, lrel[node_loc, node_loc]] findClonesSets(){
     map[node, lrel[node_loc, node_loc]] clonesSet = ();
 
@@ -112,7 +99,6 @@ map[node, lrel[node_loc, node_loc]] findClonesSets(){
     }
     return clonesSet;
 }
-
 
 void printCloneSets(map[node, lrel[node_loc, node_loc]] clonesSet) {
     int classId = 1;

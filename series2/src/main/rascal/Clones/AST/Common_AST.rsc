@@ -26,6 +26,7 @@ bool overlapsOrExtends(Location a, Location b) {
         && b.startLine <= a.endLine + 1
         && a.filePath == b.filePath; // must be same file
 }
+
 Location mergeLocations(Location a, Location b) {
     int s       = min(a.startLine, b.startLine);
     int end     = max(a.endLine, b.endLine);
@@ -358,12 +359,6 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
 
     return cloneSet;
 }
-
-
-
-
-
-
 
 list[Clone] buildASTCloneList(map[node, lrel[node_loc, node_loc]] cloneSet, int cloneType) {
     list[Clone] result = [];

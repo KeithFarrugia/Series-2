@@ -10,8 +10,8 @@ async function init(){
   try {
     // 1. Fetching two JSON files concurrently
     const [linesResponse, clonesResponse] = await Promise.all([
-      fetch("lines.json"), 
-      fetch("clones.json")
+      fetch("../lines.json"), 
+      fetch("../clones.json")
     ]);
     
     // Check for success responses

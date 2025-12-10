@@ -33,7 +33,7 @@ export async function loadSampleJson() {
     }
     Util.showMessage("Loading clone analysis data...");
     try {
-        const CLONE_FILE_NAME = 'clones.json';
+        const CLONE_FILE_NAME = '../clones.json';
         let responseData = null;
         let source = 'Fetch (Static)';
 

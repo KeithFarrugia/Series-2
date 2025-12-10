@@ -103,4 +103,15 @@ public class Mage {
     public void addGold(int amount) {
         this.gold += amount;
     }
+
+    // Type 1, exact clone copied and pasted
+    public static String getStatusColor(String status) {
+        if ("FIGHTING".equals(status)) {
+            return "GREEN";
+        } else if ("DEFEATED".equals(status)) {
+            return "RED";
+        } else {
+            return "WHITE";
+        }
+    }
 }
