@@ -17,6 +17,73 @@ import util::FileSystem;
 import util::Reflective;
 import Conf;
 
+public list[Clone] applyTransitivity(list[Clone] clones) {
+
+    // check if two locations overlap
+    bool overlaps(Location a, Location b) {
+        return a.filePath == b.filePath &&
+               !(a.endLine < b.startLine || b.endLine < a.startLine);
+    }
+
+    // check if two clones overlap by comparing all locations
+    bool cloneOverlaps(Clone c1, Clone c2) {
+        for (Location a <- c1.locations) {
+            for (Location b <- c2.locations) {
+                if (overlaps(a, b)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool changed = true;
+
+    while (changed) {
+        changed = false;
+        list[Clone] result = [];
+
+        for (Clone c <- clones) {
+            bool merged = false;
+
+            for (i <- index(result)) {
+                if (cloneOverlaps(c, result[i])) {
+
+                    clone(locs1, fl1, t1, id1, name1) = result[i];
+                    clone(locs2, fl2, t2, id2, name2) = c;
+
+                    // merge locations with deduplication
+                    set[Location] seen = {};
+                    list[Location] mergedLocs = [];
+
+                    for (locA <- locs1 + locs2) {
+                        if (locA notin seen) {
+                            seen += {locA};
+                            mergedLocs += [locA];
+                        }
+                    }
+
+                    // replace the existing clone with the merged one
+                    result[i] = clone(mergedLocs, fl1, t1, id1, name1);
+
+                    merged = true;
+                    changed = true;
+                    break;
+                }
+            }
+
+            if (!merged) {
+                result += [c];
+            }
+        }
+
+        clones = result;
+    }
+
+    return clones;
+}
+
+
 // ------------------------------------------------------------
 // Checks if two locations overlap or are adjacent
 // ------------------------------------------------------------

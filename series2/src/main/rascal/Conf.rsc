@@ -1,10 +1,9 @@
 module Conf
 
-public str rootPath = "/dev/software_evo/Series-2/clone-demo";
+public str rootPath = "/dev/software_evo/Series-2/smallsql0.21_src"; // clone-demo";
 public loc clonesJson = |project://series2/clones.json|;
 public loc linesJson = |project://series2/lines.json|;
 
-//public loc projectRoot = |project://clone-demo|;
 public loc projectRoot = |project://smallsql0.21_src|;
 
 public data Clone = clone(
