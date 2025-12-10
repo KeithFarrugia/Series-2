@@ -13,9 +13,6 @@
 			"path": "smallsql0.21_src"
 		},
 		{
-			"path": "frontend"
-		},
-		{
 			"path": "benchmark-project"
 		},
 		{
