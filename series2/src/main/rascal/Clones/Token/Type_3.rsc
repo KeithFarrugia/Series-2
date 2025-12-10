@@ -6,7 +6,6 @@ import List;
 import Set;
 import util::Math;
 import Map;
-import Utility::Hash;
 import Utility::Reader;
 import Utility::TokenAST;
 import lang::java::m3::Core;
@@ -107,15 +106,15 @@ list[Clone] findType3(list[TokenizedLine] lines) {
     | i <- [0 .. n - t]
     ];
 
-    println("\n ============== DEBUG: TYPE-3 COMPARISON START ============== \n");
-    println("Total blocks: <size(blocks)>");
-    println("Threshold: <SIM_THRESHOLD>  (t = <t> lines per block)\n");
+    // println("\n ============== DEBUG: TYPE-3 COMPARISON START ============== \n");
+    // println("Total blocks: <size(blocks)>");
+    // println("Threshold: <SIM_THRESHOLD>  (t = <t> lines per block)\n");
 
     for (i <- [0 .. n - t]) {
         if (!sameFileBlock(lines, i, t)) continue;
-        println("---------------------------------------------------------");
-        println("BLOCK <i> tokens: <blocks[i]>");
-        println("---------------------------------------------------------");
+        // println("---------------------------------------------------------");
+        // println("BLOCK <i> tokens: <blocks[i]>");
+        // println("---------------------------------------------------------");
 
         for (j <- [i + 1 .. n - t]) {
             if (!sameFileBlock(lines, j, t)) continue;
@@ -139,7 +138,7 @@ list[Clone] findType3(list[TokenizedLine] lines) {
         }
     }
 
-    println("\n============== DEBUG: TYPE-3 COMPARISON END ================\n");
+    //println("\n============== DEBUG: TYPE-3 COMPARISON END ================\n");
 
     return clones;
 }

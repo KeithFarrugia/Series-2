@@ -18,7 +18,7 @@ import util::Math;
 import util::FileSystem;
 import util::Reflective;
 import Conf;
-
+import Utility::CleanCode;
 
 
 bool overlapsOrExtends(Location a, Location b) {
@@ -362,3 +362,48 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
 
 
 
+
+
+
+list[Clone] buildASTCloneList(map[node, lrel[node_loc, node_loc]] cloneSet, int cloneType) {
+    list[Clone] result = [];
+
+    for (root <- domain(cloneSet)) {
+        for (<L, R> <- cloneSet[root]) {
+
+            node n1 = L[0];
+            loc  l1 = L[1];
+
+            node n2 = R[0];
+            loc  l2 = R[1];
+
+            // Convert Rascal loc → your Clone Location type
+            Location loc1 = location(
+                stripCompilationUnitPrefix(l1.uri),
+                l1.begin.line,
+                l1.end.line
+            );
+
+            Location loc2 = location(
+                stripCompilationUnitPrefix(l1.uri),
+                l2.begin.line,
+                l2.end.line
+            );
+
+            int fragmentLength = l1.end.line - l1.begin.line + 1;
+
+            str id = "<root>-<l1.begin.line>-<l2.begin.line>";
+            str name = "ASTClone_<l1.begin.line>_<l2.begin.line>";
+
+            result += clone(
+                [loc1, loc2],
+                fragmentLength,
+                cloneType,
+                id,
+                name
+            );
+        }
+    }
+
+    return result;
+}

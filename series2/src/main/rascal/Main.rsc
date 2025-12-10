@@ -6,6 +6,8 @@ import lang::java::m3::Core;
 import lang::java::m3::AST;
 import Clones::Token::Type_1_2;
 import Clones::Token::Type_3;
+import Clones::AST::Type_1_2;
+import Clones::AST::Type_3;
 import DateTime;
 import List;
 import Utility::Write;
@@ -24,7 +26,7 @@ int durationToMillis(Duration d) {
 }
 
 void main() {
-    writeClonesToJson(testType3());
+    writeClonesToJson(testOutASTType3());
     writeLinesOfCodeToJson(getAllFilesFromProjectRoot(projectRoot));
     // datetime t0 = now();
     // // testDuplicateLineCount();

@@ -13,6 +13,7 @@ import lang::java::m3::Core;
 import lang::java::m3::AST;
 extend lang::java::m3::TypeSymbol;
 import util::Math;
+import Utility::Reader;
 import util::FileSystem;
 import util::Reflective;
 import Conf;
@@ -20,9 +21,10 @@ import Conf;
 
 map[node, lrel[node, loc]] buckets  = ();
 
-void testOutASTType3(){
+list[Clone] testOutASTType3(){
     buckets  = ();
-    list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    // list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    list[Declaration] ast = genASTFromProject(|project://clone-demo|);
     list[Declaration] norm_ast = [];
     for(d <- ast){
         norm_ast += normaliseDeclaration(d);
@@ -45,9 +47,8 @@ void testOutASTType3(){
         }
     }
 
-    map[node, lrel[node_loc, node_loc]] cloneSet = removeInternalCloneClasses(findClonesSets());
+    return buildASTCloneList(removeInternalCloneClasses(findClonesSets()), 3);
     
-    printCloneSets(cloneSet);
 }
 
 

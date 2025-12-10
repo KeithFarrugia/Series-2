@@ -16,11 +16,12 @@ extend lang::java::m3::TypeSymbol;
 import util::Math;
 import util::FileSystem;
 import util::Reflective;
+import Conf;
 
 
 map[node, lrel[node, loc]] buckets  = ();
 
-void testOutASTType1(){
+list[Clone] testOutASTType1And2(){
     buckets  = ();
     // list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
     list[Declaration] ast = genASTFromProject(|project://clone-demo|);
@@ -45,9 +46,8 @@ void testOutASTType1(){
     //         println("\tChild\n\t <b>\n");
     //     }
     // }
-    map[node, lrel[node_loc, node_loc]] cloneSet = removeInternalCloneClasses(findClonesSets());
-    println("number of type 1 clones: <size(domain(cloneSet))>");
-    // printCloneSets(cloneSet);
+    return buildASTCloneList(removeInternalCloneClasses(findClonesSets()), 1);
+    
 }
 
 /* ============================================================================

@@ -69,7 +69,6 @@ list[Clone] findDuplicates(list[TokenizedLine] lines, int cloneType) {
     // }
     int t = DUPLICATION_THRESHOLD;
     map[int, list[int]] hashMap = ();      // hash -> starting indices
-    set[int] duplicated = {};
     list[Clone] clones = [];
 
     int n = size(lines);
