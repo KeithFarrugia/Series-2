@@ -119,3 +119,60 @@ list[Clone] mergeClonePairList(list[Clone] clones) {
 
     return clones;
 }
+
+
+
+
+/*
+ * Normalise a clone so that the location pair is always ordered the same.
+ * This way [locA, locB] is equal to [locB, locA].
+ */
+Clone normalise(Clone c) {
+    list[Location] locs = c.locations;
+    if (locs[0] < locs[1]) {
+        return clone([locs[0], locs[1]], c.fragmentLength, c.cloneType, c._id, c.name);
+    } else {
+        return clone([locs[1], locs[0]], c.fragmentLength, c.cloneType, c._id, c.name);
+    }
+}
+
+/*
+ * Create a strong equality key for exact-match clones.
+ * Two clones are considered equal ONLY if:
+ *   - locations match EXACTLY
+ *   - fragmentLength matches
+ */
+str cloneKey(Clone c) {
+    Location a = c.locations[0];
+    Location b = c.locations[1];
+
+    return "<a.filePath>:<a.startLine>-<a.endLine>__"
+         + "<b.filePath>:<b.startLine>-<b.endLine>__"
+         + "<c.fragmentLength>";
+}
+
+/*
+ * Merge clones with preference:
+ *   Type 1 > Type 2 > Type 3
+ */
+list[Clone] mergeCloneTypes(list[Clone] clones) {
+    map[str, Clone] best = ();
+
+    for (c <- clones) {
+        Clone n = normalise(c);
+        str key = cloneKey(n);
+
+        if (key notin best) {
+            best[key] = n;        // first clone of this exact pair
+        } else {
+            Clone existing = best[key];
+
+            // keep the one with the lowest cloneType number (1 is strongest)
+            if (n.cloneType < existing.cloneType) {
+                best[key] = n;
+            }
+        }
+    }
+
+    return [best[key] | key <- best];
+}

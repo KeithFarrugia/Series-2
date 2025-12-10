@@ -4,56 +4,380 @@
     {
       "locations": [
         {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 3,
+          "endLine": 8
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 4,
+          "endLine": 10
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 2,
+      "_id": "-996777898-251-252",
+      "name": "TokenClone_251_252"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 61,
+          "endLine": 66
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 76,
+          "endLine": 81
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 2,
+      "_id": "996752902-405-418",
+      "name": "TokenClone_405_418"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 21,
+          "endLine": 29
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 26,
+          "endLine": 34
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 2,
+      "_id": "1156364836-212-543",
+      "name": "TokenClone_212_543"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 23,
+          "endLine": 30
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 14,
+          "endLine": 22
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 2,
+      "_id": "-1002081580-122-535",
+      "name": "TokenClone_122_535"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 1,
+          "endLine": 36
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 1,
+          "endLine": 32
+        }
+      ],
+      "fragmentLength": 36,
+      "cloneType": 2,
+      "_id": "441244861-8-31",
+      "name": "TokenClone_8_31"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 12,
+          "endLine": 18
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 17,
+          "endLine": 23
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 2,
+      "_id": "-651935448-382-463",
+      "name": "TokenClone_382_463"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 51,
+          "endLine": 65
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 52,
+          "endLine": 67
+        }
+      ],
+      "fragmentLength": 16,
+      "cloneType": 2,
+      "_id": "82524250-145-495",
+      "name": "TokenClone_145_495"
+    },
+    {
+      "locations": [
+        {
           "filePath": "src/main/java/com/example/enemies/Goblin.java",
           "startLine": 53,
-          "endLine": 65
+          "endLine": 62
         },
         {
           "filePath": "src/main/java/com/example/enemies/Orc.java",
           "startLine": 54,
-          "endLine": 66
+          "endLine": 63
+        }
+      ],
+      "fragmentLength": 10,
+      "cloneType": 1,
+      "_id": "-1367483703-231-562",
+      "name": "TokenClone_231_562"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 20,
+          "endLine": 28
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 14,
+          "endLine": 22
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 2,
+      "_id": "-1002081580-470-535",
+      "name": "TokenClone_470_535"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 15,
+          "endLine": 21
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 17,
+          "endLine": 23
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 2,
+      "_id": "-651935448-115-382",
+      "name": "TokenClone_115_382"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 1,
+          "endLine": 15
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 1,
+          "endLine": 16
+        }
+      ],
+      "fragmentLength": 16,
+      "cloneType": 2,
+      "_id": "-1302331982-201-530",
+      "name": "TokenClone_201_530"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 3,
+          "endLine": 8
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 4,
+          "endLine": 9
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 2,
+      "_id": "1629831624-371-372",
+      "name": "TokenClone_371_372"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 74,
+          "endLine": 85
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 93,
+          "endLine": 104
+        }
+      ],
+      "fragmentLength": 12,
+      "cloneType": 2,
+      "_id": "1694683406-157-515",
+      "name": "TokenClone_157_515"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/ConsoleRenderer.java",
+          "startLine": 1,
+          "endLine": 13
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/MenuPrinter.java",
+          "startLine": 1,
+          "endLine": 12
         }
       ],
       "fragmentLength": 13,
+      "cloneType": 2,
+      "_id": "-1947154976-70-243",
+      "name": "TokenClone_70_243"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 103,
+          "endLine": 121
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 111,
+          "endLine": 129
+        }
+      ],
+      "fragmentLength": 19,
+      "cloneType": 2,
+      "_id": "-304619371-324-329",
+      "name": "TokenClone_324_329"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 41,
+          "endLine": 62
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 42,
+          "endLine": 63
+        }
+      ],
+      "fragmentLength": 22,
+      "cloneType": 2,
+      "_id": "-753218656-233-562",
+      "name": "TokenClone_233_562"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 13,
+          "endLine": 23
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 9,
+          "endLine": 19
+        }
+      ],
+      "fragmentLength": 11,
       "cloneType": 1,
-      "_id": "method([public()],[],int(),id(\"rage\"),[],[],block([declarationStatement(variables([],int(),[variable(id(\"initialDamage\"),[],number(\"5\"))])),declarationStatement(variables([],int(),[variable(id(\"roll\"),[],methodCall(id(\"RandomUtils\"),[],id(\"randBetween\"),[number(\"1\"),number(\"20\")]))])),if(less(id(\"roll\"),number(\"5\")),return(id(\"initialDamage\")),if(less(id(\"roll\"),number(\"11\")),return(plus(id(\"initialDamage\"),number(\"3\"))),if(less(id(\"roll\"),number(\"16\")),return(plus(id(\"initialDamage\"),number(\"5\"))),return(times(id(\"initialDamage\"),number(\"3\"))))))]))-53-54",
-      "name": "ASTClone_53_54"
+      "_id": "-874570810-4-27",
+      "name": "TokenClone_4_27"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 4,
+          "endLine": 12
+        },
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 5,
+          "endLine": 13
+        }
+      ],
+      "fragmentLength": 9,
+      "cloneType": 2,
+      "_id": "1629831624-78-79",
+      "name": "TokenClone_78_79"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 1,
+          "endLine": 42
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 1,
+          "endLine": 41
+        }
+      ],
+      "fragmentLength": 42,
+      "cloneType": 2,
+      "_id": "280895780-113-461",
+      "name": "TokenClone_113_461"
     },
     {
       "locations": [
         {
           "filePath": "src/main/java/com/example/characters/Hero.java",
           "startLine": 112,
-          "endLine": 121
+          "endLine": 119
         },
         {
           "filePath": "src/main/java/com/example/characters/Mage.java",
           "startLine": 107,
-          "endLine": 116
+          "endLine": 114
         }
       ],
-      "fragmentLength": 10,
+      "fragmentLength": 8,
       "cloneType": 1,
-      "_id": "method([public(),static()],[],simpleType(id(\"String\")),id(\"getStatusColor\"),[parameter([],simpleType(id(\"String\")),id(\"status\"),[])],[],block([if(methodCall(stringLiteral(\"\\\"FIGHTING\\\"\"),[],id(\"equals\"),[id(\"status\")]),block([return(stringLiteral(\"\\\"GREEN\\\"\"))]),if(methodCall(stringLiteral(\"\\\"DEFEATED\\\"\"),[],id(\"equals\"),[id(\"status\")]),block([return(stringLiteral(\"\\\"RED\\\"\"))]),block([return(stringLiteral(\"\\\"WHITE\\\"\"))])))]))-112-107",
-      "name": "ASTClone_112_107"
+      "_id": "-960570181-176-524",
+      "name": "TokenClone_176_524"
     },
     {
       "locations": [
         {
-          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
-          "startLine": 9,
-          "endLine": 20
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 4,
+          "endLine": 13
         },
         {
-          "filePath": "src/main/java/com/example/utils/MathUtils.java",
-          "startLine": 13,
-          "endLine": 24
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 3,
+          "endLine": 9
         }
       ],
-      "fragmentLength": 12,
-      "cloneType": 1,
-      "_id": "method([public(),static()],[],int(),id(\"clamp\"),[parameter([],int(),id(\"value\"),[]),parameter([],int(),id(\"min\"),[]),parameter([],int(),id(\"max\"),[])],[],block([declarationStatement(variables([],int(),[variable(id(\"result\"),[],id(\"value\"))])),expressionStatement(assignment(id(\"result\"),\"=\",methodCall(id(\"Math\"),[],id(\"min\"),[id(\"result\"),id(\"max\")]))),expressionStatement(assignment(id(\"result\"),\"=\",methodCall(id(\"Math\"),[],id(\"max\"),[id(\"result\"),id(\"min\")]))),if(conditionalAnd(notEquals(id(\"result\"),id(\"value\")),equals(id(\"result\"),id(\"min\"))),return(id(\"min\"))),return(id(\"result\"))]))-9-13",
-      "name": "ASTClone_9_13"
+      "fragmentLength": 10,
+      "cloneType": 2,
+      "_id": "1629831624-78-371",
+      "name": "TokenClone_78_371"
     }
   ]
 }
