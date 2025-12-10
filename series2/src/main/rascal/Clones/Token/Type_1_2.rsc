@@ -12,6 +12,8 @@ import Utility::TokenAST;
 import lang::java::m3::Core;
 import lang::java::m3::AST;
 import Conf;
+import Utility::Write;
+import Utility::LinesOfCode;
 import Utility::CloneMerger;
 import DateTime;
 
@@ -62,6 +64,8 @@ void TestNoReturn(int cloneType){
     datetime t1 = now();
     println("Create M3 model    <durationToMillis(createDuration(t0, t1))>");
     println("Size               <size(c)>");
+    writeClonesToJson(c);
+    writeLinesOfCodeToJson(getAllFilesFromProjectRoot(projectRoot));
 }
 int hashBlock(list[TokenizedLine] lines, int s, int t) {
     // Make sure all lines in the block belong to the same file
