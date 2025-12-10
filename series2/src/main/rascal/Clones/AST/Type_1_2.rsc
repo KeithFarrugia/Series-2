@@ -42,8 +42,9 @@ list [Clone] findClonesOfType1Or2AST(int cloneType){
             }
         }
     }
-
-    return buildASTCloneList(removeInternalCloneClasses(findClonesSets()), cloneType);
+    
+    list [Clone] c = buildASTCloneList(removeInternalCloneClasses(findClonesSets()), cloneType);
+    return c;
 }
 
 /* ============================================================================
