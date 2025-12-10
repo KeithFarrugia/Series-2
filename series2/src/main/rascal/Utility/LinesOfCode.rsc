@@ -12,8 +12,26 @@ import util::FileSystem;
 
 import lang::java::m3::Core;
 import lang::java::m3::AST;
+import Conf;
 
-public ProjectMetrics getAllFilesFromProjectRoot(loc projectRoot) {
+public int totalProjectLOC(){
+    set[loc] allFiles = files(projectRoot);
+    set[loc] allJavaFiles = {
+        f 
+        | f <- allFiles,
+        contains(f.path,".java") && !contains(f.path,"/test/")
+    };
+
+    set[int] locsPerFile = {
+        countLinesOfCode(fileLoc) 
+        | fileLoc <- allJavaFiles 
+    };
+    
+    // Sum all the individual LoC counts to get the total project volume.
+    return sum(locsPerFile);
+
+}
+public ProjectMetrics getAllFilesFromProjectRoot() {
     set[loc] allFiles = files(projectRoot);
     set[loc] allJavaFiles = {
         f 

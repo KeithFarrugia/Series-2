@@ -59,7 +59,13 @@ list [Clone] findClonesOfType1Or2AST(int cloneType){
 void addNodeToMap(
     node n
 ) {
-    loc location = getLocation(n.src);
+    loc location;
+    if(n has src){
+        location = getLocation(n.src);
+    }
+    else {
+        return;
+    }
     // println("Before Cleaning\n <n>");
     // println("After Cleaning\n <unsetRec(n)>");
     // println("Before Cleaning 2\n <n>");

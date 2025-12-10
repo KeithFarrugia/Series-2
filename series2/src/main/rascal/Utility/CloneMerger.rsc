@@ -17,6 +17,73 @@ import util::FileSystem;
 import util::Reflective;
 import Conf;
 
+public list[Clone] applyTransitivity(list[Clone] clones) {
+
+    // check if two locations overlap
+    bool overlaps(Location a, Location b) {
+        return a.filePath == b.filePath &&
+               !(a.endLine < b.startLine || b.endLine < a.startLine);
+    }
+
+    // check if two clones overlap by comparing all locations
+    bool cloneOverlaps(Clone c1, Clone c2) {
+        for (Location a <- c1.locations) {
+            for (Location b <- c2.locations) {
+                if (overlaps(a, b)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool changed = true;
+
+    while (changed) {
+        changed = false;
+        list[Clone] result = [];
+
+        for (Clone c <- clones) {
+            bool merged = false;
+
+            for (i <- index(result)) {
+                if (cloneOverlaps(c, result[i])) {
+
+                    clone(locs1, fl1, t1, id1, name1) = result[i];
+                    clone(locs2, fl2, t2, id2, name2) = c;
+
+                    // merge locations with deduplication
+                    set[Location] seen = {};
+                    list[Location] mergedLocs = [];
+
+                    for (locA <- locs1 + locs2) {
+                        if (locA notin seen) {
+                            seen += {locA};
+                            mergedLocs += [locA];
+                        }
+                    }
+
+                    // replace the existing clone with the merged one
+                    result[i] = clone(mergedLocs, fl1, t1, id1, name1);
+
+                    merged = true;
+                    changed = true;
+                    break;
+                }
+            }
+
+            if (!merged) {
+                result += [c];
+            }
+        }
+
+        clones = result;
+    }
+
+    return clones;
+}
+
+
 // ------------------------------------------------------------
 // Checks if two locations overlap or are adjacent
 // ------------------------------------------------------------
@@ -118,4 +185,61 @@ list[Clone] mergeClonePairList(list[Clone] clones) {
     }
 
     return clones;
+}
+
+
+
+
+/*
+ * Normalise a clone so that the location pair is always ordered the same.
+ * This way [locA, locB] is equal to [locB, locA].
+ */
+Clone normalise(Clone c) {
+    list[Location] locs = c.locations;
+    if (locs[0] < locs[1]) {
+        return clone([locs[0], locs[1]], c.fragmentLength, c.cloneType, c._id, c.name);
+    } else {
+        return clone([locs[1], locs[0]], c.fragmentLength, c.cloneType, c._id, c.name);
+    }
+}
+
+/*
+ * Create a strong equality key for exact-match clones.
+ * Two clones are considered equal ONLY if:
+ *   - locations match EXACTLY
+ *   - fragmentLength matches
+ */
+str cloneKey(Clone c) {
+    Location a = c.locations[0];
+    Location b = c.locations[1];
+
+    return "<a.filePath>:<a.startLine>-<a.endLine>__"
+         + "<b.filePath>:<b.startLine>-<b.endLine>__"
+         + "<c.fragmentLength>";
+}
+
+/*
+ * Merge clones with preference:
+ *   Type 1 > Type 2 > Type 3
+ */
+list[Clone] mergeCloneTypes(list[Clone] clones) {
+    map[str, Clone] best = ();
+
+    for (c <- clones) {
+        Clone n = normalise(c);
+        str key = cloneKey(n);
+
+        if (key notin best) {
+            best[key] = n;        // first clone of this exact pair
+        } else {
+            Clone existing = best[key];
+
+            // keep the one with the lowest cloneType number (1 is strongest)
+            if (n.cloneType < existing.cloneType) {
+                best[key] = n;
+            }
+        }
+    }
+
+    return [best[key] | key <- best];
 }

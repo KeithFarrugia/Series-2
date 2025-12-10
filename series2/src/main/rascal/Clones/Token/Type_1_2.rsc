@@ -97,27 +97,6 @@ list[Clone] findDuplicates(list[TokenizedLine] lines, int cloneType) {
         for (i <- starts) {
             for (j <- starts) {
                 if (i < j) {
-
-                    // ------------------------------------------------------------
-                    // DEBUG OUTPUT: print whole clone pair if *any* line in A or B
-                    // originates from the target source file
-                    // ------------------------------------------------------------
-                
-                    // println("\n=== DUPLICATE FOUND at indices <i> and <j> ===");
-
-                    // println("BLOCK A (starting at index <i>):");
-                    // for (k <- [i .. i + t]) {
-                    //     println("  [<k>] <lines[k]>");
-                    // }
-
-                    // println("\nBLOCK B (starting at index <j>):");
-                    // for (k <- [j .. j + t]) {
-                    //     println("  [<k>] <lines[k]>");
-                    // }
-
-                    // println("--------------------------------------------------\n");
-
-                    // ------------------------------------------------------------
                     // Build location objects
                     Location loc1 = toLocation(lines, i, t);
                     Location loc2 = toLocation(lines, j, t);
