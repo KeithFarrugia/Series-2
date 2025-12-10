@@ -385,7 +385,7 @@ list[Clone] buildASTCloneList(map[node, lrel[node_loc, node_loc]] cloneSet, int 
             );
 
             Location loc2 = location(
-                stripCompilationUnitPrefix(l1.uri),
+                stripCompilationUnitPrefix(l2.uri),
                 l2.begin.line,
                 l2.end.line
             );
