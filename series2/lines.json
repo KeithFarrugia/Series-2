@@ -32,12 +32,12 @@
         {
           "name": "Orc.java",
           "filePath": "src/main/java/com/example/enemies/Orc.java",
-          "linesOfCode": 37
+          "linesOfCode": 49
         },
         {
           "name": "Goblin.java",
           "filePath": "src/main/java/com/example/enemies/Goblin.java",
-          "linesOfCode": 38
+          "linesOfCode": 50
         }
       ]
     },
