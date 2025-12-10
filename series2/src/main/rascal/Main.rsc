@@ -4,16 +4,18 @@ import IO;
 
 import lang::java::m3::Core;
 import lang::java::m3::AST;
+
+import DateTime;
+import List;
+
 import Clones::Token::Type_1_2;
 import Clones::Token::Type_3;
 import Clones::AST::Type_1_2;
 import Clones::AST::Type_3;
-import DateTime;
-import List;
+
 import Utility::Write;
 import Utility::LinesOfCode;
 import Conf;
-loc test_project = |project://sig-metrics-test|;
 
 int durationToMillis(Duration d) {
   return  d.years   * 1000 * 60 * 60 * 24 * 365
@@ -26,14 +28,35 @@ int durationToMillis(Duration d) {
 }
 
 void main() {
-    writeClonesToJson(testOutASTType3());
+    int methodType = 1;
+    int cloneType = 1;
+    list [Clone] clones;
+    switch (methodType) {
+        case 1: {
+            println("Using AST-based clone detection...");
+
+            switch (cloneType) {
+                case 1: clones = findClonesOfType1Or2AST(1);
+                case 2: clones = findClonesOfType1Or2AST(2);
+                case 3: clones = findClonesOfType3AST();
+                default: println("Invalid clone type chosen.");
+            }
+        }
+
+        case 2: {
+            println("Using Token-based clone detection...");
+
+            switch (cloneType) {
+                case 1: clones = findClonesOfType1Or2Token(1);
+                case 2: clones = findClonesOfType1Or2Token(2);
+                case 3: clones = findClonesOfType3Token();
+                default: println("Invalid clone type chosen.");
+            }
+        }
+
+        default: println("Invalid method chosen.");
+    }
+
+    writeClonesToJson(clones);
     writeLinesOfCodeToJson(getAllFilesFromProjectRoot(projectRoot));
-    // datetime t0 = now();
-    // // testDuplicateLineCount();
-    // datetime t1 = now();
-    // // println("Duplication time <durationToMillis(createDuration(t0, t1))>");
-    // t0 = now();
-    // testType3();
-    // t1 = now();
-    // println("Duplication time Type 3<durationToMillis(createDuration(t0, t1))>");
 }

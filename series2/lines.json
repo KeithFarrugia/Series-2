@@ -7,12 +7,12 @@
         {
           "name": "Hero.java",
           "filePath": "src/main/java/com/example/characters/Hero.java",
-          "linesOfCode": 83
+          "linesOfCode": 92
         },
         {
           "name": "Mage.java",
           "filePath": "src/main/java/com/example/characters/Mage.java",
-          "linesOfCode": 78
+          "linesOfCode": 87
         }
       ]
     },

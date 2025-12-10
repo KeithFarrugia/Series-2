@@ -25,13 +25,17 @@ int DUPLICATION_THRESHOLD = 6;
  *  count, after combining all duplicate blocks, is correct.
  * ============================================================================
  */
-list[Clone] testDuplicateLineCount() {
-    //list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
-    list[Declaration] ast = genASTFromProject(|project://clone-demo|);
-    list[TokenizedLine] lines =  tokeniseAST(ast, true);
-    return mergeClonePairList(findDuplicates (lines, 1));
-}
 
+list [Clone] findClonesOfType1Or2Token(int cloneType){
+    list[Declaration] ast = genASTFromProject(projectRoot);
+    bool tokenise = false;
+    if (cloneType == 2){
+        tokenise = true;
+    }
+    list[TokenizedLine] lines =  tokeniseAST(ast, tokenise);
+
+    return mergeClonePairList(findDuplicates (lines, cloneType));
+}
 
 int hashBlock(list[TokenizedLine] lines, int s, int t) {
     // Make sure all lines in the block belong to the same file
@@ -50,7 +54,6 @@ int hashBlock(list[TokenizedLine] lines, int s, int t) {
     return hash(block);
 }
 
-
 /* ============================================================================
  *                             countDuplicates
  * ----------------------------------------------------------------------------
@@ -58,7 +61,6 @@ int hashBlock(list[TokenizedLine] lines, int s, int t) {
  *  Delegates the work to findDuplicates after converting the model to lines.
  * ============================================================================
  */
-
 
 list[Clone] findDuplicates(list[TokenizedLine] lines, int cloneType) {
 

@@ -10,8 +10,8 @@ let cloneData = null;
 async function init(){
   // Fetching two JSON files concurrently
   const [linesResponse, clonesResponse] = await Promise.all([
-    fetch("lines.json"), // Assuming lines.json contains the structure/LOC
-    fetch("clones.json")
+    fetch("../lines.json"), // Assuming lines.json contains the structure/LOC
+    fetch("../clones.json")
   ]);
 
   fileStructure = await linesResponse.json();
