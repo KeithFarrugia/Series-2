@@ -32,8 +32,12 @@ int durationToMillis(Duration d) {
 list [Clone] findClonesOfType3Token(){
     list[Declaration] ast = genASTFromProject(projectRoot);
     list[TokenizedLine] lines =  tokeniseAST(ast, true);
-
-    return applyTransitivity(mergeClonePairList(findType3(lines)));
+    datetime t0 = now();
+    list [Clone] c =  applyTransitivity(mergeClonePairList(findType3(lines)));
+    datetime t1 = now();
+    println("Create M3 model    <durationToMillis(createDuration(t0, t1))>");
+    println("Size               <size(c)>");
+    return c;
 }
 
 bool sameFileBlock(list[TokenizedLine] lines, int s, int t) {
@@ -55,7 +59,7 @@ void TestNoReturn3(){
     println("Create M3 model    <durationToMillis(createDuration(t0, t1))>");
     println("Size               <size(c)>");
     writeClonesToJson(c);
-    writeLinesOfCodeToJson(getAllFilesFromProjectRoot(projectRoot));
+    writeLinesOfCodeToJson(getAllFilesFromProjectRoot());
 }
 /* ============================================================================
  * Flatten a block of t lines into a single set of tokens
@@ -135,6 +139,24 @@ int fastHash(set[str] toks) {
  * Type-3 clone detector with DEBUG OUTPUT
  * ============================================================================
  */
+
+real fastJaccard(set[str] A, set[str] B) {
+    int sizeA = size(A);
+    int sizeB = size(B);
+    if (sizeA == 0 && sizeB == 0) return 1.0;
+    int inter = size(A & B);
+    int uni = sizeA + sizeB - inter;
+    if (uni == 0) return 0.0;
+    return toReal(inter) / toReal(uni);
+}
+
+// Helper: early prune by size
+bool canReachThreshold(int sizeA, int sizeB, real threshold) {
+    int maxInter = sizeA < sizeB ? sizeA : sizeB;
+    if (sizeA + sizeB - maxInter == 0) return false;
+    real maxJ = toReal(maxInter) / toReal(sizeA + sizeB - maxInter);
+    return maxJ >= threshold;
+}
 list[Clone] findType3(list[TokenizedLine] lines) {
     list[Clone] result = [];
     lines = removeEmptyTokenLines(lines);

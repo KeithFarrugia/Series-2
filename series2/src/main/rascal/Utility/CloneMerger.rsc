@@ -17,18 +17,18 @@ import util::FileSystem;
 import util::Reflective;
 import Conf;
 
+// Helper: Check if two clones share at least one identical Location object.
+// This is the correct condition for applying transitivity (A=B and B=C implies A=C).
+bool shouldMerge(Clone c1, Clone c2) {
+    // Convert the location lists to sets for efficient intersection check.
+    set[Location] locs1 = toSet(c1.locations);
+    set[Location] locs2 = toSet(c2.locations);
+    
+    // If the intersection is non-empty, they share an identical location.
+    return size(locs1 & locs2) > 0;
+}
 public list[Clone] applyTransitivity(list[Clone] clones) {
 
-    // Helper: Check if two clones share at least one identical Location object.
-    // This is the correct condition for applying transitivity (A=B and B=C implies A=C).
-    bool shouldMerge(Clone c1, Clone c2) {
-        // Convert the location lists to sets for efficient intersection check.
-        set[Location] locs1 = toSet(c1.locations);
-        set[Location] locs2 = toSet(c2.locations);
-        
-        // If the intersection is non-empty, they share an identical location.
-        return size(locs1 & locs2) > 0;
-    }
 
     bool changed = true;
 
@@ -46,8 +46,13 @@ public list[Clone] applyTransitivity(list[Clone] clones) {
                 if (shouldMerge(c, result[i])) {
 
                     // Deconstruct and reconstruct the clone objects
-                    clone(locs1, fl1, t1, id1, name1) = result[i];
-                    clone(locs2, fl2, t2, id2, name2) = c;
+                    list[Location] locs1    = result[i].locations;
+                    int fl1                 = result[i].fragmentLength;
+                    int t1                  = result[i].cloneType;
+                    str id1                 = result[i]._id;
+                    str name1               = result[i].name;
+
+                    list[Location] locs2       = c.locations;
 
                     // 2. Merge locations with deduplication using a set
                     set[Location] mergedLocsSet = toSet(locs1) + toSet(locs2);
