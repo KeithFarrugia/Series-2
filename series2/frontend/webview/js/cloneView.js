@@ -4,6 +4,262 @@ import { verifyPermission } from './util.js';
 
 export let currentClonesData = null;
 
+// Add an internal helper function to get all locations in a file from ALL clone groups
+function getAllFileLocations(filePath) {
+    if (!currentClonesData || !currentClonesData.clones) return [];
+
+    const allLocations = [];
+    currentClonesData.clones.forEach(group => {
+        group.locations.forEach(location => {
+            if (location.filePath === filePath) {
+                // Store location and its clone type
+                allLocations.push({
+                    startLine: location.startLine,
+                    endLine: location.endLine,
+                    cloneType: group.cloneType // Crucial for correct highlighting
+                });
+            }
+        });
+    });
+    // Deduplicate by line range if necessary, but for highlighting, it might be fine to keep overlaps
+    return allLocations;
+}
+
+
+/**
+ * Renders the side-by-side view for a specific clone group.
+ */
+export async function renderCloneFragments(cloneGroup) {
+    Util.cloneDiffContainer.innerHTML = '<div class="text-gray-500 p-4 w-full text-center">Loading code fragments...</div>';
+
+    // We only support side-by-side (2 fragments) for this simple viewer
+    const locations = cloneGroup.locations;
+
+    // Fetch all file contents concurrently
+    const fileContentsPromises = locations.map(location => getFileContentByPath(location.filePath));
+    const fileContents = await Promise.all(fileContentsPromises);
+    const primaryCloneType = cloneGroup.cloneType; // The type of the currently selected group
+
+    Util.cloneDiffContainer.innerHTML = ''; // Clear loading message
+    locations.forEach((location, index) => {
+        console.log(`Rendering Fragment ${index + 1} from ${location.filePath} (Lines ${location.startLine}-${location.endLine})`);
+        try {
+            // New Step: Get ALL clone locations (from ALL groups) within this file
+            const allLocationsInFile = getAllFileLocations(location.filePath);
+            console.log(`Found ${allLocationsInFile.length} total clone locations in ${location.filePath}`);
+
+
+            // Use custom class .clone-fragment-view which is fixed in style.css
+            const fragmentContainer = document.createElement('div');
+            fragmentContainer.className = 'clone-fragment-view'; 
+
+            // 1. Header
+            const header = document.createElement('div');
+            header.className = 'clone-header bg-gray-700 text-white p-2 font-mono text-xs truncate rounded-t-lg flex justify-between items-center';
+            header.innerHTML = `
+                <span>Fragment ${index + 1} | ${location.filePath} (Lines ${location.startLine}-${location.endLine})</span>
+                <button class="save-fragment-btn bg-green-500 hover:bg-green-700 text-white text-xs font-semibold py-1 px-2 rounded transition-colors" data-fragment-index="${index}">
+                    Save
+                </button>
+            `;
+            fragmentContainer.appendChild(header);
+
+            // 2. Code Area (The main content container, flex)
+            const codeArea = document.createElement('div');
+            // This div is needed to correctly apply the CSS grid layout defined in style.css
+            codeArea.className = 'code-area-inner flex-grow flex overflow-hidden'; 
+
+            const fileContent = fileContents[index];
+
+            if (fileContent.startsWith('// Error:')) {
+                // ... (Error handling remains the same)
+                console.warn(`Skipping fragment ${index + 1} due to file access error: ${fileContent}`);
+                
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'clone-fragment-view p-3 bg-red-100 border border-red-400 text-red-700 m-2 rounded';
+                errorDiv.innerHTML = `
+                    <p class="font-bold">Fragment ${index + 1} Skipped</p>
+                    <p class="text-sm">${location.filePath} (Lines ${location.startLine}-${location.endLine})</p>
+                    <p class="text-xs mt-1">Error fetching content. Check console for details.</p>
+                `;
+                Util.cloneDiffContainer.appendChild(errorDiv);
+                return; // Skip this fragment
+            }
+            
+            const fileLines = fileContent.split('\n');
+
+            const filePath = location.filePath; // Capture the file path
+
+            // Get the specific lines of the selected fragment for diffing/editing comparison
+            const originalFragmentLines = fileLines.slice(location.startLine - 1, location.endLine); 
+            const originalFragmentText = originalFragmentLines.join('\n');
+
+            // 4. Content Block (Code using DIV/PRE for highlighting)
+            const contentBlock = document.createElement('div');
+            contentBlock.className = 'clone-content-display';
+
+            // *** 1. KEY CHANGE: MAKE THE CONTENT EDITABLE ***
+            contentBlock.contentEditable = "true";
+
+            // *** 2. Store file metadata for saving ***
+            contentBlock.dataset.filepath = filePath;
+            contentBlock.dataset.startline = 1; 
+            contentBlock.dataset.endline = fileLines.length;
+            contentBlock.dataset.originalFragmentText = originalFragmentText;
+            
+            // Store all locations data as JSON for the input handler to use
+            contentBlock.dataset.alllocations = JSON.stringify(allLocationsInFile);
+            contentBlock.dataset.primaryclonetype = primaryCloneType;
+
+
+            // Setup the input listener to highlight ALL known locations
+            contentBlock.addEventListener('input', () => {
+                // Pass the primary clone type to the update function
+                updateCloneLineNumbers(contentBlock, fragmentLineNumbers, primaryCloneType); 
+            });
+
+            let codeHtml = '';
+            let numbersHtml = '';
+            
+            // Re-render logic to highlight ALL locations found
+            for (let i = 0; i < fileLines.length; i++) {
+                const lineNumber = i + 1;
+                const lineContent = fileLines[i];
+                let highlightClass = '';
+
+                // Check against ALL found locations in this file
+                allLocationsInFile.forEach(loc => {
+                    if (lineNumber >= loc.startLine && lineNumber <= loc.endLine) {
+                        // Apply the type class for any matched location
+                        highlightClass = ` clone-type-${loc.cloneType}`; 
+                    }
+                });
+                
+                // Use the custom code-line class
+                codeHtml += `<div class="code-line${highlightClass}"><pre>${lineContent}</pre></div>`;
+                numbersHtml += `<div class="code-line-number${highlightClass}">${i + 1}</div>`; 
+            }
+
+            contentBlock.innerHTML = codeHtml;
+
+
+            // 3. Line Numbers (Needs to show ALL lines)
+            const fragmentLineNumbers = document.createElement('div');
+            fragmentLineNumbers.className = 'clone-lines';
+            fragmentLineNumbers.innerHTML = numbersHtml; // Use the numbersHtml generated above
+
+            // Use a scrollable container for the code block
+            const scrollWrapper = document.createElement('div');
+            scrollWrapper.className = 'code-scroll-wrapper';
+            scrollWrapper.appendChild(contentBlock); // Content Block is now inside the wrapper
+
+            // --- Add Listeners to the editable content ---
+            scrollWrapper.addEventListener('scroll', (e) => {
+                fragmentLineNumbers.scrollTop = e.target.scrollTop;
+            });
+
+            // The 'input' listener is already added above
+
+            const saveBtn = header.querySelector('.save-fragment-btn');
+            // We need to pass the file path and the element containing the edited code
+            saveBtn.addEventListener('click', () => saveCloneFragment(filePath, contentBlock));
+
+
+            // Combine line numbers and content block
+            codeArea.appendChild(fragmentLineNumbers);
+            codeArea.appendChild(scrollWrapper);
+            fragmentContainer.appendChild(codeArea);
+
+            Util.cloneDiffContainer.appendChild(fragmentContainer);
+        } catch (error) {
+            // ... (Error handling remains the same)
+            console.error(`ERROR: Failed to render Fragment ${index + 1} (${location.filePath}, lines ${location.startLine}-${location.endLine}).`, error);
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'p-3 bg-red-100 border border-red-400 text-red-700 m-2 rounded';
+            errorDiv.innerHTML = `Failed to load Fragment ${index + 1}. Check console for details.`;
+            Util.cloneDiffContainer.appendChild(errorDiv);
+        }
+    });
+}
+
+// You also need to modify the updateCloneLineNumbers function to handle ALL locations
+export function updateCloneLineNumbers(contentElement, lineNumbersElement, primaryCloneType) {
+    // 1. Get the current edited content as plain text using the helper
+    const newContent = getEditableContentText(contentElement);
+    const lineCount = newContent.split('\n').length;
+    
+    // 2. Retrieve the original fragment text and ALL known locations
+    const originalFragmentText = contentElement.dataset.originalFragmentText;
+    const allLocations = JSON.parse(contentElement.dataset.alllocations || '[]');
+    
+    // 3. Find the start index of the original fragment in the new content
+    const startIndex = newContent.indexOf(originalFragmentText);
+
+    let newStartLine = -1;
+    let newEndLine = -1;
+    const typeClass = `clone-type-${primaryCloneType}`; // Use the primary type for the specific fragment being edited
+
+    if (startIndex !== -1) {
+        // 4. Calculate the new start line number (1-based)
+        newStartLine = (newContent.substring(0, startIndex).match(/\n/g) || []).length + 1;
+        
+        // 5. Calculate the new end line number
+        const fragmentLineCount = (originalFragmentText.match(/\n/g) || []).length + 1;
+        newEndLine = newStartLine + fragmentLineCount - 1;
+    } 
+    
+    // 6. Regenerate line numbers with ALL highlights
+    let numbersHtml = '';
+    let editedHighlightApplied = false;
+
+    for (let i = 1; i <= lineCount; i++) {
+        let highlightClass = '';
+        editedHighlightApplied = false;
+
+        // A. Apply highlight for the CURRENTLY edited fragment (using the calculated new range)
+        if (i >= newStartLine && i <= newEndLine && newStartLine !== -1) {
+            highlightClass = ` ${typeClass}`;
+            editedHighlightApplied = true;
+        }
+
+        // B. Apply highlight for ALL OTHER static fragments in the file
+        if (!editedHighlightApplied) {
+            allLocations.forEach(loc => {
+                if (i >= loc.startLine && i <= loc.endLine) {
+                    highlightClass = ` clone-type-${loc.cloneType}`; 
+                }
+            });
+        }
+        
+        numbersHtml += `<div class="code-line-number${highlightClass}">${i}</div>`;
+    }
+    lineNumbersElement.innerHTML = numbersHtml;
+
+    // 7. Regenerate classes for the content lines
+    const codeLines = contentElement.querySelectorAll('.code-line');
+
+    codeLines.forEach((lineDiv, i) => {
+        const lineNumber = i + 1; // Line number based on array index (1-based)
+        
+        // 8. Remove all existing clone-type classes
+        lineDiv.classList.remove('clone-type-1', 'clone-type-2', 'clone-type-3');
+        
+        let highlightClass = '';
+        editedHighlightApplied = false;
+
+        // A. Apply highlight for the CURRENTLY edited fragment (dynamic range)
+        if (lineNumber >= newStartLine && lineNumber <= newEndLine && newStartLine !== -1) {
+             highlightClass = typeClass;
+             editedHighlightApplied = true;
+        }
+
+        if (editedHighlightApplied) {
+             lineDiv.classList.add(highlightClass);
+        }
+    });
+}
+
 /**
  * Switches between the standard editor view and the clone analysis view.
  * @param {boolean} showCloneView - True to show clone view, false to show editor.
@@ -119,59 +375,6 @@ export function renderCloneAnalysis() {
     if (currentClonesData.clones.length > 0) {
         renderCloneFragments(currentClonesData.clones[0]);
     }
-}
-
-export function updateCloneLineNumbers(contentElement, lineNumbersElement, cloneType) {
-    // 1. Get the current edited content as plain text using the helper
-    // The previous implementation relied on a TEXTAREA, this relies on the DIV helper.
-    const newContent = getEditableContentText(contentElement);
-    const lineCount = newContent.split('\n').length;
-    
-    // 2. Retrieve the original text to search for
-    const originalFragmentText = contentElement.dataset.originalFragmentText;
-    
-    // 3. Find the start index of the original fragment in the new content
-    const startIndex = newContent.indexOf(originalFragmentText);
-
-    const typeClass = `clone-type-${cloneType}`;
-
-    let newStartLine = -1;
-    let newEndLine = -1;
-
-    if (startIndex !== -1) {
-        // 4. Calculate the new start line number (1-based)
-        // Count the number of newlines occurring BEFORE the match
-        newStartLine = (newContent.substring(0, startIndex).match(/\n/g) || []).length + 1;
-        
-        // 5. Calculate the new end line number
-        const fragmentLineCount = (originalFragmentText.match(/\n/g) || []).length + 1;
-        newEndLine = newStartLine + fragmentLineCount - 1;
-    } 
-    
-    // 6. Regenerate line numbers with the new highlight range
-    let numbersHtml = '';
-    for (let i = 1; i <= lineCount; i++) {
-        // Apply the dynamic type class if it's within the calculated range
-        const highlightClass = (i >= newStartLine && i <= newEndLine)
-            ? ` ${typeClass}`
-            : '';
-        numbersHtml += `<div class="code-line-number${highlightClass}">${i}</div>`;
-    }
-    lineNumbersElement.innerHTML = numbersHtml;
-
-    const codeLines = contentElement.querySelectorAll('.code-line');
-
-    codeLines.forEach((lineDiv, i) => {
-        const lineNumber = i + 1; // Line number based on array index (1-based)
-        
-        // 7. Remove all existing clone-type classes
-        lineDiv.classList.remove('clone-type-1', 'clone-type-2', 'clone-type-3');
-        
-        // 8. Apply the new type class if within the bounds
-        if (lineNumber >= newStartLine && lineNumber <= newEndLine) {
-            lineDiv.classList.add(typeClass);
-        }
-    });
 }
 
 /**
@@ -291,154 +494,4 @@ export function applyCloneFilter() {
         console.error("ERROR in applyCloneFilter:", error);
         Util.showMessage(`Filter error: ${error.message}`, 8000);
     }
-}
-
-/**
- * Renders the side-by-side view for a specific clone group.
- */
-export async function renderCloneFragments(cloneGroup) {
-    Util.cloneDiffContainer.innerHTML = '<div class="text-gray-500 p-4 w-full text-center">Loading code fragments...</div>';
-
-    // We only support side-by-side (2 fragments) for this simple viewer
-    const locations = cloneGroup.locations;
-
-    // Fetch all file contents concurrently
-    const fileContentsPromises = locations.map(location => getFileContentByPath(location.filePath));
-    const fileContents = await Promise.all(fileContentsPromises);
-    const cloneType = cloneGroup.cloneType;
-
-    Util.cloneDiffContainer.innerHTML = ''; // Clear loading message
-    locations.forEach((location, index) => {
-        console.log(`Rendering Fragment ${index + 1} from ${location.filePath} (Lines ${location.startLine}-${location.endLine})`);
-        try {
-            // Use custom class .clone-fragment-view which is fixed in style.css
-            const fragmentContainer = document.createElement('div');
-            fragmentContainer.className = 'clone-fragment-view'; 
-
-            // 1. Header
-            const header = document.createElement('div');
-            header.className = 'clone-header bg-gray-700 text-white p-2 font-mono text-xs truncate rounded-t-lg flex justify-between items-center';
-            header.innerHTML = `
-                <span>Fragment ${index + 1} | ${location.filePath} (Lines ${location.startLine}-${location.endLine})</span>
-                <button class="save-fragment-btn bg-green-500 hover:bg-green-700 text-white text-xs font-semibold py-1 px-2 rounded transition-colors" data-fragment-index="${index}">
-                    Save
-                </button>
-            `;
-            fragmentContainer.appendChild(header);
-
-            // 2. Code Area (The main content container, flex)
-            const codeArea = document.createElement('div');
-            // This div is needed to correctly apply the CSS grid layout defined in style.css
-            codeArea.className = 'code-area-inner flex-grow flex overflow-hidden'; 
-
-            const fileContent = fileContents[index];
-
-            if (fileContent.startsWith('// Error:')) {
-                console.warn(`Skipping fragment ${index + 1} due to file access error: ${fileContent}`);
-                
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'clone-fragment-view p-3 bg-red-100 border border-red-400 text-red-700 m-2 rounded';
-                errorDiv.innerHTML = `
-                    <p class="font-bold">Fragment ${index + 1} Skipped</p>
-                    <p class="text-sm">${location.filePath} (Lines ${location.startLine}-${location.endLine})</p>
-                    <p class="text-xs mt-1">Error fetching content. Check console for details.</p>
-                `;
-                Util.cloneDiffContainer.appendChild(errorDiv);
-                return; // Skip this fragment
-            }
-            
-            const fileLines = fileContent.split('\n');
-
-            // Get clone line boundaries
-            const startLine = location.startLine;
-            const endLine = location.endLine;
-            const filePath = location.filePath; // Capture the file path
-
-            const originalFragmentLines = fileLines.slice(location.startLine - 1, location.endLine); 
-            const originalFragmentText = originalFragmentLines.join('\n');
-
-            // 4. Content Block (Code using DIV/PRE for highlighting)
-            const contentBlock = document.createElement('div');
-            contentBlock.className = 'clone-content-display';
-
-            // *** 1. KEY CHANGE: MAKE THE CONTENT EDITABLE ***
-            contentBlock.contentEditable = "true";
-
-            // *** 2. Store file metadata for saving ***
-            contentBlock.dataset.filepath = filePath;
-            contentBlock.dataset.startline = 1; // Content block shows the FULL file, starts at line 1
-            contentBlock.dataset.endline = fileLines.length;
-            contentBlock.dataset.originalFragmentText = originalFragmentText;
-
-            contentBlock.addEventListener('input', () => {
-                // Pass the clone type to the update function
-                updateCloneLineNumbers(contentBlock, fragmentLineNumbers, cloneType); 
-            });
-
-            const typeClass = `clone-type-${cloneType}`;
-            let codeHtml = '';
-            for (let i = 0; i < fileLines.length; i++) {
-                const lineNumber = i + 1;
-                const lineContent = fileLines[i];
-                
-                const highlightClass = (lineNumber >= startLine && lineNumber <= endLine)
-                    ? ` ${typeClass}`
-                    : '';
-                
-                // Use the custom code-line class
-                codeHtml += `<div class="code-line${highlightClass}"><pre>${lineContent}</pre></div>`;
-            }
-
-            contentBlock.innerHTML = codeHtml;
-
-
-            // 3. Line Numbers (Needs to show ALL lines)
-            // NOTE: This part is fine, but we will add a listener to update it on input.
-            const fragmentLineNumbers = document.createElement('div');
-            fragmentLineNumbers.className = 'clone-lines';
-
-            let numbersHtml = '';
-            for (let i = 1; i <= fileLines.length; i++) {
-                const highlightClass = (i >= startLine && i <= endLine)
-                    ? ` ${typeClass}`
-                    : '';
-                numbersHtml += `<div class="${highlightClass}">${i}</div>`; 
-            }
-            fragmentLineNumbers.innerHTML = numbersHtml;
-
-            // Use a scrollable container for the code block
-            const scrollWrapper = document.createElement('div');
-            scrollWrapper.className = 'code-scroll-wrapper';
-            scrollWrapper.appendChild(contentBlock); // Content Block is now inside the wrapper
-
-            // --- Add Listeners to the editable content ---
-            scrollWrapper.addEventListener('scroll', (e) => {
-                fragmentLineNumbers.scrollTop = e.target.scrollTop;
-            });
-
-            contentBlock.addEventListener('input', () => {
-                updateCloneLineNumbers(contentBlock, fragmentLineNumbers, cloneType); 
-            });
-
-            const saveBtn = header.querySelector('.save-fragment-btn');
-            // We need to pass the file path and the element containing the edited code
-            saveBtn.addEventListener('click', () => saveCloneFragment(filePath, contentBlock));
-
-
-            // Combine line numbers and content block
-            codeArea.appendChild(fragmentLineNumbers);
-            codeArea.appendChild(scrollWrapper);
-            fragmentContainer.appendChild(codeArea);
-
-            Util.cloneDiffContainer.appendChild(fragmentContainer);
-        } catch (error) {
-            // Log a specific error for the failed fragment instead of crashing the whole process
-            console.error(`ERROR: Failed to render Fragment ${index + 1} (${location.filePath}, lines ${location.startLine}-${location.endLine}).`, error);
-            
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'p-3 bg-red-100 border border-red-400 text-red-700 m-2 rounded';
-            errorDiv.innerHTML = `Failed to load Fragment ${index + 1}. Check console for details.`;
-            Util.cloneDiffContainer.appendChild(errorDiv);
-        }
-    });
 }

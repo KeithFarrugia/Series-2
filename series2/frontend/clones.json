@@ -12,41 +12,6 @@
           "filePath": "src/smallsql/junit/BenchTest.java",
           "startLine": 355,
           "endLine": 361
-        },
-        {
-          "filePath": "src/smallsql/junit/BenchTest.java",
-          "startLine": 123,
-          "endLine": 135
-        },
-        {
-          "filePath": "src/smallsql/junit/BenchTest.java",
-          "startLine": 148,
-          "endLine": 160
-        },
-        {
-          "filePath": "src/smallsql/junit/BenchTest.java",
-          "startLine": 121,
-          "endLine": 135
-        },
-        {
-          "filePath": "src/smallsql/junit/BenchTest.java",
-          "startLine": 180,
-          "endLine": 194
-        },
-        {
-          "filePath": "src/smallsql/junit/BenchTest.java",
-          "startLine": 235,
-          "endLine": 247
-        },
-        {
-          "filePath": "src/smallsql/junit/BenchTest.java",
-          "startLine": 356,
-          "endLine": 368
-        },
-        {
-          "filePath": "src/smallsql/junit/BenchTest.java",
-          "startLine": 392,
-          "endLine": 404
         }
       ],
       "fragmentLength": 6,
@@ -83,21 +48,6 @@
           "filePath": "src/smallsql/database/StoreImpl.java",
           "startLine": 1036,
           "endLine": 1042
-        },
-        {
-          "filePath": "src/smallsql/database/StoreImpl.java",
-          "startLine": 903,
-          "endLine": 909
-        },
-        {
-          "filePath": "src/smallsql/database/StoreImpl.java",
-          "startLine": 969,
-          "endLine": 975
-        },
-        {
-          "filePath": "src/smallsql/database/StoreImpl.java",
-          "startLine": 1034,
-          "endLine": 1040
         }
       ],
       "fragmentLength": 7,
@@ -145,6 +95,11 @@
       "locations": [
         {
           "filePath": "src/smallsql/database/ExpressionArithmetic.java",
+          "startLine": 262,
+          "endLine": 272
+        },
+        {
+          "filePath": "src/smallsql/database/ExpressionArithmetic.java",
           "startLine": 176,
           "endLine": 186
         },
@@ -152,21 +107,6 @@
           "filePath": "src/smallsql/database/ExpressionArithmetic.java",
           "startLine": 220,
           "endLine": 230
-        },
-        {
-          "filePath": "src/smallsql/database/ExpressionArithmetic.java",
-          "startLine": 262,
-          "endLine": 272
-        },
-        {
-          "filePath": "src/smallsql/database/ExpressionArithmetic.java",
-          "startLine": 226,
-          "endLine": 232
-        },
-        {
-          "filePath": "src/smallsql/database/ExpressionArithmetic.java",
-          "startLine": 268,
-          "endLine": 274
         }
       ],
       "fragmentLength": 11,
@@ -185,57 +125,35 @@
           "filePath": "src/smallsql/database/DateTime.java",
           "startLine": 543,
           "endLine": 550
-        },
-        {
-          "filePath": "src/smallsql/database/DateTime.java",
-          "startLine": 532,
-          "endLine": 537
-        },
-        {
-          "filePath": "src/smallsql/database/DateTime.java",
-          "startLine": 558,
-          "endLine": 563
-        },
-        {
-          "filePath": "src/smallsql/database/DateTime.java",
-          "startLine": 572,
-          "endLine": 577
-        },
-        {
-          "filePath": "src/smallsql/database/DateTime.java",
-          "startLine": 479,
-          "endLine": 484
-        },
-        {
-          "filePath": "src/smallsql/database/DateTime.java",
-          "startLine": 534,
-          "endLine": 539
-        },
-        {
-          "filePath": "src/smallsql/database/DateTime.java",
-          "startLine": 544,
-          "endLine": 549
-        },
-        {
-          "filePath": "src/smallsql/database/DateTime.java",
-          "startLine": 605,
-          "endLine": 610
-        },
-        {
-          "filePath": "src/smallsql/database/DateTime.java",
-          "startLine": 354,
-          "endLine": 359
-        },
-        {
-          "filePath": "src/smallsql/database/DateTime.java",
-          "startLine": 475,
-          "endLine": 480
         }
       ],
       "fragmentLength": 8,
       "cloneType": 1,
       "_id": "-2131704958-9653-9663",
       "name": "TokenClone_9653_9663"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/smallsql/database/StoreImpl.java",
+          "startLine": 969,
+          "endLine": 975
+        },
+        {
+          "filePath": "src/smallsql/database/StoreImpl.java",
+          "startLine": 1034,
+          "endLine": 1040
+        },
+        {
+          "filePath": "src/smallsql/database/StoreImpl.java",
+          "startLine": 903,
+          "endLine": 909
+        }
+      ],
+      "fragmentLength": 7,
+      "cloneType": 1,
+      "_id": "1213599499-13614-13674",
+      "name": "TokenClone_13614_13674"
     },
     {
       "locations": [
@@ -284,16 +202,6 @@
           "filePath": "src/smallsql/junit/TestDataTypes.java",
           "startLine": 68,
           "endLine": 80
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOperatoren.java",
-          "startLine": 95,
-          "endLine": 101
-        },
-        {
-          "filePath": "src/smallsql/junit/TestFunctions.java",
-          "startLine": 374,
-          "endLine": 380
         }
       ],
       "fragmentLength": 13,
@@ -328,13 +236,13 @@
         },
         {
           "filePath": "src/smallsql/database/StoreImpl.java",
-          "startLine": 960,
-          "endLine": 967
+          "startLine": 1025,
+          "endLine": 1032
         },
         {
           "filePath": "src/smallsql/database/StoreImpl.java",
-          "startLine": 1025,
-          "endLine": 1032
+          "startLine": 960,
+          "endLine": 967
         }
       ],
       "fragmentLength": 8,
@@ -346,8 +254,8 @@
       "locations": [
         {
           "filePath": "src/smallsql/database/ExpressionArithmetic.java",
-          "startLine": 190,
-          "endLine": 195
+          "startLine": 276,
+          "endLine": 281
         },
         {
           "filePath": "src/smallsql/database/ExpressionArithmetic.java",
@@ -356,8 +264,8 @@
         },
         {
           "filePath": "src/smallsql/database/ExpressionArithmetic.java",
-          "startLine": 276,
-          "endLine": 281
+          "startLine": 190,
+          "endLine": 195
         }
       ],
       "fragmentLength": 6,
@@ -386,19 +294,32 @@
     {
       "locations": [
         {
+          "filePath": "src/smallsql/database/DateTime.java",
+          "startLine": 532,
+          "endLine": 537
+        },
+        {
+          "filePath": "src/smallsql/database/DateTime.java",
+          "startLine": 572,
+          "endLine": 577
+        },
+        {
+          "filePath": "src/smallsql/database/DateTime.java",
+          "startLine": 558,
+          "endLine": 563
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "370581379-9650-9676",
+      "name": "TokenClone_9650_9676"
+    },
+    {
+      "locations": [
+        {
           "filePath": "src/smallsql/junit/TestOrderBy.java",
           "startLine": 116,
           "endLine": 124
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOrderBy.java",
-          "startLine": 144,
-          "endLine": 152
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOrderBy.java",
-          "startLine": 171,
-          "endLine": 179
         },
         {
           "filePath": "src/smallsql/junit/TestOrderBy.java",
@@ -407,8 +328,8 @@
         },
         {
           "filePath": "src/smallsql/junit/TestOrderBy.java",
-          "startLine": 227,
-          "endLine": 235
+          "startLine": 144,
+          "endLine": 152
         },
         {
           "filePath": "src/smallsql/junit/TestOrderBy.java",
@@ -417,33 +338,13 @@
         },
         {
           "filePath": "src/smallsql/junit/TestOrderBy.java",
-          "startLine": 202,
-          "endLine": 210
+          "startLine": 227,
+          "endLine": 235
         },
         {
           "filePath": "src/smallsql/junit/TestOrderBy.java",
-          "startLine": 230,
-          "endLine": 238
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOrderBy.java",
-          "startLine": 146,
-          "endLine": 154
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOrderBy.java",
-          "startLine": 173,
-          "endLine": 181
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOrderBy.java",
-          "startLine": 201,
-          "endLine": 208
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOrderBy.java",
-          "startLine": 229,
-          "endLine": 236
+          "startLine": 171,
+          "endLine": 179
         }
       ],
       "fragmentLength": 9,
@@ -462,16 +363,6 @@
           "filePath": "src/smallsql/junit/TestOperatoren.java",
           "startLine": 178,
           "endLine": 189
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOperatoren.java",
-          "startLine": 177,
-          "endLine": 183
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOperatoren.java",
-          "startLine": 193,
-          "endLine": 199
         }
       ],
       "fragmentLength": 12,
@@ -483,11 +374,6 @@
       "locations": [
         {
           "filePath": "src/smallsql/junit/TestScrollable.java",
-          "startLine": 44,
-          "endLine": 53
-        },
-        {
-          "filePath": "src/smallsql/junit/TestScrollable.java",
           "startLine": 77,
           "endLine": 86
         },
@@ -495,6 +381,11 @@
           "filePath": "src/smallsql/junit/TestScrollable.java",
           "startLine": 109,
           "endLine": 118
+        },
+        {
+          "filePath": "src/smallsql/junit/TestScrollable.java",
+          "startLine": 44,
+          "endLine": 53
         }
       ],
       "fragmentLength": 10,
@@ -523,6 +414,24 @@
     {
       "locations": [
         {
+          "filePath": "src/smallsql/database/ExpressionArithmetic.java",
+          "startLine": 226,
+          "endLine": 232
+        },
+        {
+          "filePath": "src/smallsql/database/ExpressionArithmetic.java",
+          "startLine": 268,
+          "endLine": 274
+        }
+      ],
+      "fragmentLength": 7,
+      "cloneType": 1,
+      "_id": "454854667-4907-4941",
+      "name": "TokenClone_4907_4941"
+    },
+    {
+      "locations": [
+        {
           "filePath": "src/smallsql/junit/TestOperatoren.java",
           "startLine": 215,
           "endLine": 225
@@ -541,6 +450,57 @@
     {
       "locations": [
         {
+          "filePath": "src/smallsql/junit/BenchTest.java",
+          "startLine": 356,
+          "endLine": 368
+        },
+        {
+          "filePath": "src/smallsql/junit/BenchTest.java",
+          "startLine": 123,
+          "endLine": 135
+        },
+        {
+          "filePath": "src/smallsql/junit/BenchTest.java",
+          "startLine": 392,
+          "endLine": 404
+        },
+        {
+          "filePath": "src/smallsql/junit/BenchTest.java",
+          "startLine": 148,
+          "endLine": 160
+        },
+        {
+          "filePath": "src/smallsql/junit/BenchTest.java",
+          "startLine": 235,
+          "endLine": 247
+        }
+      ],
+      "fragmentLength": 13,
+      "cloneType": 1,
+      "_id": "-2062289887-16481-16495",
+      "name": "TokenClone_16481_16495"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/smallsql/junit/BenchTest.java",
+          "startLine": 121,
+          "endLine": 135
+        },
+        {
+          "filePath": "src/smallsql/junit/BenchTest.java",
+          "startLine": 180,
+          "endLine": 194
+        }
+      ],
+      "fragmentLength": 15,
+      "cloneType": 1,
+      "_id": "-2062289887-16481-16517",
+      "name": "TokenClone_16481_16517"
+    },
+    {
+      "locations": [
+        {
           "filePath": "src/smallsql/junit/TestStatement.java",
           "startLine": 268,
           "endLine": 273
@@ -555,6 +515,24 @@
       "cloneType": 1,
       "_id": "-123980301-166-179",
       "name": "TokenClone_166_179"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/smallsql/junit/TestOrderBy.java",
+          "startLine": 202,
+          "endLine": 210
+        },
+        {
+          "filePath": "src/smallsql/junit/TestOrderBy.java",
+          "startLine": 230,
+          "endLine": 238
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1091066987-7966-7985",
+      "name": "TokenClone_7966_7985"
     },
     {
       "locations": [
@@ -595,6 +573,70 @@
     {
       "locations": [
         {
+          "filePath": "src/smallsql/database/DateTime.java",
+          "startLine": 354,
+          "endLine": 359
+        },
+        {
+          "filePath": "src/smallsql/database/DateTime.java",
+          "startLine": 475,
+          "endLine": 480
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "31824891-9472-9593",
+      "name": "TokenClone_9472_9593"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/smallsql/junit/TestOperatoren.java",
+          "startLine": 177,
+          "endLine": 183
+        },
+        {
+          "filePath": "src/smallsql/junit/TestOperatoren.java",
+          "startLine": 193,
+          "endLine": 199
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-377374447-682-695",
+      "name": "TokenClone_682_695"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/smallsql/database/DateTime.java",
+          "startLine": 605,
+          "endLine": 610
+        },
+        {
+          "filePath": "src/smallsql/database/DateTime.java",
+          "startLine": 544,
+          "endLine": 549
+        },
+        {
+          "filePath": "src/smallsql/database/DateTime.java",
+          "startLine": 479,
+          "endLine": 484
+        },
+        {
+          "filePath": "src/smallsql/database/DateTime.java",
+          "startLine": 534,
+          "endLine": 539
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "-2019102930-9597-9652",
+      "name": "TokenClone_9597_9652"
+    },
+    {
+      "locations": [
+        {
           "filePath": "src/smallsql/junit/BenchTest.java",
           "startLine": 442,
           "endLine": 453
@@ -613,6 +655,34 @@
     {
       "locations": [
         {
+          "filePath": "src/smallsql/junit/TestOrderBy.java",
+          "startLine": 173,
+          "endLine": 181
+        },
+        {
+          "filePath": "src/smallsql/junit/TestOrderBy.java",
+          "startLine": 229,
+          "endLine": 236
+        },
+        {
+          "filePath": "src/smallsql/junit/TestOrderBy.java",
+          "startLine": 201,
+          "endLine": 208
+        },
+        {
+          "filePath": "src/smallsql/junit/TestOrderBy.java",
+          "startLine": 146,
+          "endLine": 154
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1531773060-7926-7945",
+      "name": "TokenClone_7926_7945"
+    },
+    {
+      "locations": [
+        {
           "filePath": "src/smallsql/database/MutableInteger.java",
           "startLine": 44,
           "endLine": 55
@@ -627,6 +697,24 @@
       "cloneType": 1,
       "_id": "2099509175-12279-12754",
       "name": "TokenClone_12279_12754"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/smallsql/junit/TestOperatoren.java",
+          "startLine": 95,
+          "endLine": 101
+        },
+        {
+          "filePath": "src/smallsql/junit/TestFunctions.java",
+          "startLine": 374,
+          "endLine": 380
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 1,
+      "_id": "1723581536-622-14654",
+      "name": "TokenClone_622_14654"
     }
   ]
 }

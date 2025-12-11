@@ -19,22 +19,15 @@ import Conf;
 
 public list[Clone] applyTransitivity(list[Clone] clones) {
 
-    // check if two locations overlap
-    bool overlaps(Location a, Location b) {
-        return a.filePath == b.filePath &&
-               !(a.endLine < b.startLine || b.endLine < a.startLine);
-    }
-
-    // check if two clones overlap by comparing all locations
-    bool cloneOverlaps(Clone c1, Clone c2) {
-        for (Location a <- c1.locations) {
-            for (Location b <- c2.locations) {
-                if (overlaps(a, b)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    // Helper: Check if two clones share at least one identical Location object.
+    // This is the correct condition for applying transitivity (A=B and B=C implies A=C).
+    bool shouldMerge(Clone c1, Clone c2) {
+        // Convert the location lists to sets for efficient intersection check.
+        set[Location] locs1 = toSet(c1.locations);
+        set[Location] locs2 = toSet(c2.locations);
+        
+        // If the intersection is non-empty, they share an identical location.
+        return size(locs1 & locs2) > 0;
     }
 
     bool changed = true;
@@ -46,29 +39,29 @@ public list[Clone] applyTransitivity(list[Clone] clones) {
         for (Clone c <- clones) {
             bool merged = false;
 
+            // Iterate over the result list (clones already processed)
             for (i <- index(result)) {
-                if (cloneOverlaps(c, result[i])) {
+                
+                // 1. Use the STRONG transitivity condition
+                if (shouldMerge(c, result[i])) {
 
+                    // Deconstruct and reconstruct the clone objects
                     clone(locs1, fl1, t1, id1, name1) = result[i];
                     clone(locs2, fl2, t2, id2, name2) = c;
 
-                    // merge locations with deduplication
-                    set[Location] seen = {};
-                    list[Location] mergedLocs = [];
+                    // 2. Merge locations with deduplication using a set
+                    set[Location] mergedLocsSet = toSet(locs1) + toSet(locs2);
 
-                    for (locA <- locs1 + locs2) {
-                        if (locA notin seen) {
-                            seen += {locA};
-                            mergedLocs += [locA];
-                        }
-                    }
+                    // Convert the unique locations back to a list
+                    list[Location] mergedLocs = toList(mergedLocsSet);
 
-                    // replace the existing clone with the merged one
+                    // 3. Replace the existing clone with the merged one
+                    // Note: We arbitrarily keep the metadata (fl1, t1, id1, name1) from the first clone (result[i]).
                     result[i] = clone(mergedLocs, fl1, t1, id1, name1);
 
                     merged = true;
-                    changed = true;
-                    break;
+                    changed = true; // Signal that a merge occurred, requiring another pass
+                    break;          // Stop searching for overlaps for clone 'c' and move to the next 'c'
                 }
             }
 

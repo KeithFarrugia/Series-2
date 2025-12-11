@@ -31,7 +31,7 @@ list [Clone] findClonesOfType3Token(){
     list[Declaration] ast = genASTFromProject(projectRoot);
     list[TokenizedLine] lines =  tokeniseAST(ast, true);
 
-    return mergeClonePairList(findType3(lines));
+    return applyTransitivity(mergeClonePairList(findType3(lines)));
 }
 
 bool sameFileBlock(list[TokenizedLine] lines, int s, int t) {

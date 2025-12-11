@@ -1,10 +1,10 @@
 module Conf
 
-public str rootPath = "/dev/software_evo/Series-2/smallsql0.21_src"; // clone-demo";
+public str rootPath = "/dev/software_evo/Series-2/hsqldb-2.3.1|"; // clone-demo";
 public loc clonesJson = |project://series2/clones.json|;
 public loc linesJson = |project://series2/lines.json|;
 
-public loc projectRoot = |project://smallsql0.21_src|;
+public loc projectRoot = |project://hsqldb-2.3.1|;
 
 public data Clone = clone(
     list [Location] locations,
