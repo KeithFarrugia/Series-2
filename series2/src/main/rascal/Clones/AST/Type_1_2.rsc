@@ -45,7 +45,7 @@ list [Clone] findClonesOfType1Or2AST(int cloneType){
     }
     
     list [Clone] c = buildASTCloneList(removeInternalCloneClasses(findClonesSets()), cloneType);
-    return applyTransitivity(c);
+    return applyTransitivity(mergeClonePairList(c));
 }
 
 /* ============================================================================
