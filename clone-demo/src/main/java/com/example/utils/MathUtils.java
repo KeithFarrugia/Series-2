@@ -1,14 +1,10 @@
 package com.example.utils;
 
-
 import java.util.Random;
-
 
 public class MathUtils {
 
-
 private static final Random RAND = new Random();
-
 
     // CLONE TYPE 1 Exactly the same as RandomUtils clamp
     public static int clamp(int value, int min, int max) {
