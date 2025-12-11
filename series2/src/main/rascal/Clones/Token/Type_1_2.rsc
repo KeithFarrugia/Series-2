@@ -48,25 +48,26 @@ list [Clone] findClonesOfType1Or2Token(int cloneType){
     println("WHAT2");
     datetime t0 = now();
     list [Clone] c =  mergeClonePairList(findDuplicates (lines, cloneType));
+    list [Clone] reducedClasses = applyTransitivity(c);
     datetime t1 = now();
     println("Create M3 model        <durationToMillis(createDuration(t0, t1))>");
-    return c;
+    return reducedClasses;
 }
-void TestNoReturn(int cloneType){
-    list[Declaration] ast = genASTFromProject(projectRoot);
-    bool tokenise = false;
-    if (cloneType == 2){
-        tokenise = true;
-    }
-    list[TokenizedLine] lines =  tokeniseAST(ast, tokenise);
-    datetime t0 = now();
-    list [Clone] c =  mergeClonePairList(findDuplicates (lines, cloneType));
-    datetime t1 = now();
-    println("Create M3 model    <durationToMillis(createDuration(t0, t1))>");
-    println("Size               <size(c)>");
-    writeClonesToJson(c);
-    writeLinesOfCodeToJson(getAllFilesFromProjectRoot(projectRoot));
-}
+// void TestNoReturn(int cloneType){
+//     list[Declaration] ast = genASTFromProject(projectRoot);
+//     bool tokenise = false;
+//     if (cloneType == 2){
+//         tokenise = true;
+//     }
+//     list[TokenizedLine] lines =  tokeniseAST(ast, tokenise);
+//     datetime t0 = now();
+//     list [Clone] c =  mergeClonePairList(findDuplicates (lines, cloneType));
+//     datetime t1 = now();
+//     println("Create M3 model    <durationToMillis(createDuration(t0, t1))>");
+//     println("Size               <size(c)>");
+//     writeClonesToJson(c);
+//     writeLinesOfCodeToJson(getAllFilesFromProjectRoot(projectRoot));
+// }
 int hashBlock(list[TokenizedLine] lines, int s, int t) {
     // Make sure all lines in the block belong to the same file
     str file = lines[s].sourceLoc.uri;
