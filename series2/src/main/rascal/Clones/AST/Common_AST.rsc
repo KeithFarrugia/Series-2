@@ -383,11 +383,6 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
     return cloneSet;
 }
 
-
-
-
-
-
 list[Clone] buildASTCloneList(map[node, lrel[node_loc, node_loc]] cloneSet, int cloneType) {
     list[Clone] result = [];
 

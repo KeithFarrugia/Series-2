@@ -48,7 +48,7 @@ list [Clone] findClonesOfType1Or2AST(int cloneType){
     }
     
     list [Clone] c = buildASTCloneList(removeInternalCloneClasses(findClonesSets()), cloneType);
-    return c;
+    return applyTransitivity(c);
 }
 int durationToMillis(Duration d) {
   return  d.years   * 1000 * 60 * 60 * 24 * 365

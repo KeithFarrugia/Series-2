@@ -52,7 +52,7 @@ list[Location] sortLocations(list[Location] locations) {
 // MERGE RANGES FUNCTION (FINAL FIX: Map Iteration)
 // *****************************************************************
 public int mergeRanges(set[Location] ranges) {
-    // 1. Manual Grouping (no change)
+    // 1. Manual Grouping
     map[str, list[Location]] rangesByFile = ();
 
     for (l <- ranges) {
@@ -64,52 +64,44 @@ public int mergeRanges(set[Location] ranges) {
         }
     }
 
-    int totalUniqueLines = 0; // The total sum of unique lines, returned as INT
+    int totalUniqueLines = 0;
     
     for (filePath <- domain(rangesByFile)) {
         
         list[Location] fileRanges = rangesByFile[filePath]; 
         list[Location] sortedFileRanges = sortLocations(fileRanges);
 
-        println("\n--- Processing File: <filePath> (Total Ranges: <size(fileRanges)>) ---");
-        println("Raw Ranges for file (Sorted): <sortedFileRanges>");
-
         if (size(sortedFileRanges) == 0) continue;
         
-        // FIX: Use simple integers to track the merged range extent
+        // Use simple integers to track the merged range extent
         int currentStart = sortedFileRanges[0].startLine;
         int currentEnd = sortedFileRanges[0].endLine;
         
-        println("Starting Merge Range: <currentStart>-<currentEnd>");
-        
-        for (i <- [1..size(sortedFileRanges)-1]) { 
-            Location next = sortedFileRanges[i];
-            
-            // Check for overlap (inclusive end lines)
-            if (next.startLine <= currentEnd + 1) {
-                // MERGE: Only update the end line if the next range extends it
-                if (next.endLine > currentEnd) {
+        if (size(sortedFileRanges) > 1) {
+            for (i <- [1..size(sortedFileRanges)-1]) { 
+                Location next = sortedFileRanges[i];
+                
+                // Check for overlap (inclusive end lines)
+                if (next.startLine <= currentEnd + 1) {
+                    // MERGE: Update the end line if the next range extends it
+                    if (next.endLine > currentEnd) {
+                        currentEnd = next.endLine;
+                    }
+                } else {
+                    // NO OVERLAP: Finalize the current merged range, add its length, and start a new one
+                    int rangeLength = currentEnd - currentStart + 1;
+                    totalUniqueLines += rangeLength;
+                    
+                    // Start a new range
+                    currentStart = next.startLine;
                     currentEnd = next.endLine;
                 }
-                println("  MERGE: Next Range <next.startLine>-<next.endLine> overlaps. Range extended to: <currentStart>-<currentEnd>"); 
-            } else {
-                // NO OVERLAP: Finalize the current merged range, add its length, and start a new one
-                int rangeLength = currentEnd - currentStart + 1;
-                totalUniqueLines += rangeLength;
-                
-                println("  FINALIZED: Added <filePath> <currentStart>-<currentEnd> (Length: <rangeLength>). New Total: <totalUniqueLines>");
-                
-                // Start a new range
-                currentStart = next.startLine;
-                currentEnd = next.endLine;
             }
         }
         
-        // FINALIZATION: The last merged/unmerged range *must* be counted after the loop finishes.
+        // FINALIZATION: The last merged/unmerged range must be counted after the loop finishes.
         int rangeLength = currentEnd - currentStart + 1;
         totalUniqueLines += rangeLength;
-        
-        println("--- File <filePath> FINALIZED: Added final range <currentStart>-<currentEnd> (Length: <rangeLength>) ---");
     }
     
     return totalUniqueLines;
