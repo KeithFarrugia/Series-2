@@ -20,7 +20,7 @@ import Utility::CloneMerger;
 import Conf;
 
 
-map[node, lrel[node, loc]] buckets  = ();
+map[int, lrel[node, loc]] buckets  = ();
 
 list [Clone] findClonesOfType3AST(){
     buckets  = ();
@@ -54,58 +54,53 @@ list [Clone] findClonesOfType3AST(){
  *        Usually set to 6 lines.
  * ============================================================================
  */
-void addNodeToMap(
-    node n
-) {
+// Compute a simple fingerprint for fast pre-bucketing
+void addNodeToMap(node n) {
+    if (!n has src) return;
+
     loc location = getLocation(n.src);
+    if (!minNodeLines(location)) return;
 
-    if (minNodeLines(location) == false) {
-        return;
+    // Precompute clean node once
+    node clean = unsetRec(n);
+    tuple[node, loc] entry = <n, location>;
+
+    // Use mass as coarse fingerprint
+    int fp = mass(n);
+
+    // Create bucket for this mass if it does not exist
+    if (!buckets[fp]?) {
+        buckets[fp] = [];
     }
 
-    node key = unsetRec(n);
-    n = unsetRec(n);
-    int i = 0;
-    num topSim = 0;
-    node bestKeyMatch;
+    // Find best match within this bucket only
+    list[tuple[node, loc]] bucket = buckets[fp];
+    node bestKey = clean;
+    num bestSim = 0;
 
-    for (buck <- domain(buckets)) {
-        i += 1;
-        num similarity = calculateSimilarity(buck, key);
-        if (similarity >= SIMILARITY_THRESHOLD && similarity > topSim) {
-            topSim = similarity;
-            bestKeyMatch = buck;
+    for (tuple[node, loc] existing <- bucket) {
+        node existingNode = existing[0];
+        num sim = calculateSimilarity(existingNode, clean);
+        if (sim >= SIMILARITY_THRESHOLD && sim > bestSim) {
+            bestSim = sim;
+            bestKey = existingNode;
         }
     }
 
-    if (topSim > 0) {
-        key = bestKeyMatch;
-    }
-
-    if (buckets[key]?) {
-        bool allow = true;
-        for (clonePair <- buckets[key]) {
-            if (location < getLocation(clonePair[1])) {
-                allow = false;
-                break;
-            } else if (getLocation(clonePair[1]) < location) {
-                buckets[key] = buckets[key] - clonePair;
-            }
-        }
-    
-        if (allow == true) {
-            buckets[key] += <n,location>;
-        }
+    // If a similar node was found, merge with that node's bucket
+    if (bestSim > 0) {
+        // Add to the same mass bucket
+        buckets[fp] += entry;
     } else {
-        buckets[key] = [<n,location>];
+        buckets[fp] += entry;
     }
 }
 
-map[node, lrel[node_loc, node_loc]] findClonesSets(){
+map[node, lrel[node_loc, node_loc]] findClonesSets() {
     map[node, lrel[node_loc, node_loc]] clonesSet = ();
 
-    for (bucket <- buckets) {
-        list[tuple[node, loc]] nodes = buckets[bucket];
+    for (fp <- domain(buckets)) {  // fp is int, not node
+        list[tuple[node, loc]] nodes = buckets[fp];
 
         if (size(nodes) >= 2) {
             lrel[tuple[node, loc] L, tuple[node, loc] R] complementBucket = [];
