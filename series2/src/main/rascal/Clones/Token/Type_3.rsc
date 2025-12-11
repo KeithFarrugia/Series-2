@@ -14,6 +14,8 @@ import Conf;
 import Utility::CloneMerger;
 import Utility::Write;
 import Utility::LinesOfCode;
+import Utility::CloneMerger;
+import Utility::Hash;
 import DateTime;
 
 int DUPLICATION_THRESHOLD = 6;
@@ -26,6 +28,7 @@ int durationToMillis(Duration d) {
         + d.seconds * 1000
         + d.milliseconds;
 }
+
 list [Clone] findClonesOfType3Token(){
     list[Declaration] ast = genASTFromProject(projectRoot);
     list[TokenizedLine] lines =  tokeniseAST(ast, true);
@@ -82,10 +85,56 @@ real jaccard(set[str] A, set[str] B) {
     return inter / uni;
 }
 
-/* ============================================================================
- * Type-3 clone detector with DEBUG OUTPUT
- * ============================================================================
- */
+// Coarse MinHash-like signature: small buckets, robust to noise
+// Defensive fastHash: never sums an empty list and logs unexpected cases.
+int fastHash(set[str] toks) {
+    // empty token set -> bucket 0
+    if (size(toks) == 0) {
+        return 0;
+    }
+
+    // build list of token-hashes; filter out any unexpected nulls (defensive)
+    list[int] hs = [];
+    for (t <- toks) {
+        // defensive: ensure t is not null/empty string
+        if (t == "" || t == null) {
+            // skip weird tokens
+            continue;
+        }
+        // abs(hash(...)) should be an int; keep it
+        hs += abs(hash(t));
+    }
+
+    // if nothing remained, put into special bucket 0
+    if (size(hs) == 0) {
+        println("fastHash: WARNING - all token hashes filtered out for a block bucket 0");
+        return 0;
+    }
+
+    hs = sort(hs);
+
+    // choose up to k smallest hashes (k at most 5)
+    int k = size(hs) < 5 ? size(hs) : 5;
+    if (k == 0) {
+        // defensive fallback
+        println("fastHash: WARNING - k == 0 after building hs bucket 0");
+        return 0;
+    }
+
+    // build prefix safely (no risk of sum([]) now)
+    list[int] prefix = hs[0 .. k - 1];
+    if (size(prefix) == 0) {
+        println("fastHash: WARNING - empty prefix despite k 0 bucket 0");
+        return 0;
+    }
+
+    int acc = 0;
+    for (v <- prefix) acc += v;
+
+    return acc % 5000;
+}
+
+
 
 /* ============================================================================
  * Type-3 clone detector with DEBUG OUTPUT
@@ -110,139 +159,73 @@ bool canReachThreshold(int sizeA, int sizeB, real threshold) {
     return maxJ >= threshold;
 }
 list[Clone] findType3(list[TokenizedLine] lines) {
-
+    list[Clone] result = [];
     lines = removeEmptyTokenLines(lines);
-
+    int t = DUPLICATION_THRESHOLD;
     real SIM_THRESHOLD = 0.70;
-    int  t = DUPLICATION_THRESHOLD;
-    list[Clone] clones = [];
 
     int n = size(lines);
+    println("Precompute");
 
-    // --- 1) build token id mapping and blocks as set<int> ---
-    map[str,int] tokenId = ();
-    int nextId = 0;
+    // Precompute file ID and flattened blocks
+    list[str] fileId = [ l.sourceLoc.uri | l <- lines ];
+    list[set[str]] blocks = [];
+    for (i <- [0 .. n - t]) { 
+        blocks += flattenBlock(lines, i, t); 
+    }
 
-    list[set[int]] blocks = [];
-    list[int] blockSize = [];
+    println("Computing buckets");
+    map[int, list[int]] buckets = ();
 
-    for (i <- [0 .. n - t]) {
-        if (!sameFileBlock(lines, i, t)) {
-            blocks += ({});            // keep indices aligned
-            blockSize += 0;
+    for (i <- index(blocks)) {
+        if (i % 10000 == 0) println("  bucket progress index: <i>");
+
+        if (size(blocks[i]) == 0) {
+            // optionally store empty blocks:
+            // buckets[0] = (buckets[0] ? []) + [i];
             continue;
         }
-        set[int] s = {};
-        for (k <- [0 .. t-1]) {
-            for (tok <- lines[i + k].tokens) {
-                if (!(tok in tokenId)) {
-                    tokenId[tok] = nextId;
-                    nextId += 1;
-                }
-                s += { tokenId[tok] };
-            }
+
+        int h = fastHash(blocks[i]);
+
+        if (h == 0 && size(blocks[i]) > 0) {
+            println("fastHash returned 0 for non-empty block index <i> tokens: <blocks[i]>");
         }
-        blocks += s;
-        blockSize += size(s);
+
+        list[int] current = buckets[h] ? [];
+        current += i;
+        buckets[h] = current;
     }
 
-    // --- 2) representatives grouped by file and token->rep inverted index ---
-    map[str, list[int]] repsByFile = ();
-    map[int, set[int]] tokenToReps = ();
 
-    // helpers
-    int requiredIntersection(int aSize, int bSize, real thr) {
-        // derived from inter >= thr * (a + b - inter)
-        // => inter*(1+thr) >= thr*(a+b) => inter >= thr*(a+b)/(1+thr)
-        return toInt(ceil(thr * (aSize + bSize) / (1.0 + thr)));
-    }
+    // Compare only inside buckets
+    for (h <- domain(buckets)) {
+        list[int] bucket = buckets[h];
 
-    // --- 3) main loop ---
-    for (i <- [0 .. n - t]) {
-        if (!sameFileBlock(lines, i, t)) continue;
+        // Skip tiny buckets
+        if (size(bucket) < 2) continue;
 
-        str file = lines[i].sourceLoc.uri;
-        set[int] Ai = blocks[i];
-        int sizeAi = blockSize[i];
+        for (i <- bucket) {
+            for (j <- bucket) {
+                if (i >= j) continue;
+                if (fileId[i] != fileId[j]) continue;
 
-        bool matched = false;
+                real sim = jaccard(blocks[i], blocks[j]);
 
-        // get candidate reps: union of tokenToReps for tokens in Ai
-        set[int] candidateReps = {};
-        for (tok <- Ai) {
-            if (tok in tokenToReps) {
-                candidateReps += tokenToReps[tok];
-            }
-        }
-
-        // if no candidate from token overlap, fall back to comparing all reps in file
-        list[int] repsList = 
-            (size(candidateReps) > 0) 
-              ? toList(candidateReps) 
-              : (file in repsByFile ? repsByFile[file] : []);
-
-        // iterate candidates (order doesn't matter), but ensure we never compare i==rep
-        for (rep <- repsList) {
-            if (matched) break;
-            if (rep == i) continue;
-
-            // same file guard (should hold) - cheap check
-            if (lines[rep].sourceLoc.uri != file) continue;
-
-            int sizeBi = blockSize[rep];
-
-            // cheap numeric upper bound: if min/max < SIM_THRESHOLD skip
-            int mn = sizeAi < sizeBi ? sizeAi : sizeBi;
-            int mx = sizeAi < sizeBi ? sizeBi : sizeAi;
-            if (mn == 0 && sizeAi == 0 && sizeBi == 0) {
-                // special-case: both empty -> jaccard 1.0 (but we avoid self-pairs)
-                // We'll treat this as a candidate - compute full jaccard below
-                ;
-            } else if (toReal(mn) / toReal(mx) < SIM_THRESHOLD) {
-                continue;
-            }
-
-            // tighter required intersection test
-            int req = requiredIntersection(sizeAi, sizeBi, SIM_THRESHOLD);
-            if (mn < req) continue;
-
-            // compute full intersection and jaccard
-            set[int] inter = Ai & blocks[rep];
-            int interSize = size(inter);
-            int uniSize = sizeAi + sizeBi - interSize;
-            real sim = (uniSize == 0) ? 1.0 : toReal(interSize) / toReal(uniSize);
-
-            if (sim >= SIM_THRESHOLD && sim < 1.0) {
-                Location loc1 = toLocation(lines, rep, t);
-                Location loc2 = toLocation(lines, i, t);
-
-                str id   = "T3_<rep>_<i>";
-                str name = "Type3Clone_<rep>_<i>";
-
-                clones += clone([loc1, loc2], t, 3, id, name);
-
-                matched = true;
-                break; // stop after first matching representative
-            }
-        }
-
-        if (!matched) {
-            // add i as new representative for its file
-            if (file in repsByFile) {
-                repsByFile[file] = repsByFile[file] + [i];
-            } else {
-                repsByFile[file] = [i];
-            }
-            // update inverted index for tokens in this new representative
-            for (tok <- Ai) {
-                if (tok in tokenToReps) {
-                    tokenToReps[tok] += { i };
-                } else {
-                    tokenToReps[tok] = { i };
+                if (sim >= SIM_THRESHOLD && sim < 1.0) {
+                    result += makeClone(i, j, t, lines);
                 }
             }
         }
     }
 
-    return clones;
+    return result;
+}
+
+Clone makeClone(int i, int j, int t, list[TokenizedLine] lines) {
+    Location loc1 = toLocation(lines, i, t);
+    Location loc2 = toLocation(lines, j, t);
+    str id = "T3_<i>_<j>";
+    str name = "Type3Clone_<i>_<j>";
+    return clone([loc1, loc2], t, 3, id, name);
 }

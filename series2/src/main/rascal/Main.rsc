@@ -32,6 +32,7 @@ void main() { // bug in ast one
     int methodType = 2;
     int cloneType = 3;
     list [Clone] clones;
+    datetime t0 = now();
     switch (methodType) {
         case 1: {
             println("Using AST-based clone detection...");
@@ -58,6 +59,9 @@ void main() { // bug in ast one
         default: println("Invalid method chosen.");
     }
     // println("<size(clones)> detected");
+    datetime t1 = now();
+    println("Time: <durationToMillis(createDuration(t0, t1))>");
+    
     printStatisticsForProject(clones, cloneType);
     writeClonesToJson(clones);
     writeLinesOfCodeToJson(getAllFilesFromProjectRoot());

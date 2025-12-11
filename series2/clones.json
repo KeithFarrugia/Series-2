@@ -1,5 +1,5 @@
 {
-  "projectRoot": "/dev/software_evo/Series-2/clone-demo; // clone-demo",
+  "projectRoot": "/dev/software_evo/Series-2/smallsql0.21_src",
   "clones": [
     {
       "locations": [
@@ -1162,13 +1162,13 @@
       "locations": [
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 204,
-          "endLine": 223
+          "startLine": 205,
+          "endLine": 224
         },
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 205,
-          "endLine": 224
+          "startLine": 206,
+          "endLine": 225
         }
       ],
       "fragmentLength": 20,
@@ -8316,6 +8316,16 @@
         },
         {
           "filePath": "src/smallsql/junit/TestOther.java",
+          "startLine": 245,
+          "endLine": 258
+        },
+        {
+          "filePath": "src/smallsql/junit/TestOther.java",
+          "startLine": 271,
+          "endLine": 284
+        },
+        {
+          "filePath": "src/smallsql/junit/TestOther.java",
           "startLine": 80,
           "endLine": 93
         },
@@ -8326,18 +8336,8 @@
         },
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 270,
-          "endLine": 283
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOther.java",
           "startLine": 157,
           "endLine": 168
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 244,
-          "endLine": 257
         }
       ],
       "fragmentLength": 6,
@@ -8354,8 +8354,8 @@
         },
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 244,
-          "endLine": 258
+          "startLine": 245,
+          "endLine": 259
         }
       ],
       "fragmentLength": 15,
@@ -8385,13 +8385,13 @@
       "locations": [
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 237,
-          "endLine": 256
+          "startLine": 238,
+          "endLine": 257
         },
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 239,
-          "endLine": 257
+          "startLine": 240,
+          "endLine": 258
         }
       ],
       "fragmentLength": 20,
@@ -16778,18 +16778,18 @@
       "locations": [
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 279,
-          "endLine": 286
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 213,
-          "endLine": 227
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOther.java",
           "startLine": 192,
-          "endLine": 201
+          "endLine": 202
+        },
+        {
+          "filePath": "src/smallsql/junit/TestOther.java",
+          "startLine": 214,
+          "endLine": 228
+        },
+        {
+          "filePath": "src/smallsql/junit/TestOther.java",
+          "startLine": 280,
+          "endLine": 287
         }
       ],
       "fragmentLength": 15,
@@ -18790,13 +18790,13 @@
       "locations": [
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 251,
-          "endLine": 258
+          "startLine": 219,
+          "endLine": 230
         },
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 218,
-          "endLine": 229
+          "startLine": 252,
+          "endLine": 259
         },
         {
           "filePath": "src/smallsql/junit/TestOther.java",
@@ -20576,8 +20576,8 @@
         },
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 309,
-          "endLine": 314
+          "startLine": 310,
+          "endLine": 315
         }
       ],
       "fragmentLength": 15,
@@ -20589,13 +20589,13 @@
       "locations": [
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 298,
-          "endLine": 314
+          "startLine": 299,
+          "endLine": 315
         },
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 299,
-          "endLine": 316
+          "startLine": 300,
+          "endLine": 317
         }
       ],
       "fragmentLength": 18,
@@ -21770,17 +21770,17 @@
         {
           "filePath": "src/smallsql/junit/TestOther.java",
           "startLine": 320,
+          "endLine": 34
+        },
+        {
+          "filePath": "src/smallsql/junit/TestOther.java",
+          "startLine": 321,
           "endLine": 37
         },
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 322,
+          "startLine": 323,
           "endLine": 40
-        },
-        {
-          "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 319,
-          "endLine": 34
         }
       ],
       "fragmentLength": 6,
@@ -26348,13 +26348,13 @@
       "locations": [
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 317,
-          "endLine": 323
+          "startLine": 318,
+          "endLine": 324
         },
         {
           "filePath": "src/smallsql/junit/TestOther.java",
-          "startLine": 318,
-          "endLine": 324
+          "startLine": 319,
+          "endLine": 325
         }
       ],
       "fragmentLength": 6,

@@ -16,6 +16,7 @@ import util::Math;
 import Utility::Reader;
 import util::FileSystem;
 import util::Reflective;
+import Utility::CloneMerger;
 import Conf;
 
 
@@ -40,7 +41,7 @@ list [Clone] findClonesOfType3AST(){
         }
     }
 
-    return buildASTCloneList(removeInternalCloneClasses(findClonesSets()), 3);
+    return applyTransitivity(buildASTCloneList(removeInternalCloneClasses(findClonesSets()), 3));
 }
 
 /* ============================================================================
@@ -57,10 +58,8 @@ void addNodeToMap(
     node n
 ) {
     loc location = getLocation(n.src);
-    println("Adding node <n> at location <location>");
 
     if (minNodeLines(location) == false) {
-        println("  Node does not meet minimum line requirement, skipping");
         return;
     }
 
@@ -73,17 +72,14 @@ void addNodeToMap(
     for (buck <- domain(buckets)) {
         i += 1;
         num similarity = calculateSimilarity(buck, key);
-        println("  Comparing with bucket key <buck>, similarity = <similarity>");
         if (similarity >= SIMILARITY_THRESHOLD && similarity > topSim) {
             topSim = similarity;
             bestKeyMatch = buck;
-            println("    New best match found, updating key to <bestKeyMatch>");
         }
     }
 
     if (topSim > 0) {
         key = bestKeyMatch;
-        println("  Using best matching key <key>");
     }
 
     if (buckets[key]?) {
@@ -91,21 +87,17 @@ void addNodeToMap(
         for (clonePair <- buckets[key]) {
             if (location < getLocation(clonePair[1])) {
                 allow = false;
-                println("    Node is before existing clone in bucket, skipping insert");
                 break;
             } else if (getLocation(clonePair[1]) < location) {
                 buckets[key] = buckets[key] - clonePair;
-                println("    Removing older clone pair <clonePair> from bucket");
             }
         }
     
         if (allow == true) {
             buckets[key] += <n,location>;
-            println("    Added node to bucket under key <key>");
         }
     } else {
         buckets[key] = [<n,location>];
-        println("  Created new bucket for key <key>");
     }
 }
 
