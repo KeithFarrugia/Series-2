@@ -5,3 +5,5 @@ smallsql0.21_src/
 series2-2/
 *.tpl
 target/
+series2/clones.json
+series2/frontend/clones.json

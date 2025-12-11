@@ -295,18 +295,18 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
     set[node] keysToRemove = {};
 
     for(nodeKey <- cloneSet){
-        println("\n ------------------------------------");
-        println(" Inspecting nodeKey: \n <nodeKey> \n ------------------------------------ \n");
+        // println("\n ------------------------------------");
+        // println(" Inspecting nodeKey: \n <nodeKey> \n ------------------------------------ \n");
 
         visit(nodeKey){
             case node subKey: {
-                println("  Visiting subKey <subKey>");
+                //println("  Visiting subKey <subKey>");
 
                 // ================================
                 // Skip self-comparison
                 // ================================
                 if(subKey == nodeKey){
-                    println("    Skipping self-comparison for <subKey>");
+                    break;//println("    Skipping self-comparison for <subKey>");
                 } 
                 // ================================
                 else if(cloneSet[subKey]? && !(subKey in keysToRemove)){
@@ -322,8 +322,8 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
                         <sn1, sl1> = pair[0];
                         <sn2, sl2> = pair[1];
 
-                        println("      Checking pair index <i> : <pair>");
-                        println("      sl1 <sl1>, sl2 <sl2>");
+                        //println("      Checking pair index <i> : <pair>");
+                        //println("      sl1 <sl1>, sl2 <sl2>");
 
                         bool foundParent = false;
                         for(<<_, l1>, <_, l2>> <- cloneSet[nodeKey]){
@@ -332,29 +332,23 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
                                (contains(l2, sl1) && contains(l1, sl2))
                             ){
                                 foundParent = true;
-                                println("        Found matching parent pair!");
+                                //println("        Found matching parent pair!");
                                 break;
                             }
                         }
 
                         if(!foundParent){
-                            println("        No parent found for pair <pair>");
+                           // println("        No parent found for pair <pair>");
                             allContained = false;
                             break;
                         }
                     }
 
                     if(allContained){
-                        println("    subKey <subKey> is fully contained in nodeKey <nodeKey>, removing subKey");
+                        // println("    subKey <subKey> is fully contained in nodeKey <nodeKey>, removing subKey");
                         keysToRemove += subKey;
                     }
-                    else {
-                        println("    subKey <subKey> not fully contained, keeping it");
-                    }
                 } 
-                else {
-                    println("    subKey NOT in cloneSet");
-                }
             }
         }
     }
@@ -410,7 +404,7 @@ list[Clone] buildASTCloneList(map[node, lrel[node_loc, node_loc]] cloneSet, int 
         // Find the maximum fragment length for the class
         int maxLength = 0;
         for (l <- currentLocations) {
-             int len = l.endLine - l.begin.line + 1;
+             int len = l.endLine - l.startLine + 1;
              if (len > maxLength) {
                  maxLength = len;
              }

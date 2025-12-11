@@ -100,7 +100,7 @@ int fastHash(set[str] toks) {
     list[int] hs = [];
     for (t <- toks) {
         // defensive: ensure t is not null/empty string
-        if (t == "" || t == null) {
+        if (t == "") {
             // skip weird tokens
             continue;
         }
@@ -139,16 +139,6 @@ int fastHash(set[str] toks) {
  * Type-3 clone detector with DEBUG OUTPUT
  * ============================================================================
  */
-
-real fastJaccard(set[str] A, set[str] B) {
-    int sizeA = size(A);
-    int sizeB = size(B);
-    if (sizeA == 0 && sizeB == 0) return 1.0;
-    int inter = size(A & B);
-    int uni = sizeA + sizeB - inter;
-    if (uni == 0) return 0.0;
-    return toReal(inter) / toReal(uni);
-}
 
 // Helper: early prune by size
 bool canReachThreshold(int sizeA, int sizeB, real threshold) {
