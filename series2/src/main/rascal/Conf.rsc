@@ -4,7 +4,9 @@ public str rootPath = "/dev/software_evo/Series-2/clone-demo; // clone-demo";
 public loc clonesJson = |project://series2/clones.json|;
 public loc linesJson = |project://series2/lines.json|;
 
-public loc projectRoot = |project://clone-demo|;
+//public loc projectRoot = |project://clone-demo|;
+
+public loc projectRoot = |project://smallsql0.21_src|;
 
 public data Clone = clone(
     list [Location] locations,

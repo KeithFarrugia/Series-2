@@ -14,7 +14,6 @@ import Conf;
 import Utility::CloneMerger;
 import Utility::Write;
 import Utility::LinesOfCode;
-import Utility::CloneMerger;
 import DateTime;
 
 int DUPLICATION_THRESHOLD = 6;
@@ -57,7 +56,7 @@ void TestNoReturn3(){
     println("Create M3 model    <durationToMillis(createDuration(t0, t1))>");
     println("Size               <size(c)>");
     writeClonesToJson(c);
-    writeLinesOfCodeToJson(getAllFilesFromProjectRoot(projectRoot));
+    writeLinesOfCodeToJson(getAllFilesFromProjectRoot());
 }
 /* ============================================================================
  * Flatten a block of t lines into a single set of tokens
@@ -92,6 +91,24 @@ real jaccard(set[str] A, set[str] B) {
  * Type-3 clone detector with DEBUG OUTPUT
  * ============================================================================
  */
+
+real fastJaccard(set[str] A, set[str] B) {
+    int sizeA = size(A);
+    int sizeB = size(B);
+    if (sizeA == 0 && sizeB == 0) return 1.0;
+    int inter = size(A & B);
+    int uni = sizeA + sizeB - inter;
+    if (uni == 0) return 0.0;
+    return toReal(inter) / toReal(uni);
+}
+
+// Helper: early prune by size
+bool canReachThreshold(int sizeA, int sizeB, real threshold) {
+    int maxInter = sizeA < sizeB ? sizeA : sizeB;
+    if (sizeA + sizeB - maxInter == 0) return false;
+    real maxJ = toReal(maxInter) / toReal(sizeA + sizeB - maxInter);
+    return maxJ >= threshold;
+}
 list[Clone] findType3(list[TokenizedLine] lines) {
 
     lines = removeEmptyTokenLines(lines);
@@ -102,31 +119,100 @@ list[Clone] findType3(list[TokenizedLine] lines) {
 
     int n = size(lines);
 
-    list[set[str]] blocks =
-        [ sameFileBlock(lines, i, t) ? flattenBlock(lines, i, t) : {} 
-        | i <- [0 .. n - t]
-        ];
+    // --- 1) build token id mapping and blocks as set<int> ---
+    map[str,int] tokenId = ();
+    int nextId = 0;
 
-    // Representatives of current clone groups
-    list[int] representatives = [];
+    list[set[int]] blocks = [];
+    list[int] blockSize = [];
 
+    for (i <- [0 .. n - t]) {
+        if (!sameFileBlock(lines, i, t)) {
+            blocks += ({});            // keep indices aligned
+            blockSize += 0;
+            continue;
+        }
+        set[int] s = {};
+        for (k <- [0 .. t-1]) {
+            for (tok <- lines[i + k].tokens) {
+                if (!(tok in tokenId)) {
+                    tokenId[tok] = nextId;
+                    nextId += 1;
+                }
+                s += { tokenId[tok] };
+            }
+        }
+        blocks += s;
+        blockSize += size(s);
+    }
+
+    // --- 2) representatives grouped by file and token->rep inverted index ---
+    map[str, list[int]] repsByFile = ();
+    map[int, set[int]] tokenToReps = ();
+
+    // helpers
+    int requiredIntersection(int aSize, int bSize, real thr) {
+        // derived from inter >= thr * (a + b - inter)
+        // => inter*(1+thr) >= thr*(a+b) => inter >= thr*(a+b)/(1+thr)
+        return toInt(ceil(thr * (aSize + bSize) / (1.0 + thr)));
+    }
+
+    // --- 3) main loop ---
     for (i <- [0 .. n - t]) {
         if (!sameFileBlock(lines, i, t)) continue;
 
+        str file = lines[i].sourceLoc.uri;
+        set[int] Ai = blocks[i];
+        int sizeAi = blockSize[i];
+
         bool matched = false;
 
-        for (rep <- representatives) {
+        // get candidate reps: union of tokenToReps for tokens in Ai
+        set[int] candidateReps = {};
+        for (tok <- Ai) {
+            if (tok in tokenToReps) {
+                candidateReps += tokenToReps[tok];
+            }
+        }
 
-            // NEVER compare a block with itself
-            if (i == rep) continue;
+        // if no candidate from token overlap, fall back to comparing all reps in file
+        list[int] repsList = 
+            (size(candidateReps) > 0) 
+              ? toList(candidateReps) 
+              : (file in repsByFile ? repsByFile[file] : []);
 
-            if (!sameFileBlock(lines, rep, t)) continue;
+        // iterate candidates (order doesn't matter), but ensure we never compare i==rep
+        for (rep <- repsList) {
+            if (matched) break;
+            if (rep == i) continue;
 
-            real sim = jaccard(blocks[i], blocks[rep]);
+            // same file guard (should hold) - cheap check
+            if (lines[rep].sourceLoc.uri != file) continue;
+
+            int sizeBi = blockSize[rep];
+
+            // cheap numeric upper bound: if min/max < SIM_THRESHOLD skip
+            int mn = sizeAi < sizeBi ? sizeAi : sizeBi;
+            int mx = sizeAi < sizeBi ? sizeBi : sizeAi;
+            if (mn == 0 && sizeAi == 0 && sizeBi == 0) {
+                // special-case: both empty -> jaccard 1.0 (but we avoid self-pairs)
+                // We'll treat this as a candidate - compute full jaccard below
+                ;
+            } else if (toReal(mn) / toReal(mx) < SIM_THRESHOLD) {
+                continue;
+            }
+
+            // tighter required intersection test
+            int req = requiredIntersection(sizeAi, sizeBi, SIM_THRESHOLD);
+            if (mn < req) continue;
+
+            // compute full intersection and jaccard
+            set[int] inter = Ai & blocks[rep];
+            int interSize = size(inter);
+            int uniSize = sizeAi + sizeBi - interSize;
+            real sim = (uniSize == 0) ? 1.0 : toReal(interSize) / toReal(uniSize);
 
             if (sim >= SIM_THRESHOLD && sim < 1.0) {
-
-                // Create the minimal pair (rep, i)
                 Location loc1 = toLocation(lines, rep, t);
                 Location loc2 = toLocation(lines, i, t);
 
@@ -136,13 +222,25 @@ list[Clone] findType3(list[TokenizedLine] lines) {
                 clones += clone([loc1, loc2], t, 3, id, name);
 
                 matched = true;
-                break;   // IMPORTANT: stops full cross-product
+                break; // stop after first matching representative
             }
         }
 
         if (!matched) {
-            // Only add as a representative AFTER we check old ones
-            representatives += i;
+            // add i as new representative for its file
+            if (file in repsByFile) {
+                repsByFile[file] = repsByFile[file] + [i];
+            } else {
+                repsByFile[file] = [i];
+            }
+            // update inverted index for tokens in this new representative
+            for (tok <- Ai) {
+                if (tok in tokenToReps) {
+                    tokenToReps[tok] += { i };
+                } else {
+                    tokenToReps[tok] = { i };
+                }
+            }
         }
     }
 

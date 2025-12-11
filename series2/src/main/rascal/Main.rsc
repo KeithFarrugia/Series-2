@@ -16,7 +16,6 @@ import Clones::AST::Type_3;
 import Utility::Write;
 import Utility::LinesOfCode;
 import Conf;
-import Utility::CloneMerger;
 import Utility::Statistics;
 
 int durationToMillis(Duration d) {
