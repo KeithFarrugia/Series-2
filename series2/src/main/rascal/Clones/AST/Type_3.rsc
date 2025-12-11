@@ -111,7 +111,7 @@ map[node, lrel[node_loc, node_loc]] findClonesSets(){
             lrel[tuple[node, loc] L, tuple[node, loc] R] complementBucket = [];
 
             // Only compare the first element with the rest
-            node first = nodes[0];
+            tuple[node, loc] first = nodes[0];
             for (j <- [1..size(nodes)-1]) {
                 complementBucket += [<first, nodes[j]>];
             }

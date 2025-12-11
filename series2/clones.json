@@ -1,0 +1,46 @@
+{
+  "projectRoot": "/dev/software_evo/Series-2/clone-demo",
+  "clones": [
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 61,
+          "endLine": 67
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 67,
+          "endLine": 73
+        }
+      ],
+      "fragmentLength": 7,
+      "cloneType": 3,
+      "_id": "block([declarationStatement(variables([],simpleType(id(\"TYPE\")),[variable(id(\"ID\"),[],methodCall(id(\"ID\"),[],id(\"ID\"),[]))])),expressionStatement(methodCall(id(\"ID\"),[],id(\"ID\"),[plus(stringLiteral(\"STR\"),methodCall(id(\"ID\"),[],id(\"ID\"),[]))])),expressionStatement(methodCall(id(\"ID\"),[],id(\"ID\"),[methodCall(id(\"ID\"),[],id(\"ID\"),[]),stringLiteral(\"STR\"),stringLiteral(\"STR\")])),expressionStatement(methodCall(id(\"ID\"),[],id(\"ID\"),[])),expressionStatement(methodCall(id(\"ID\"),[],id(\"ID\"),[id(\"ID\")]))])-61-67",
+      "name": "ASTClone_61_67"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 103,
+          "endLine": 109
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 111,
+          "endLine": 117
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 119,
+          "endLine": 125
+        }
+      ],
+      "fragmentLength": 7,
+      "cloneType": 3,
+      "_id": "if(notEquals(id(\"ID\"),null()),block([expressionStatement(methodCall(id(\"ID\"),[],id(\"ID\"),[id(\"ID\"),number(\"LIT\"),id(\"ID\"),id(\"ID\"),id(\"ID\"),this()]))]),block([expressionStatement(methodCall(id(\"ID\"),[],id(\"ID\"),[qualifiedName([id(\"ID\"),id(\"ID\")])])),expressionStatement(methodCall(id(\"ID\"),[],id(\"ID\"),[number(\"LIT\"),id(\"ID\"),id(\"ID\"),id(\"ID\")])),expressionStatement(methodCall(id(\"ID\"),[],id(\"ID\"),[qualifiedName([id(\"ID\"),id(\"ID\")])])),expressionStatement(methodCall(id(\"ID\"),[],id(\"ID\"),[stringLiteral(\"STR\"),number(\"LIT\"),plus(id(\"ID\"),number(\"LIT\"))]))]))-103-111",
+      "name": "ASTClone_103_111"
+    }
+  ]
+}
