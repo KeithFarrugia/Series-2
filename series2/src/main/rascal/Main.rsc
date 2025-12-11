@@ -29,8 +29,8 @@ int durationToMillis(Duration d) {
 }
 
 void main() { // bug in ast one
-    int methodType = 2;
-    int cloneType = 3;
+    int methodType = 1;
+    int cloneType = 1;
     list [Clone] clones;
     datetime t0 = now();
     switch (methodType) {
