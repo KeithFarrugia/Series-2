@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full-dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Code Editor (VSCode Lite)</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link External CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="h-full-dark">
+
+    <header class="h-16 bg-blue-600 text-white flex items-center justify-between px-6 shadow-lg sticky top-0 z-10">
+        <h1 class="text-xl font-bold">Web Editor</h1>
+        <div id="file-status" class="text-sm font-medium opacity-80">
+            No Directory Loaded.
+        </div>
+        <div class="space-x-4">
+            <button id="open-dir-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-md">
+                Open Project Directory
+            </button>
+            <button id="save-btn" class="bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-md disabled:opacity-50" disabled>
+                Save File (Ctrl+S)
+            </button>
+            <!-- New button for loading sample clone data -->
+            <button id="load-clones-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-md">
+                Load Clone Analysis
+            </button>
+        </div>
+    </header>
+
+    <main class="editor-container">
+        <!-- Sidebar (File Explorer) -->
+        <aside class="**bg-gray-800** border-r **border-gray-700** p-4 overflow-y-auto">
+            <h2 class="text-lg font-semibold mb-3 **text-gray-300**">Project Explorer</h2>
+            <div id="file-tree" class="text-sm">
+                <p class="**text-gray-400** italic">Click "Open Project Directory" to begin.</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <section class="flex flex-col **bg-gray-900** h-full flex-grow"> 
+            <div id="standard-editor-view" class="flex flex-col h-full flex-grow"> 
+                <div id="editor-header" class="w-full **bg-gray-800 text-gray-200** text-sm p-2 border-b **border-gray-700** flex justify-between items-center">                    <span id="current-file-display" class="font-medium">-- No file open --</span>
+                    <span id="unsaved-indicator" class="text-red-500 font-bold hidden">
+                        &bull; Unsaved Changes
+                    </span>
+                </div>
+                
+                <div class="code-area flex-grow">
+                    <div id="line-numbers">1</div>
+                    <textarea id="editor-content" placeholder="// Click a file in the sidebar to load it." disabled></textarea>
+                </div>
+            </div>
+            
+            <!-- Clone Analysis View (Initially Hidden) -->
+            <div id="clone-analysis-view" class="hidden flex-grow overflow-hidden">
+                <div class="w-1/4 **bg-gray-900** p-4 border-r **border-gray-700** overflow-y-auto flex flex-col">
+                    <h2 class="text-xl font-bold mb-2 **text-gray-200** border-b **border-gray-700** pb-2">Code Duplication Analysis</h2> 
+                    <h3 id="filter-accordion-header" class="... **bg-gray-800** ... **text-gray-300** hover:**bg-gray-700** ...">
+                      <span>Filter Clone Types</span>
+                        <svg id="filter-accordion-icon" class="h-4 w-4 transition-transform duration-300 transform rotate-180" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </h3>
+                    
+                    <div id="clone-filter-controls" class="mb-4 space-y-1 **text-gray-300**">
+                        <label class="flex items-center text-sm">
+                            <input type="checkbox" id="filter-type-1" value="1" checked class="form-checkbox h-4 w-4 text-purple-600 transition duration-150 ease-in-out">
+                            <span class="ml-2 **text-gray-300**">Type 1: Exact Match</span>
+                        </label>
+                        <label class="flex items-center text-sm">
+                            <input type="checkbox" id="filter-type-2" value="2" checked class="form-checkbox h-4 w-4 text-purple-600 transition duration-150 ease-in-out">
+                            <span class="ml-2 **text-gray-300**">Type 2: Structural Similarity</span>
+                        </label>
+                        <label class="flex items-center text-sm">
+                            <input type="checkbox" id="filter-type-3" value="3" checked class="form-checkbox h-4 w-4 text-purple-600 transition duration-150 ease-in-out">
+                            <span class="ml-2 **text-gray-300**">Type 3: Near Miss</span>
+                        </label>
+                    </div>
+
+                    <button id="close-clones-btn" class="mt-4 w-full **bg-gray-700** hover:**bg-gray-600** text-white font-semibold py-2 px-4 rounded transition-colors">
+                        Back to Editor
+                    </button>
+                    
+                    <div id="clone-list" class="space-y-3 flex-grow">
+                        <p class="text-gray-500 text-sm">Select a clone group to view fragments.</p>
+                    </div>
+                </div>
+                
+                <div id="clone-diff-container" class="w-3/4 flex p-4 space-x-4 h-full">
+                    <div class="**text-gray-400** p-4 w-full text-center self-center">
+                        Select a Clone Group from the left panel to compare fragments.
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Global Message/Error Box -->
+    <div id="message-box" class="fixed bottom-4 right-4 bg-yellow-400 text-gray-800 p-4 rounded-lg shadow-xl transition-opacity duration-300 opacity-0 pointer-events-none">
+        A message will appear here.
+    </div>
+
+    <!-- Link External JavaScript -->
+    <script type="module" src="script.js" defer></script>
+</body>
+<a href="../" class="home-btn" title="Back to Frontpage">⌂</a>
+</html>
