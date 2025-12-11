@@ -20,12 +20,13 @@ import util::Reflective;
 import Conf;
 import Utility::CleanCode;
 
-
 bool overlapsOrExtends(Location a, Location b) {
+    if (a.filePath != b.filePath) return false; 
+    
     return a.startLine <= b.endLine + 1
-        && b.startLine <= a.endLine + 1
-        && a.filePath == b.filePath; // must be same file
+        && b.startLine <= a.endLine + 1;
 }
+
 Location mergeLocations(Location a, Location b) {
     int s       = min(a.startLine, b.startLine);
     int end     = max(a.endLine, b.endLine);
@@ -215,23 +216,25 @@ public num calculateSimilarity(node t1, node t2) {
 
 
 
-public lrel[node_loc, node_loc] delSymmPairs(lrel[node_loc, node_loc] clonePairs) {
+lrel[node_loc, node_loc] delSymmPairs(lrel[node_loc, node_loc] clonePairs) {
+  set[str] seen = {};
+  lrel[node_loc, node_loc] out = [];
 
-    lrel[node_loc,  node_loc] newClonePairs = [];
+  for (pair <- clonePairs) {
+    <L, R> = pair;
+    // canonical ordering by file + start + end
+    str keyL = "<L[1].uri>:<L[1].begin.line>:<L[1].end.line>";
+    str keyR = "<R[1].uri>:<R[1].begin.line>:<R[1].end.line>";
+    str canonical;
+    if (keyL <= keyR) canonical = keyL + "|" + keyR;
+    else canonical = keyR + "|" + keyL;
 
-    for (pair <- clonePairs) {
-        
-        tuple[node_loc, node_loc] reversePair = 
-            <
-                <pair[1][0],pair[1][1]>,
-                <pair[0][0],pair[0][1]>
-            >;
-
-        if (reversePair notin newClonePairs) {		
-            newClonePairs += pair;
-        }
+    if (!(canonical in seen)) {
+      seen += {canonical};
+      out += pair;
     }
-    return newClonePairs;
+  }
+  return out;
 }
 
 

@@ -15,6 +15,7 @@ import Utility::CloneMerger;
 import Utility::Write;
 import Utility::LinesOfCode;
 import Utility::CloneMerger;
+import Utility::Hash;
 import DateTime;
 
 int DUPLICATION_THRESHOLD = 6;
@@ -27,6 +28,7 @@ int durationToMillis(Duration d) {
         + d.seconds * 1000
         + d.milliseconds;
 }
+
 list [Clone] findClonesOfType3Token(){
     list[Declaration] ast = genASTFromProject(projectRoot);
     list[TokenizedLine] lines =  tokeniseAST(ast, true);
@@ -79,63 +81,129 @@ real jaccard(set[str] A, set[str] B) {
     return inter / uni;
 }
 
+// Coarse MinHash-like signature: small buckets, robust to noise
+// Defensive fastHash: never sums an empty list and logs unexpected cases.
+int fastHash(set[str] toks) {
+    // empty token set -> bucket 0
+    if (size(toks) == 0) {
+        return 0;
+    }
 
-/* ============================================================================
- * Type-3 clone detector with DEBUG OUTPUT
- * ============================================================================
- */
+    // build list of token-hashes; filter out any unexpected nulls (defensive)
+    list[int] hs = [];
+    for (t <- toks) {
+        // defensive: ensure t is not null/empty string
+        if (t == "" || t == null) {
+            // skip weird tokens
+            continue;
+        }
+        // abs(hash(...)) should be an int; keep it
+        hs += abs(hash(t));
+    }
+
+    // if nothing remained, put into special bucket 0
+    if (size(hs) == 0) {
+        println("fastHash: WARNING - all token hashes filtered out for a block bucket 0");
+        return 0;
+    }
+
+    hs = sort(hs);
+
+    // choose up to k smallest hashes (k at most 5)
+    int k = size(hs) < 5 ? size(hs) : 5;
+    if (k == 0) {
+        // defensive fallback
+        println("fastHash: WARNING - k == 0 after building hs bucket 0");
+        return 0;
+    }
+
+    // build prefix safely (no risk of sum([]) now)
+    list[int] prefix = hs[0 .. k - 1];
+    if (size(prefix) == 0) {
+        println("fastHash: WARNING - empty prefix despite k 0 bucket 0");
+        return 0;
+    }
+
+    int acc = 0;
+    for (v <- prefix) acc += v;
+
+    return acc % 5000;
+}
+
+
 
 /* ============================================================================
  * Type-3 clone detector with DEBUG OUTPUT
  * ============================================================================
  */
 list[Clone] findType3(list[TokenizedLine] lines) {
-    
+    list[Clone] result = [];
     lines = removeEmptyTokenLines(lines);
-
+    int t = DUPLICATION_THRESHOLD;
     real SIM_THRESHOLD = 0.70;
-    int  t = DUPLICATION_THRESHOLD;
-    list[Clone] clones = [];
 
     int n = size(lines);
-    list[set[str]] blocks =
-    [ sameFileBlock(lines, i, t) ? flattenBlock(lines, i, t) : {} 
-    | i <- [0 .. n - t]
-    ];
+    println("Precompute");
 
-    println("\n ============== DEBUG: TYPE-3 COMPARISON START ============== \n");
-    println("Total blocks: <size(blocks)>");
-    println("Threshold: <SIM_THRESHOLD>  (t = <t> lines per block)\n");
+    // Precompute file ID and flattened blocks
+    list[str] fileId = [ l.sourceLoc.uri | l <- lines ];
+    list[set[str]] blocks = [];
+    for (i <- [0 .. n - t]) { 
+        blocks += flattenBlock(lines, i, t); 
+    }
 
-    for (i <- [0 .. n - t]) {
-        if (!sameFileBlock(lines, i, t)) continue;
-        println("---------------------------------------------------------");
-        println("BLOCK <i> tokens: <blocks[i]>");
-        println("---------------------------------------------------------");
+    println("Computing buckets");
+    map[int, list[int]] buckets = ();
 
-        for (j <- [i + 1 .. n - t]) {
-            if (!sameFileBlock(lines, j, t)) continue;
-            real sim = jaccard(blocks[i], blocks[j]);
-            if (sim >= SIM_THRESHOLD && sim < 1.0) {
+    for (i <- index(blocks)) {
+        if (i % 10000 == 0) println("  bucket progress index: <i>");
 
-                Location loc1 = toLocation(lines, i, t);
-                Location loc2 = toLocation(lines, j, t);
+        if (size(blocks[i]) == 0) {
+            // optionally store empty blocks:
+            // buckets[0] = (buckets[0] ? []) + [i];
+            continue;
+        }
 
-                str id = "T3_<i>_<j>";
-                str name = "Type3Clone_<i>_<j>";
+        int h = fastHash(blocks[i]);
 
-                clones += clone(
-                    [loc1, loc2],
-                    t,          // fragment length
-                    3,          // clone type → Type-3
-                    id,
-                    name
-                );
+        if (h == 0 && size(blocks[i]) > 0) {
+            println("fastHash returned 0 for non-empty block index <i> tokens: <blocks[i]>");
+        }
+
+        list[int] current = buckets[h] ? [];
+        current += i;
+        buckets[h] = current;
+    }
+
+
+    // Compare only inside buckets
+    for (h <- domain(buckets)) {
+        list[int] bucket = buckets[h];
+
+        // Skip tiny buckets
+        if (size(bucket) < 2) continue;
+
+        for (i <- bucket) {
+            for (j <- bucket) {
+                if (i >= j) continue;
+                if (fileId[i] != fileId[j]) continue;
+
+                real sim = jaccard(blocks[i], blocks[j]);
+
+                if (sim >= SIM_THRESHOLD && sim < 1.0) {
+                    result += makeClone(i, j, t, lines);
+                }
             }
         }
     }
 
-    println("\n============== DEBUG: TYPE-3 COMPARISON END ================\n");
+    return result;
+}
 
-    return clones;
+Clone makeClone(int i, int j, int t, list[TokenizedLine] lines) {
+    Location loc1 = toLocation(lines, i, t);
+    Location loc2 = toLocation(lines, j, t);
+    str id = "T3_<i>_<j>";
+    str name = "Type3Clone_<i>_<j>";
+    return clone([loc1, loc2], t, 3, id, name);
 }
