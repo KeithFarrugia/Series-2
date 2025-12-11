@@ -30,8 +30,12 @@ int durationToMillis(Duration d) {
 list [Clone] findClonesOfType3Token(){
     list[Declaration] ast = genASTFromProject(projectRoot);
     list[TokenizedLine] lines =  tokeniseAST(ast, true);
-
-    return applyTransitivity(mergeClonePairList(findType3(lines)));
+    datetime t0 = now();
+    list [Clone] c =  applyTransitivity(mergeClonePairList(findType3(lines)));
+    datetime t1 = now();
+    println("Create M3 model    <durationToMillis(createDuration(t0, t1))>");
+    println("Size               <size(c)>");
+    return c;
 }
 
 bool sameFileBlock(list[TokenizedLine] lines, int s, int t) {
@@ -79,7 +83,6 @@ real jaccard(set[str] A, set[str] B) {
     return inter / uni;
 }
 
-
 /* ============================================================================
  * Type-3 clone detector with DEBUG OUTPUT
  * ============================================================================
@@ -90,7 +93,7 @@ real jaccard(set[str] A, set[str] B) {
  * ============================================================================
  */
 list[Clone] findType3(list[TokenizedLine] lines) {
-    
+
     lines = removeEmptyTokenLines(lines);
 
     real SIM_THRESHOLD = 0.70;
@@ -98,44 +101,50 @@ list[Clone] findType3(list[TokenizedLine] lines) {
     list[Clone] clones = [];
 
     int n = size(lines);
-    list[set[str]] blocks =
-    [ sameFileBlock(lines, i, t) ? flattenBlock(lines, i, t) : {} 
-    | i <- [0 .. n - t]
-    ];
 
-    println("\n ============== DEBUG: TYPE-3 COMPARISON START ============== \n");
-    println("Total blocks: <size(blocks)>");
-    println("Threshold: <SIM_THRESHOLD>  (t = <t> lines per block)\n");
+    list[set[str]] blocks =
+        [ sameFileBlock(lines, i, t) ? flattenBlock(lines, i, t) : {} 
+        | i <- [0 .. n - t]
+        ];
+
+    // Representatives of current clone groups
+    list[int] representatives = [];
 
     for (i <- [0 .. n - t]) {
         if (!sameFileBlock(lines, i, t)) continue;
-        println("---------------------------------------------------------");
-        println("BLOCK <i> tokens: <blocks[i]>");
-        println("---------------------------------------------------------");
 
-        for (j <- [i + 1 .. n - t]) {
-            if (!sameFileBlock(lines, j, t)) continue;
-            real sim = jaccard(blocks[i], blocks[j]);
+        bool matched = false;
+
+        for (rep <- representatives) {
+
+            // NEVER compare a block with itself
+            if (i == rep) continue;
+
+            if (!sameFileBlock(lines, rep, t)) continue;
+
+            real sim = jaccard(blocks[i], blocks[rep]);
+
             if (sim >= SIM_THRESHOLD && sim < 1.0) {
 
-                Location loc1 = toLocation(lines, i, t);
-                Location loc2 = toLocation(lines, j, t);
+                // Create the minimal pair (rep, i)
+                Location loc1 = toLocation(lines, rep, t);
+                Location loc2 = toLocation(lines, i, t);
 
-                str id = "T3_<i>_<j>";
-                str name = "Type3Clone_<i>_<j>";
+                str id   = "T3_<rep>_<i>";
+                str name = "Type3Clone_<rep>_<i>";
 
-                clones += clone(
-                    [loc1, loc2],
-                    t,          // fragment length
-                    3,          // clone type → Type-3
-                    id,
-                    name
-                );
+                clones += clone([loc1, loc2], t, 3, id, name);
+
+                matched = true;
+                break;   // IMPORTANT: stops full cross-product
             }
         }
-    }
 
-    println("\n============== DEBUG: TYPE-3 COMPARISON END ================\n");
+        if (!matched) {
+            // Only add as a representative AFTER we check old ones
+            representatives += i;
+        }
+    }
 
     return clones;
 }

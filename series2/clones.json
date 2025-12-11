@@ -1,0 +1,883 @@
+{
+  "projectRoot": "/dev/software_evo/Series-2/clone-demo; // clone-demo",
+  "clones": [
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 3,
+          "endLine": 22
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 1,
+          "endLine": 19
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 3,
+          "endLine": 23
+        }
+      ],
+      "fragmentLength": 20,
+      "cloneType": 3,
+      "_id": "T3_0_1",
+      "name": "Type3Clone_0_1"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "startLine": 23,
+          "endLine": 1
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 19,
+          "endLine": 31
+        },
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 22,
+          "endLine": 1
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_11_12",
+      "name": "Type3Clone_11_12"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/items/Usable.java",
+          "startLine": 1,
+          "endLine": 8
+        },
+        {
+          "filePath": "src/main/java/com/example/items/Usable.java",
+          "startLine": 3,
+          "endLine": 1
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_17_18",
+      "name": "Type3Clone_17_18"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/items/Potion.java",
+          "startLine": 3,
+          "endLine": 36
+        },
+        {
+          "filePath": "src/main/java/com/example/items/Potion.java",
+          "startLine": 5,
+          "endLine": 43
+        }
+      ],
+      "fragmentLength": 39,
+      "cloneType": 3,
+      "_id": "T3_41_43",
+      "name": "Type3Clone_41_43"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/ConsoleRenderer.java",
+          "startLine": 3,
+          "endLine": 9
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/ConsoleRenderer.java",
+          "startLine": 5,
+          "endLine": 13
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/MenuPrinter.java",
+          "startLine": 4,
+          "endLine": 12
+        }
+      ],
+      "fragmentLength": 9,
+      "cloneType": 3,
+      "_id": "T3_69_70",
+      "name": "Type3Clone_69_70"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 11,
+          "endLine": 26
+        },
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 12,
+          "endLine": 30
+        }
+      ],
+      "fragmentLength": 19,
+      "cloneType": 3,
+      "_id": "T3_85_86",
+      "name": "Type3Clone_85_86"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 29,
+          "endLine": 41
+        },
+        {
+          "filePath": "src/main/java/com/example/Main.java",
+          "startLine": 30,
+          "endLine": 42
+        }
+      ],
+      "fragmentLength": 13,
+      "cloneType": 3,
+      "_id": "T3_96_97",
+      "name": "Type3Clone_96_97"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 1,
+          "endLine": 10
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 1,
+          "endLine": 13
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 1,
+          "endLine": 14
+        },
+        {
+          "filePath": "src/main/java/com/example/items/Potion.java",
+          "startLine": 3,
+          "endLine": 9
+        }
+      ],
+      "fragmentLength": 10,
+      "cloneType": 3,
+      "_id": "T3_41_105",
+      "name": "Type3Clone_41_105"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 6,
+          "endLine": 11
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 7,
+          "endLine": 13
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 7,
+          "endLine": 13
+        }
+      ],
+      "fragmentLength": 7,
+      "cloneType": 3,
+      "_id": "T3_108_109",
+      "name": "Type3Clone_108_109"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/items/Potion.java",
+          "startLine": 7,
+          "endLine": 18
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 12,
+          "endLine": 21
+        }
+      ],
+      "fragmentLength": 12,
+      "cloneType": 3,
+      "_id": "T3_44_114",
+      "name": "Type3Clone_44_114"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 20,
+          "endLine": 43
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 17,
+          "endLine": 31
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 19,
+          "endLine": 43
+        }
+      ],
+      "fragmentLength": 24,
+      "cloneType": 3,
+      "_id": "T3_118_121",
+      "name": "Type3Clone_118_121"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 27,
+          "endLine": 32
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 26,
+          "endLine": 31
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/ConsoleRenderer.java",
+          "startLine": 7,
+          "endLine": 1
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_72_126",
+      "name": "Type3Clone_72_126"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 39,
+          "endLine": 91
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 40,
+          "endLine": 94
+        }
+      ],
+      "fragmentLength": 55,
+      "cloneType": 3,
+      "_id": "T3_136_137",
+      "name": "Type3Clone_136_137"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 102,
+          "endLine": 115
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 103,
+          "endLine": 117
+        }
+      ],
+      "fragmentLength": 15,
+      "cloneType": 3,
+      "_id": "T3_171_172",
+      "name": "Type3Clone_171_172"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/GameWindow.java",
+          "startLine": 1,
+          "endLine": 27
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/GameWindow.java",
+          "startLine": 3,
+          "endLine": 28
+        }
+      ],
+      "fragmentLength": 27,
+      "cloneType": 3,
+      "_id": "T3_182_183",
+      "name": "Type3Clone_182_183"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/items/Potion.java",
+          "startLine": 7,
+          "endLine": 13
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/GameWindow.java",
+          "startLine": 6,
+          "endLine": 15
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_44_185",
+      "name": "Type3Clone_44_185"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 26,
+          "endLine": 31
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 19,
+          "endLine": 29
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 26,
+          "endLine": 34
+        }
+      ],
+      "fragmentLength": 11,
+      "cloneType": 3,
+      "_id": "T3_125_210",
+      "name": "Type3Clone_125_210"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 23,
+          "endLine": 49
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 24,
+          "endLine": 50
+        }
+      ],
+      "fragmentLength": 27,
+      "cloneType": 3,
+      "_id": "T3_214_215",
+      "name": "Type3Clone_214_215"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 54,
+          "endLine": 60
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 55,
+          "endLine": 61
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 53,
+          "endLine": 58
+        }
+      ],
+      "fragmentLength": 7,
+      "cloneType": 3,
+      "_id": "T3_230_231",
+      "name": "Type3Clone_230_231"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 12,
+          "endLine": 22
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 14,
+          "endLine": 27
+        }
+      ],
+      "fragmentLength": 14,
+      "cloneType": 3,
+      "_id": "T3_258_259",
+      "name": "Type3Clone_258_259"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 9,
+          "endLine": 14
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 29,
+          "endLine": 35
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_111_270",
+      "name": "Type3Clone_111_270"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 30,
+          "endLine": 62
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 31,
+          "endLine": 66
+        }
+      ],
+      "fragmentLength": 36,
+      "cloneType": 3,
+      "_id": "T3_271_272",
+      "name": "Type3Clone_271_272"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 17,
+          "endLine": 22
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 66,
+          "endLine": 74
+        }
+      ],
+      "fragmentLength": 9,
+      "cloneType": 3,
+      "_id": "T3_118_296",
+      "name": "Type3Clone_118_296"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 68,
+          "endLine": 104
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 69,
+          "endLine": 105
+        }
+      ],
+      "fragmentLength": 37,
+      "cloneType": 3,
+      "_id": "T3_298_299",
+      "name": "Type3Clone_298_299"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 103,
+          "endLine": 111
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 128,
+          "endLine": 138
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_320_336",
+      "name": "Type3Clone_320_336"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 129,
+          "endLine": 146
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 132,
+          "endLine": 149
+        }
+      ],
+      "fragmentLength": 18,
+      "cloneType": 3,
+      "_id": "T3_337_338",
+      "name": "Type3Clone_337_338"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 149,
+          "endLine": 184
+        },
+        {
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "startLine": 150,
+          "endLine": 187
+        }
+      ],
+      "fragmentLength": 38,
+      "cloneType": 3,
+      "_id": "T3_347_348",
+      "name": "Type3Clone_347_348"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/items/Potion.java",
+          "startLine": 1,
+          "endLine": 18
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 7,
+          "endLine": 27
+        }
+      ],
+      "fragmentLength": 21,
+      "cloneType": 3,
+      "_id": "T3_40_375",
+      "name": "Type3Clone_40_375"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "startLine": 1,
+          "endLine": 10
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 11,
+          "endLine": 18
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_0_378",
+      "name": "Type3Clone_0_378"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 9,
+          "endLine": 36
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 13,
+          "endLine": 51
+        }
+      ],
+      "fragmentLength": 39,
+      "cloneType": 3,
+      "_id": "T3_377_379",
+      "name": "Type3Clone_377_379"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 41,
+          "endLine": 69
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 44,
+          "endLine": 85
+        }
+      ],
+      "fragmentLength": 42,
+      "cloneType": 3,
+      "_id": "T3_395_396",
+      "name": "Type3Clone_395_396"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 85,
+          "endLine": 109
+        },
+        {
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "startLine": 86,
+          "endLine": 119
+        }
+      ],
+      "fragmentLength": 34,
+      "cloneType": 3,
+      "_id": "T3_425_426",
+      "name": "Type3Clone_425_426"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/items/Potion.java",
+          "startLine": 3,
+          "endLine": 18
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 1,
+          "endLine": 20
+        }
+      ],
+      "fragmentLength": 20,
+      "cloneType": 3,
+      "_id": "T3_41_454",
+      "name": "Type3Clone_41_454"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 39,
+          "endLine": 48
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 40,
+          "endLine": 51
+        }
+      ],
+      "fragmentLength": 12,
+      "cloneType": 3,
+      "_id": "T3_484_485",
+      "name": "Type3Clone_484_485"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 47,
+          "endLine": 69
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 48,
+          "endLine": 71
+        }
+      ],
+      "fragmentLength": 24,
+      "cloneType": 3,
+      "_id": "T3_141_491",
+      "name": "Type3Clone_141_491"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 63,
+          "endLine": 74
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 65,
+          "endLine": 75
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_498_499",
+      "name": "Type3Clone_498_499"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 45,
+          "endLine": 54
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 66,
+          "endLine": 79
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_226_500",
+      "name": "Type3Clone_226_500"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 94,
+          "endLine": 111
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 74,
+          "endLine": 89
+        }
+      ],
+      "fragmentLength": 18,
+      "cloneType": 3,
+      "_id": "T3_171_503",
+      "name": "Type3Clone_171_503"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 80,
+          "endLine": 92
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 83,
+          "endLine": 94
+        }
+      ],
+      "fragmentLength": 13,
+      "cloneType": 3,
+      "_id": "T3_506_507",
+      "name": "Type3Clone_506_507"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 67,
+          "endLine": 90
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 87,
+          "endLine": 108
+        }
+      ],
+      "fragmentLength": 24,
+      "cloneType": 3,
+      "_id": "T3_151_509",
+      "name": "Type3Clone_151_509"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 102,
+          "endLine": 109
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 103,
+          "endLine": 110
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_519_520",
+      "name": "Type3Clone_519_520"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 110,
+          "endLine": 115
+        },
+        {
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "startLine": 107,
+          "endLine": 113
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_175_522",
+      "name": "Type3Clone_175_522"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 20,
+          "endLine": 26
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 21,
+          "endLine": 27
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_538_539",
+      "name": "Type3Clone_538_539"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 28,
+          "endLine": 42
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 29,
+          "endLine": 43
+        }
+      ],
+      "fragmentLength": 15,
+      "cloneType": 3,
+      "_id": "T3_545_546",
+      "name": "Type3Clone_545_546"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "startLine": 36,
+          "endLine": 44
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 30,
+          "endLine": 41
+        }
+      ],
+      "fragmentLength": 6,
+      "cloneType": 3,
+      "_id": "T3_135_547",
+      "name": "Type3Clone_135_547"
+    },
+    {
+      "locations": [
+        {
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "startLine": 38,
+          "endLine": 49
+        },
+        {
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "startLine": 41,
+          "endLine": 51
+        }
+      ],
+      "fragmentLength": 12,
+      "cloneType": 3,
+      "_id": "T3_223_552",
+      "name": "Type3Clone_223_552"
+    }
+  ]
+}
