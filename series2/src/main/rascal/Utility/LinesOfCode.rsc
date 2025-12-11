@@ -125,13 +125,9 @@ public ProjectMetrics getAllFilesFromProjectRoot() {
  */
 public int countLinesOfCode(loc location) {
     str rawContent = readSingleFile(location);
-    
-    // Clean the content (removes all comments and collapses blank lines)
-    str cleanContent = cleanSource(rawContent);
-    
-    // Split the content 
-    list[str] codeLines = split("\n", cleanContent);
-    codeLines = [line | line <- codeLines, line != ""];
+
+    list[str] codeLines = split("\n", rawContent);
+    codeLines = [line | line <- codeLines];
     
     // Return the number of lines of code
     return size(codeLines);

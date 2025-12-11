@@ -19,7 +19,6 @@ public class RandomUtils {
         return result;
     }
 
-
     // CLONE TYPE 2: Renamed variables 
     public static int randBetween(int lower, int upper) {
         // Calculate the difference inclusive

@@ -22,7 +22,6 @@ public class Mage {
         this.gold = 0;
     }
 
-
     // CLONE TYPE 2: same method as Hero.printStats but renamed variables (>= 6 lines)
     public void showStats() {
         System.out.println("*******************************");

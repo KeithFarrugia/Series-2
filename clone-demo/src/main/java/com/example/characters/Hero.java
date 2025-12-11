@@ -1,9 +1,7 @@
 package com.example.characters;
 
-
 import com.example.utils.MathUtils;
 import com.example.utils.RandomUtils;
-
 
 public class Hero {
     private String name;
