@@ -36,7 +36,7 @@ list [Clone] findClonesOfType3Token(){
 
 bool sameFileBlock(list[TokenizedLine] lines, int s, int t) {
     str file = lines[s].sourceLoc.uri;
-    for (k <- [0 .. t]) {
+    for (k <- [0 .. t-1]) {
         if (lines[s + k].sourceLoc.uri != file) {
             return false;
         }
@@ -60,7 +60,7 @@ void TestNoReturn3(){
  */
 set[str] flattenBlock(list[TokenizedLine] lines, int s, int t) {
     set[str] group = {};
-    for (k <- [0 .. t]) {
+    for (k <- [0 .. t-1]) {
         group += lines[s + k].tokens;
     }
     return group;

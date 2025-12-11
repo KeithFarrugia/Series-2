@@ -17,6 +17,10 @@ import util::Math;
 import util::FileSystem;
 import util::Reflective;
 import Conf;
+import Utility::LinesOfCode;
+import Utility::CloneMerger;
+import DateTime;
+
 
 
 map[node, lrel[node, loc]] buckets  = ();
@@ -46,7 +50,39 @@ list [Clone] findClonesOfType1Or2AST(int cloneType){
     list [Clone] c = buildASTCloneList(removeInternalCloneClasses(findClonesSets()), cloneType);
     return c;
 }
+int durationToMillis(Duration d) {
+  return  d.years   * 1000 * 60 * 60 * 24 * 365
+        + d.months  * 1000 * 60 * 60 * 24 * 30
+        + d.days    * 1000 * 60 * 60 * 24
+        + d.hours   * 1000 * 60 * 60
+        + d.minutes * 1000 * 60
+        + d.seconds * 1000
+        + d.milliseconds;
+}
+void findASTType12(){
+    buckets  = ();
+    list[Declaration] ast = genASTFromProject(projectRoot);
+    list[Declaration] norm_ast = [];
+    
+    for(d <- ast){
+        norm_ast += normaliseDeclaration(d);
+    }
 
+    visit (norm_ast) {
+        case node x: {
+            int currentMass = mass(x);
+            if (currentMass >= MASS_THRESHOLD) {
+                addNodeToMap(x);
+            }
+        }
+    }
+    
+    datetime t0 = now();
+    list [Clone] c = buildASTCloneList(removeInternalCloneClasses(findClonesSets()), 2);
+    datetime t1 = now();
+    println("AST TIME        <durationToMillis(createDuration(t0, t1))>");
+    
+}
 /* ============================================================================
  *                             addNodeToMap()
  * ----------------------------------------------------------------------------

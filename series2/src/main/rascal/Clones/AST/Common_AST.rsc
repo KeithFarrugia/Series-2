@@ -279,7 +279,6 @@ public bool contains(loc outer, loc inner){
 }
 
 
-
 public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
     map[node, lrel[node_loc, node_loc]] cloneSet
 ) {
@@ -288,7 +287,11 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
     println("Starting removeInternalCloneClasses");
     println("Initial cloneSet size <size(cloneSet)>");
 
-    for(nodeKey <- cloneSet){
+    // Work on a snapshot of keys so we can safely mutate cloneSet afterwards
+    list[node] rootKeys = [k | k <- domain(cloneSet)];
+    set[node] keysToRemove = {};
+
+    for (nodeKey <- rootKeys) {
         println("\n ------------------------------------");
         println(" Inspecting nodeKey: \n <nodeKey> \n ------------------------------------ \n");
 
@@ -296,69 +299,89 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
             case node subKey: {
                 println("  Visiting subKey <subKey>");
 
-                // ================================
-                // Skip self-comparison
-                // ================================
-                if(subKey == nodeKey){
+                // Skip self-comparison quickly
+                if (subKey == nodeKey) {
                     println("    Skipping self-comparison for <subKey>");
-                } 
-                // ================================
-                else if(cloneSet[subKey]?){
-                    println("    subKey exists in cloneSet");
+                    continue;
+                }
 
-                    // ================================
-                    // Check if all subKey pairs are contained in nodeKey
-                    // ================================
-                    bool allContained = true;
+                // Only proceed if subKey is actually a key in the cloneSet
+                if (! (cloneSet[subKey]?)) {
+                    println("    subKey NOT in cloneSet");
+                    continue;
+                }
 
-                    for(i <- [0 .. size(cloneSet[subKey])-1]){
-                        tuple[node_loc, node_loc] pair = cloneSet[subKey][i];
-                        <sn1, sl1> = pair[0];
-                        <sn2, sl2> = pair[1];
+                println("    subKey exists in cloneSet");
 
-                        println("      Checking pair index <i> : <pair>");
-                        println("      sl1 <sl1>, sl2 <sl2>");
+                // Check if all subKey pairs are contained in nodeKey
+                bool allContained = true;
 
-                        bool foundParent = false;
-                        for(<<_, l1>, <_, l2>> <- cloneSet[nodeKey]){
-                            if(
+                // defensive: get the list for subKey (we already checked existence)
+                lrel[node_loc, node_loc] subPairs = cloneSet[subKey];
+
+                for (i <- [0 .. size(subPairs)-1]) {
+                    tuple[node_loc, node_loc] pair = subPairs[i];
+                    // defensive pattern unpacking (ensure pair has expected shape)
+                    if (size(pair) != 2 || size(pair[0]) != 2 || size(pair[1]) != 2) {
+                        println("      Unexpected pair shape, skipping pair <pair>");
+                        allContained = false;
+                        break;
+                    }
+                    <sn1, sl1> = pair[0];
+                    <sn2, sl2> = pair[1];
+
+                    println("      Checking pair index <i> : <pair>");
+                    println("      sl1 <sl1>, sl2 <sl2>");
+
+                    bool foundParent = false;
+
+                    // defensive: ensure nodeKey is present in cloneSet when accessing
+                    if (!(cloneSet[nodeKey]?)) {
+                        // no parent data for nodeKey, so cannot contain subKey pairs
+                        foundParent = false;
+                    }
+                    else {
+                        for (<<_, l1>, <_, l2>> <- cloneSet[nodeKey]) {
+                            if (
                                (contains(l1, sl1) && contains(l2, sl2)) ||
                                (contains(l2, sl1) && contains(l1, sl2))
-                            ){
+                            ) {
                                 foundParent = true;
                                 println("        Found matching parent pair!");
                                 break;
                             }
                         }
-
-                        if(!foundParent){
-                            println("        No parent found for pair <pair>");
-                            allContained = false;
-                            break;
-                        }
                     }
 
-                    if(allContained){
-                        println("    subKey <subKey> is fully contained in nodeKey <nodeKey>, removing subKey");
-                        cloneSet = delete(cloneSet, subKey);
+                    if(!foundParent){
+                        println("        No parent found for pair <pair>");
+                        allContained = false;
+                        break;
                     }
-                    else {
-                        println("    subKey <subKey> not fully contained, keeping it");
-                    }
-                } 
+                } // end for pairs
+
+                if(allContained){
+                    println("    subKey <subKey> is fully contained in nodeKey <nodeKey>, scheduling for removal");
+                    keysToRemove += { subKey };
+                }
                 else {
-                    println("    subKey NOT in cloneSet");
+                    println("    subKey <subKey> not fully contained, keeping it");
                 }
             }
-        }
+        } // end visit
+    } // end for nodeKey
+
+    // Now remove scheduled keys (outside the iteration)
+    for (k <- keysToRemove) {
+        println("Removing key <k> from cloneSet");
+        cloneSet = delete(cloneSet, k);
     }
-    
+
     println("Finished removeInternalCloneClasses");
     println("Final cloneSet size <size(cloneSet)>");
 
     return cloneSet;
 }
-
 
 
 
