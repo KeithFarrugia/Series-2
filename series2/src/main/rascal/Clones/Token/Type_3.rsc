@@ -78,11 +78,14 @@ set[str] flattenBlock(list[TokenizedLine] lines, int s, int t) {
  * Jaccard similarity for sets
  * ============================================================================
  */
-real jaccard(set[str] A, set[str] B) {
-    if (size(A) == 0.0 && size(B) == 0.0) return 1.0;
-    real inter = toReal(size(A & B));
-    real uni   = toReal(size(A + B));
-    return inter / uni;
+real fastJaccard(set[str] A, set[str] B) {
+    int sizeA = size(A);
+    int sizeB = size(B);
+    if (sizeA == 0 && sizeB == 0) return 1.0;
+    int inter = size(A & B);
+    int uni = sizeA + sizeB - inter;
+    if (uni == 0) return 0.0;
+    return toReal(inter) / toReal(uni);
 }
 
 // Coarse MinHash-like signature: small buckets, robust to noise
@@ -107,7 +110,6 @@ int fastHash(set[str] toks) {
 
     // if nothing remained, put into special bucket 0
     if (size(hs) == 0) {
-        println("fastHash: WARNING - all token hashes filtered out for a block bucket 0");
         return 0;
     }
 
@@ -116,15 +118,12 @@ int fastHash(set[str] toks) {
     // choose up to k smallest hashes (k at most 5)
     int k = size(hs) < 5 ? size(hs) : 5;
     if (k == 0) {
-        // defensive fallback
-        println("fastHash: WARNING - k == 0 after building hs bucket 0");
         return 0;
     }
 
-    // build prefix safely (no risk of sum([]) now)
+    // build prefix safely (no risk of sum([]))
     list[int] prefix = hs[0 .. k - 1];
     if (size(prefix) == 0) {
-        println("fastHash: WARNING - empty prefix despite k 0 bucket 0");
         return 0;
     }
 
@@ -180,17 +179,7 @@ list[Clone] findType3(list[TokenizedLine] lines) {
     for (i <- index(blocks)) {
         if (i % 10000 == 0) println("  bucket progress index: <i>");
 
-        if (size(blocks[i]) == 0) {
-            // optionally store empty blocks:
-            // buckets[0] = (buckets[0] ? []) + [i];
-            continue;
-        }
-
         int h = fastHash(blocks[i]);
-
-        if (h == 0 && size(blocks[i]) > 0) {
-            println("fastHash returned 0 for non-empty block index <i> tokens: <blocks[i]>");
-        }
 
         list[int] current = buckets[h] ? [];
         current += i;
@@ -208,9 +197,11 @@ list[Clone] findType3(list[TokenizedLine] lines) {
         for (i <- bucket) {
             for (j <- bucket) {
                 if (i >= j) continue;
-                if (fileId[i] != fileId[j]) continue;
+                // if (fileId[i] != fileId[j]) continue; uncomment this to only allow intra file comparison
 
-                real sim = jaccard(blocks[i], blocks[j]);
+                if (abs(i - j) < t) continue;
+
+                real sim = fastJaccard(blocks[i], blocks[j]);
 
                 if (sim >= SIM_THRESHOLD && sim < 1.0) {
                     result += makeClone(i, j, t, lines);
