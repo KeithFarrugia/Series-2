@@ -105,19 +105,24 @@ map[node, lrel[node_loc, node_loc]] findClonesSets(){
     map[node, lrel[node_loc, node_loc]] clonesSet = ();
 
     for (bucket <- buckets) {
-        if (size(buckets[bucket]) >= 2) {
-            lrel[tuple[node,loc] L, tuple[node,loc] R] complementBucket = [];
-            complementBucket += buckets[bucket] * buckets[bucket];
-            // Removing reflective pairs
-            complementBucket = [p | p <- complementBucket, p.L != p.R];
-            // Cleanup symmetric clones, they are useless.
-            complementBucket = delSymmPairs(complementBucket);
-                
+        list[tuple[node, loc]] nodes = buckets[bucket];
+
+        if (size(nodes) >= 2) {
+            lrel[tuple[node, loc] L, tuple[node, loc] R] complementBucket = [];
+
+            // Only compare the first element with the rest
+            node first = nodes[0];
+            for (j <- [1..size(nodes)-1]) {
+                complementBucket += [<first, nodes[j]>];
+            }
+
+            // Add pairs to the clonesSet map
             for (treeRelation <- complementBucket) {
-                if (clonesSet[treeRelation[0][0]]?) {
-                    clonesSet[treeRelation[0][0]] += treeRelation;
+                node key = treeRelation[0][0];
+                if (clonesSet[key]?) {
+                    clonesSet[key] += treeRelation;
                 } else {
-                    clonesSet[treeRelation[0][0]] = [treeRelation];
+                    clonesSet[key] = [treeRelation];
                 }
             }
         }

@@ -1,0 +1,233 @@
+/* Ensure the body and main containers take up full remaining space */
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background: #0d1117;
+    color: #e6edf3;
+}
+
+.editor-container {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden; /* Important for scrollable content inside */
+    background: #0d1117;
+}
+
+/* Base Editor View Layout (Left Side) */
+.code-area {
+    display: grid;
+    grid-template-columns: 3rem 1fr; /* Line numbers width and content width */
+    height: 100%;
+    overflow: hidden;
+    background: #161b22;
+}
+
+/* Base Editor Line Numbers */
+#line-numbers, .clone-lines {
+    background-color: #161b22;
+    color: #8b949e;
+    padding: 8px 5px;
+    text-align: right;
+    overflow-y: hidden; /* Controlled by the textarea scroll */
+    user-select: none;
+    height: 100%;
+    
+    /* CRITICAL for synchronization: monospace font and matching line height */
+    font-family: monospace;
+    font-size: 0.875rem; /* Equivalent to Tailwind text-sm */
+    line-height: 1.5rem; /* Equivalent to Tailwind leading-6 */
+}
+
+/* Ensure each line number div takes the correct height */
+#line-numbers div, .clone-lines div {
+    height: 1.5rem; /* Explicit line height */
+}
+
+
+/* Base Editor Content (Textarea) */
+#editor-content {
+    border: none;
+    resize: none;
+    outline: none;
+    padding: 8px;
+    overflow: auto;
+    white-space: pre;
+    height: 100%;
+    width: 100%;
+
+    background: #0d1117;
+    color: #c9d1d9;
+    
+    /* CRITICAL for synchronization: matching font properties */
+    font-family: monospace;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+}
+
+
+/* --- Clone View Specific Fixes --- */
+
+/* Update #clone-diff-container in style.css */
+#clone-diff-container {
+    height: 100%;
+    display: flex;
+    /* CRITICAL: Revert to NO wrapping, forcing all fragments onto one line */
+    flex-wrap: nowrap; 
+    gap: 1rem;
+    padding: 1rem;
+    /* CRITICAL: Enable horizontal scrolling for the whole container */
+    overflow-x: auto; 
+    /* Disable vertical scrolling on the container itself (it's handled by inner fragments) */
+    overflow-y: hidden; 
+    background: #0d1117;
+}
+
+/* Update .clone-fragment-view in style.css */
+.clone-fragment-view {
+    display: flex;
+    flex-direction: column;
+    min-width: calc(50% - 0.5rem);
+    width: calc(50% - 0.5rem);
+    flex-shrink: 0;
+
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    height: 100%;
+    overflow: hidden;
+    box-shadow: 0 0 8px rgba(0,0,0,0.4);
+}
+
+.clone-fragment-view > div:last-child {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+/* Clone Content (Textarea) */
+.clone-content {
+    flex-grow: 1;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    padding: 8px;
+    resize: none;
+    border: none;
+    outline: none;
+
+    background: #0d1117;
+    color: #e6edf3;
+
+    font-family: monospace;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+}
+
+.code-area-wrapper {
+    flex-grow: 1;
+}
+
+.code-scroll-wrapper {
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+    padding: 8px 0;
+    width: 100%;
+    height: 100%;
+}
+
+.clone-content-display {
+    height: fit-content;
+    width: fit-content;
+    min-width: 100%;
+
+    font-family: monospace;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    color: #c9d1d9;
+
+    white-space: nowrap;
+}
+
+/* Individual line of code */
+.code-line {
+    height: 1.5rem;
+    padding-left: 8px;
+    white-space: nowrap !important;
+    overflow: hidden;
+}
+
+.code-line pre {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap !important;
+}
+
+.clone-type-1 {
+    background-color: #3b3617 !important;
+    border-left: 3px solid #f1e05a;
+}
+
+/* Type 2: Pink / Rose */
+.clone-type-2 {
+    background-color: #3a1f28 !important;
+    border-left: 3px solid #ff79c6;
+}
+
+/* Type 3: Blue / Cyan */
+.clone-type-3 {
+    background-color: #152932 !important;
+    border-left: 3px solid #58a6ff;
+}
+
+/* Summary Box */
+.summary-type-1 { border-left: 5px solid #f1e05a; }
+.summary-type-2 { border-left: 5px solid #ff79c6; }
+.summary-type-3 { border-left: 5px solid #58a6ff; }
+
+
+.home-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 42px;
+  height: 42px;
+  background: #21262d;
+  color: #e6edf3;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 20px;
+  border: 1px solid #30363d;
+  opacity: 0.6;
+  transition: 0.2s ease;
+  z-index: 99;
+}
+
+.home-btn:hover {
+  opacity: 1;
+  background: #30363d;
+  border-color: #58a6ff;
+}
+
+/* Dark Scrollbar Styling */
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+*::-webkit-scrollbar-track {
+    background: #0d1117;
+}
+*::-webkit-scrollbar-thumb {
+    background: #30363d;
+    border-radius: 4px;
+}
+*::-webkit-scrollbar-thumb:hover {
+    background: #484f58;
+}
