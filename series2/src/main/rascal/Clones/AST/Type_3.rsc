@@ -25,17 +25,12 @@ map[int, lrel[node, loc]] buckets  = ();
 list [Clone] findClonesOfType3AST(){
     buckets  = ();
     list[Declaration] ast = genASTFromProject(projectRoot);
-    list[Declaration] norm_ast = [];
-    
-    for(d <- ast){
-        norm_ast += normaliseDeclaration(d);
-    }
 
-
-    visit (norm_ast) {
+    visit (ast) {
         case node x: {
             int currentMass = mass(x);
             if (currentMass >= MASS_THRESHOLD) {
+                normalizedNodeCache[x] = unsetRec(x);
                 addNodeToMap(x);
             }
         }
@@ -122,6 +117,7 @@ map[node, lrel[node_loc, node_loc]] findClonesSets() {
             }
         }
     }
+    println("Found Clones");
     return clonesSet;
 }
 

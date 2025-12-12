@@ -277,6 +277,8 @@ list[node] checkForInnerClones(tuple[node,loc] tree, map[node, lrel[node_loc, no
 
 
 public bool contains(loc outer, loc inner){
+    if (outer.uri != inner.uri) return false;
+
     return outer.begin.line <= inner.begin.line &&
     outer.end.line   >= inner.end.line;
 }
@@ -289,6 +291,8 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
     println("\n\n==================================================================");
     println("Starting removeInternalCloneClasses");
     println("Initial cloneSet size <size(cloneSet)>");
+
+    set[node] keysToRemove = {};
 
     for(nodeKey <- cloneSet){
         // println("\n ------------------------------------");
@@ -305,8 +309,8 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
                     break;//println("    Skipping self-comparison for <subKey>");
                 } 
                 // ================================
-                else if(cloneSet[subKey]?){
-                    //println("    subKey exists in cloneSet");
+                else if(cloneSet[subKey]? && !(subKey in keysToRemove)){
+                    println("    subKey exists in cloneSet");
 
                     // ================================
                     // Check if all subKey pairs are contained in nodeKey
@@ -341,14 +345,16 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
                     }
 
                     if(allContained){
-                        //println("    subKey <subKey> is fully contained in nodeKey <nodeKey>, removing subKey");
-                        cloneSet = delete(cloneSet, subKey);
+                        // println("    subKey <subKey> is fully contained in nodeKey <nodeKey>, removing subKey");
+                        keysToRemove += subKey;
                     }
                 } 
             }
         }
     }
-    
+    for(key <- keysToRemove){
+        cloneSet = delete(cloneSet, key);
+    }
     println("Finished removeInternalCloneClasses");
     println("Final cloneSet size <size(cloneSet)>");
 
@@ -361,19 +367,23 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
 
 
 
+// In Clones::AST::Type_3 or Clones::AST::Common_AST (where buildASTCloneList resides)
+
 list[Clone] buildASTCloneList(map[node, lrel[node_loc, node_loc]] cloneSet, int cloneType) {
     list[Clone] result = [];
 
+    // Map to track all locations associated with a root, ensuring we process each unique location only once
+    map[node, set[Location]] uniqueLocations = ();
+
     for (root <- domain(cloneSet)) {
+        
+        // 1. Gather all unique Location objects for this root
+        set[Location] currentLocations = {};
         for (<L, R> <- cloneSet[root]) {
-
-            node n1 = L[0];
             loc  l1 = L[1];
-
-            node n2 = R[0];
             loc  l2 = R[1];
-
-            // Convert Rascal loc → your Clone Location type
+            
+            // Convert Rascal loc -> your Clone Location type
             Location loc1 = location(
                 stripCompilationUnitPrefix(l1.uri),
                 l1.begin.line,
@@ -385,20 +395,36 @@ list[Clone] buildASTCloneList(map[node, lrel[node_loc, node_loc]] cloneSet, int 
                 l2.begin.line,
                 l2.end.line
             );
-
-            int fragmentLength = l1.end.line - l1.begin.line + 1;
-
-            str id = "<root>-<l1.begin.line>-<l2.begin.line>";
-            str name = "ASTClone_<l1.begin.line>_<l2.begin.line>";
-
-            result += clone(
-                [loc1, loc2],
-                fragmentLength,
-                cloneType,
-                id,
-                name
-            );
+            
+            currentLocations += {loc1, loc2};
         }
+        
+        // 2. Create a single Clone object for the entire class, merging all unique locations
+        
+        // Find the maximum fragment length for the class
+        int maxLength = 0;
+        for (l <- currentLocations) {
+             int len = l.endLine - l.startLine + 1;
+             if (len > maxLength) {
+                 maxLength = len;
+             }
+        }
+
+        str id = "<root>"; // Use root as a consistent ID for the class
+        str name = "ASTClone_Class_<size(result)>";
+
+        // IMPORTANT: The `mergeCloneList` or similar function must be used on the 
+        // list of locations (set[Location]) before creating the final Clone object, 
+        // but typically, that is handled by the post-processing phase. 
+        
+        // Let's create one final Clone object per class with all unique locations
+        result += clone(
+            toList(currentLocations), // Convert unique set back to a list
+            maxLength,
+            cloneType,
+            id,
+            name
+        );
     }
 
     return result;
