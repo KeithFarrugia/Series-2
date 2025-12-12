@@ -106,6 +106,13 @@ Location mergeLocations(Location a, Location b) {
 // Checks if two clone pairs overlap in aligned or swapped order
 // ------------------------------------------------------------
 bool clonePairsOverlap(Clone c1, Clone c2) {
+    if (size(c1.locations) < 2 || size(c2.locations) < 2) {
+        // If the merge is attempting to merge single fragments, 
+        // they cannot "overlap" as a pair, unless your definition of "pair" 
+        // simply means two single locations. 
+        // Assuming your intention is to merge classes (which should have >= 2 instances):
+        return false; 
+    }
     // aligned: c1.locations[0] ↔ c2.locations[0] AND c1.locations[1] ↔ c2.locations[1]
     bool aligned = overlapsOrAdjacent(c1.locations[0], c2.locations[0])
                 && overlapsOrAdjacent(c1.locations[1], c2.locations[1]);
