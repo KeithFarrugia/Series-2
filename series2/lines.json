@@ -1,0 +1,110 @@
+{
+  "projectRoot": "clone-demo",
+  "modules": [
+    {
+      "name": "characters",
+      "files": [
+        {
+          "name": "Hero.java",
+          "filePath": "src/main/java/com/example/characters/Hero.java",
+          "linesOfCode": 120
+        },
+        {
+          "name": "Mage.java",
+          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "linesOfCode": 116
+        }
+      ]
+    },
+    {
+      "name": "combat",
+      "files": [
+        {
+          "name": "BattleSimulator.java",
+          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
+          "linesOfCode": 129
+        }
+      ]
+    },
+    {
+      "name": "enemies",
+      "files": [
+        {
+          "name": "Orc.java",
+          "filePath": "src/main/java/com/example/enemies/Orc.java",
+          "linesOfCode": 67
+        },
+        {
+          "name": "Goblin.java",
+          "filePath": "src/main/java/com/example/enemies/Goblin.java",
+          "linesOfCode": 66
+        }
+      ]
+    },
+    {
+      "name": "example",
+      "files": [
+        {
+          "name": "Main.java",
+          "filePath": "src/main/java/com/example/Main.java",
+          "linesOfCode": 44
+        }
+      ]
+    },
+    {
+      "name": "items",
+      "files": [
+        {
+          "name": "Usable.java",
+          "filePath": "src/main/java/com/example/items/Usable.java",
+          "linesOfCode": 9
+        },
+        {
+          "name": "Potion.java",
+          "filePath": "src/main/java/com/example/items/Potion.java",
+          "linesOfCode": 45
+        }
+      ]
+    },
+    {
+      "name": "ui",
+      "files": [
+        {
+          "name": "GameWindow.java",
+          "filePath": "src/main/java/com/example/ui/GameWindow.java",
+          "linesOfCode": 30
+        },
+        {
+          "name": "ConsoleRenderer.java",
+          "filePath": "src/main/java/com/example/ui/ConsoleRenderer.java",
+          "linesOfCode": 15
+        },
+        {
+          "name": "BattlePanel.java",
+          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
+          "linesOfCode": 193
+        },
+        {
+          "name": "MenuPrinter.java",
+          "filePath": "src/main/java/com/example/ui/MenuPrinter.java",
+          "linesOfCode": 14
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "files": [
+        {
+          "name": "RandomUtils.java",
+          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
+          "linesOfCode": 34
+        },
+        {
+          "name": "MathUtils.java",
+          "filePath": "src/main/java/com/example/utils/MathUtils.java",
+          "linesOfCode": 34
+        }
+      ]
+    }
+  ]
+}

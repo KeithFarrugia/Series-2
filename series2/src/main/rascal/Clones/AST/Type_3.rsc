@@ -30,7 +30,6 @@ list [Clone] findClonesOfType3AST(){
         case node x: {
             int currentMass = mass(x);
             if (currentMass >= MASS_THRESHOLD) {
-                normalizedNodeCache[x] = unsetRec(x);
                 addNodeToMap(x);
             }
         }
