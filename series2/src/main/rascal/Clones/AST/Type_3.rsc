@@ -20,12 +20,7 @@ import Utility::CloneMerger;
 import Conf;
 
 
-map[node, lrel[node, loc]] buckets  = ();
-map[int, set[node]] massIndex = (); 
-// 2. Cache map: stores the result of unsetRec(node) to avoid recalculation
-map[node, node] normalizedNodeCache = (); 
-// CONSTANT: Defines the range for mass comparison (e.g., 10% similarity in mass)
-private real MASS_WINDOW_PERCENT = 0.10;
+map[int, lrel[node, loc]] buckets  = ();
 
 list [Clone] findClonesOfType3AST(){
     buckets  = ();
@@ -54,84 +49,53 @@ list [Clone] findClonesOfType3AST(){
  *        Usually set to 6 lines.
  * ============================================================================
  */
-void addNodeToMap(
-    node n // The ORIGINAL node (with location)
-) {
+// Compute a simple fingerprint for fast pre-bucketing
+void addNodeToMap(node n) {
+    if (!n has src) return;
+
     loc location = getLocation(n.src);
+    if (!minNodeLines(location)) return;
 
-    if (minNodeLines(location) == false) {
-        return;
+    // Precompute clean node once
+    node clean = unsetRec(n);
+    tuple[node, loc] entry = <n, location>;
+
+    // Use mass as coarse fingerprint
+    int fp = mass(n);
+
+    // Create bucket for this mass if it does not exist
+    if (!buckets[fp]?) {
+        buckets[fp] = [];
     }
 
-    // 1. Caching & Key Retrieval (O(1))
-    // FIX: Retrieve key from the cache, preventing redundant unsetRec calls.
-    // FIX: The original node 'n' retains its location.
-    node key = normalizedNodeCache[n]; 
-    int currentMass = mass(key);
-    
-    num topSim = 0;
-    node bestKeyMatch;
+    // Find best match within this bucket only
+    list[tuple[node, loc]] bucket = buckets[fp];
+    node bestKey = clean;
+    num bestSim = 0;
 
-    // 2. Optimized Search (Mass Indexing)
-    int massWindow = toInt(currentMass * MASS_WINDOW_PERCENT);
-    int minMass = currentMass - massWindow;
-    int maxMass = currentMass + massWindow;
-
-    // FIX: Only iterate over buckets whose mass is close to the current node's mass.
-    for (m <- domain(massIndex)) {
-        if (m >= minMass && m <= maxMass) {
-            for (buck <- massIndex[m]) {
-                num similarity = calculateSimilarity(buck, key);
-                
-                if (similarity >= SIMILARITY_THRESHOLD && similarity > topSim) {
-                    topSim = similarity;
-                    bestKeyMatch = buck;
-                }
-            }
+    for (tuple[node, loc] existing <- bucket) {
+        node existingNode = existing[0];
+        num sim = calculateSimilarity(existingNode, clean);
+        if (sim >= SIMILARITY_THRESHOLD && sim > bestSim) {
+            bestSim = sim;
+            bestKey = existingNode;
         }
     }
 
-    // 3. Finalize Key and Update Index
-    if (topSim > 0) {
-        key = bestKeyMatch;
+    // If a similar node was found, merge with that node's bucket
+    if (bestSim > 0) {
+        // Add to the same mass bucket
+        buckets[fp] += entry;
     } else {
-        if (currentMass in massIndex) {
-            massIndex[currentMass] += key;
-        } else {
-            massIndex[currentMass] = {key};
-        }
-    }
-
-    // 4. LOCATION HANDLING: Check for location uniqueness and insert
-    if (buckets[key]?) {
-        bool alreadyExists = false;
-        
-        // Check if the exact location is already present (simple and robust)
-        for (clonePair <- buckets[key]) {
-            if (location == getLocation(clonePair[1])) {
-                alreadyExists = true;
-                break;
-            }
-        }
-    
-        if (alreadyExists == false) {
-            // Check for containment/overlap only if files are the same, 
-            // but for Type-3 we often relax this and rely on removeInternalCloneClasses.
-            // For now, let's trust the input AST has non-overlapping locations 
-            // and simply add the new unique instance.
-            buckets[key] += <n, location>;
-        }
-    } else {
-        buckets[key] = [<n,location>];
+        buckets[fp] += entry;
     }
 }
 
-map[node, lrel[node_loc, node_loc]] findClonesSets(){
+map[node, lrel[node_loc, node_loc]] findClonesSets() {
     map[node, lrel[node_loc, node_loc]] clonesSet = ();
 
-    for (bucket <- buckets) {
-        println("New bucket");
-        list[tuple[node, loc]] nodes = buckets[bucket];
+    for (fp <- domain(buckets)) {  // fp is int, not node
+        list[tuple[node, loc]] nodes = buckets[fp];
 
         if (size(nodes) >= 2) {
             lrel[tuple[node, loc] L, tuple[node, loc] R] complementBucket = [];
