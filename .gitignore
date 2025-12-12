@@ -8,3 +8,4 @@ target/
 series2/clones.json
 series2/frontend/clones.json
 results/
+series2/lines.json

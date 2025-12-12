@@ -28,7 +28,7 @@ int durationToMillis(Duration d) {
         + d.milliseconds;
 }
 
-void main() {
+void main() { // bug in ast one
     int methodType = 2;
     int cloneType = 1;
     list [Clone] clones;
