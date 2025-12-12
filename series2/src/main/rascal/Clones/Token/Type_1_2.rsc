@@ -120,8 +120,8 @@ list[Clone] findDuplicates(list[TokenizedLine] lines, int cloneType) {
     list[Clone] clones = [];
 
     // Precompute deterministic key per line (cheap, done once)
-    list[str] lineKey = [ "" | _ <- [0 .. n-1] ];
-    for (i <- [0 .. n-1]) {
+    list[str] lineKey = [ "" | _ <- [0 .. n] ];
+    for (i <- [0 .. n]) {
         lineKey[i] = buildLineKey(lines[i]);
     }
 
@@ -138,7 +138,7 @@ list[Clone] findDuplicates(list[TokenizedLine] lines, int cloneType) {
         for (s <- bucket) {
             // build compact block string from precomputed lineKey entries
             str blockStr = "";
-            for (k <- [0 .. t-1]) {
+            for (k <- [0 .. t]) {
                 blockStr += "|" + lineKey[s + k];   // leading '|' avoids accidental merges
             }
 
@@ -159,7 +159,7 @@ list[Clone] findDuplicates(list[TokenizedLine] lines, int cloneType) {
             for (s <- groupIdx) {
                 // build exact blockStr again (only for indices in this small group)
                 str blockStr = "";
-                for (k <- [0 .. t-1]) {
+                for (k <- [0 .. t]) {
                     blockStr += "|" + lineKey[s + k];
                 }
                 exactMap[blockStr] ?= [];
@@ -174,7 +174,7 @@ list[Clone] findDuplicates(list[TokenizedLine] lines, int cloneType) {
             if (m < 2) continue;
 
             int rep = group[0];
-            for (idx <- [1 .. m-1]) {
+            for (idx <- [1 .. m]) {
                 int other = group[idx];
 
                 Location loc1 = toLocation(lines, rep, t);
