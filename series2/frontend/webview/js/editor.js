@@ -36,21 +36,20 @@ export async function saveFile() {
 export function updateLineNumbers() {
     const newContent = Util.editorContent.value;
     const lineCount = newContent.split('\n').length;
-    // 1. Retrieve the original text to search for
+    // Retrieve the original text to search for
     const originalFragmentText = Util.editorContent.dataset.originalFragmentText;
     
-    // 2. Find the start index of the original fragment in the new content
+    // Find the start index of the original fragment in the new content
     const startIndex = newContent.indexOf(originalFragmentText);
 
     let newStartLine = -1;
     let newEndLine = -1;
 
     if (startIndex !== -1) {
-        // 3. Calculate the new start line number (1-based)
-        // Count the number of newlines occurring BEFORE the match
+        // Calculate the new start line number (1-based) and count the number of newlines occurring bef the match
         newStartLine = (newContent.substring(0, startIndex).match(/\n/g) || []).length + 1;
         
-        // 4. Calculate the new end line number
+        // Calculate the new end line number
         const fragmentLineCount = (originalFragmentText.match(/\n/g) || []).length + 1;
         newEndLine = newStartLine + fragmentLineCount - 1;
     } 
@@ -76,11 +75,9 @@ export function setUnsaved(status) {
     isUnsaved = status;
     const name = currentFileHandle?.name || 'Untitled'; 
     if (status) {
-        // Use Util.unsavedIndicator
         Util.unsavedIndicator.classList.remove('hidden'); 
         document.title = `*Web Code Editor - ${name}`;
     } else {
-        // Use Util.unsavedIndicator
         Util.unsavedIndicator.classList.add('hidden'); 
         document.title = `Web Code Editor - ${name}`;
     }

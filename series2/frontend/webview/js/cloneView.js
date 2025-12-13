@@ -44,16 +44,12 @@ export async function renderCloneFragments(cloneGroup) {
     locations.forEach((location, index) => {
         console.log(`Rendering Fragment ${index + 1} from ${location.filePath} (Lines ${location.startLine}-${location.endLine})`);
         try {
-            // New Step: Get ALL clone locations (from ALL groups) within this file
             const allLocationsInFile = getAllFileLocations(location.filePath);
             console.log(`Found ${allLocationsInFile.length} total clone locations in ${location.filePath}`);
 
-
-            // Use custom class .clone-fragment-view which is fixed in style.css
             const fragmentContainer = document.createElement('div');
             fragmentContainer.className = 'clone-fragment-view'; 
 
-            // 1. Header
             const header = document.createElement('div');
             header.className = 'clone-header bg-gray-700 text-white p-2 font-mono text-xs truncate rounded-t-lg flex justify-between items-center';
             header.innerHTML = `
@@ -64,7 +60,7 @@ export async function renderCloneFragments(cloneGroup) {
             `;
             fragmentContainer.appendChild(header);
 
-            // 2. Code Area (The main content container, flex)
+            // 2. Code Area 
             const codeArea = document.createElement('div');
             // This div is needed to correctly apply the CSS grid layout defined in style.css
             codeArea.className = 'code-area-inner flex-grow flex overflow-hidden'; 
@@ -94,14 +90,12 @@ export async function renderCloneFragments(cloneGroup) {
             const originalFragmentLines = fileLines.slice(location.startLine - 1, location.endLine); 
             const originalFragmentText = originalFragmentLines.join('\n');
 
-            // 4. Content Block (Code using DIV/PRE for highlighting)
+            // Content Block 
             const contentBlock = document.createElement('div');
             contentBlock.className = 'clone-content-display';
-
-            // *** 1. KEY CHANGE: MAKE THE CONTENT EDITABLE ***
             contentBlock.contentEditable = "true";
 
-            // *** 2. Store file metadata for saving ***
+            // Store file metadata for saving 
             contentBlock.dataset.filepath = filePath;
             contentBlock.dataset.startline = 1; 
             contentBlock.dataset.endline = fileLines.length;
@@ -127,7 +121,7 @@ export async function renderCloneFragments(cloneGroup) {
                 const lineContent = fileLines[i];
                 let highlightClass = '';
 
-                // Check against ALL found locations in this file
+                // Check against all found locations in this file
                 allLocationsInFile.forEach(loc => {
                     if (lineNumber >= loc.startLine && lineNumber <= loc.endLine) {
                         // Apply the type class for any matched location
@@ -143,7 +137,7 @@ export async function renderCloneFragments(cloneGroup) {
             contentBlock.innerHTML = codeHtml;
 
 
-            // 3. Line Numbers (Needs to show ALL lines)
+            // Line Numbers
             const fragmentLineNumbers = document.createElement('div');
             fragmentLineNumbers.className = 'clone-lines';
             fragmentLineNumbers.innerHTML = numbersHtml; // Use the numbersHtml generated above
@@ -151,17 +145,13 @@ export async function renderCloneFragments(cloneGroup) {
             // Use a scrollable container for the code block
             const scrollWrapper = document.createElement('div');
             scrollWrapper.className = 'code-scroll-wrapper';
-            scrollWrapper.appendChild(contentBlock); // Content Block is now inside the wrapper
-
-            // --- Add Listeners to the editable content ---
+            scrollWrapper.appendChild(contentBlock); 
             scrollWrapper.addEventListener('scroll', (e) => {
                 fragmentLineNumbers.scrollTop = e.target.scrollTop;
             });
 
-            // The 'input' listener is already added above
-
             const saveBtn = header.querySelector('.save-fragment-btn');
-            // We need to pass the file path and the element containing the edited code
+            // Pass the file path and the element containing the edited code
             saveBtn.addEventListener('click', () => saveCloneFragment(filePath, contentBlock));
 
 
@@ -172,7 +162,6 @@ export async function renderCloneFragments(cloneGroup) {
 
             Util.cloneDiffContainer.appendChild(fragmentContainer);
         } catch (error) {
-            // ... (Error handling remains the same)
             console.error(`ERROR: Failed to render Fragment ${index + 1} (${location.filePath}, lines ${location.startLine}-${location.endLine}).`, error);
             
             const errorDiv = document.createElement('div');
@@ -185,15 +174,15 @@ export async function renderCloneFragments(cloneGroup) {
 
 // You also need to modify the updateCloneLineNumbers function to handle ALL locations
 export function updateCloneLineNumbers(contentElement, lineNumbersElement, primaryCloneType) {
-    // 1. Get the current edited content as plain text using the helper
+    // Get the current edited content as plain text using the helper
     const newContent = getEditableContentText(contentElement);
     const lineCount = newContent.split('\n').length;
     
-    // 2. Retrieve the original fragment text and ALL known locations
+    // Retrieve the original fragment text and ALL known locations
     const originalFragmentText = contentElement.dataset.originalFragmentText;
     const allLocations = JSON.parse(contentElement.dataset.alllocations || '[]');
     
-    // 3. Find the start index of the original fragment in the new content
+    // Find the start index of the original fragment in the new content
     const startIndex = newContent.indexOf(originalFragmentText);
 
     let newStartLine = -1;
@@ -201,15 +190,15 @@ export function updateCloneLineNumbers(contentElement, lineNumbersElement, prima
     const typeClass = `clone-type-${primaryCloneType}`; // Use the primary type for the specific fragment being edited
 
     if (startIndex !== -1) {
-        // 4. Calculate the new start line number (1-based)
+        // Calculate the new start line number (1-based)
         newStartLine = (newContent.substring(0, startIndex).match(/\n/g) || []).length + 1;
         
-        // 5. Calculate the new end line number
+        // Calculate the new end line number
         const fragmentLineCount = (originalFragmentText.match(/\n/g) || []).length + 1;
         newEndLine = newStartLine + fragmentLineCount - 1;
     } 
     
-    // 6. Regenerate line numbers with ALL highlights
+    // Regenerate line numbers with all highlights
     let numbersHtml = '';
     let editedHighlightApplied = false;
 
@@ -217,13 +206,13 @@ export function updateCloneLineNumbers(contentElement, lineNumbersElement, prima
         let highlightClass = '';
         editedHighlightApplied = false;
 
-        // A. Apply highlight for the CURRENTLY edited fragment (using the calculated new range)
+        // Apply highlight for the currentyl edited fragment (using the calculated new range)
         if (i >= newStartLine && i <= newEndLine && newStartLine !== -1) {
             highlightClass = ` ${typeClass}`;
             editedHighlightApplied = true;
         }
 
-        // B. Apply highlight for ALL OTHER static fragments in the file
+        // Apply highlight for all other static fragments in the file
         if (!editedHighlightApplied) {
             allLocations.forEach(loc => {
                 if (i >= loc.startLine && i <= loc.endLine) {
@@ -236,19 +225,19 @@ export function updateCloneLineNumbers(contentElement, lineNumbersElement, prima
     }
     lineNumbersElement.innerHTML = numbersHtml;
 
-    // 7. Regenerate classes for the content lines
+    // Regenerate classes for the content lines
     const codeLines = contentElement.querySelectorAll('.code-line');
 
     codeLines.forEach((lineDiv, i) => {
         const lineNumber = i + 1; // Line number based on array index (1-based)
         
-        // 8. Remove all existing clone-type classes
+        // Remove all existing clone-type classes
         lineDiv.classList.remove('clone-type-1', 'clone-type-2', 'clone-type-3');
         
         let highlightClass = '';
         editedHighlightApplied = false;
 
-        // A. Apply highlight for the CURRENTLY edited fragment (dynamic range)
+        // Apply highlight for the currentyl edited fragment (dynamic range)
         if (lineNumber >= newStartLine && lineNumber <= newEndLine && newStartLine !== -1) {
              highlightClass = typeClass;
              editedHighlightApplied = true;
@@ -268,7 +257,7 @@ export function toggleView(showCloneView) {
     if (showCloneView) {
         Util.standardEditorView.classList.add('hidden');
         Util.cloneAnalysisView.classList.remove('hidden');
-        Util.cloneAnalysisView.classList.add('flex'); // Ensure it uses flex layout when visible
+        Util.cloneAnalysisView.classList.add('flex'); 
         Util.loadClonesBtn.classList.add('hidden');
     } else {
         Util.standardEditorView.classList.remove('hidden');
@@ -278,7 +267,7 @@ export function toggleView(showCloneView) {
 }
 
 /**
- * Loads the clone analysis JSON data. It prioritizes loading the file from the
+ * Loads the clone analysis JSON data. It prioritises loading the file from the
  * user's opened project directory via the File System Access API, otherwise
  * it falls back to fetching a static file via HTTP (for testing).
  */
@@ -378,8 +367,8 @@ export function renderCloneAnalysis() {
 }
 
 /**
- * Extracts the full, clean text content from the contenteditable div, 
- * correctly preserving newlines represented by the inner <div> structure.
+ * Extracts the text content from the contenteditable div, 
+ * preserving newlines represented by the inner <div> structure.
  * @param {HTMLElement} contentElement - The contenteditable div (.clone-content-display).
  * @returns {string} The reconstructed code content.
  */
@@ -394,7 +383,6 @@ export function getEditableContentText(contentElement) {
         return pre ? pre.textContent : '';
     });
 
-    // Join all lines with a newline character
     return lines.join('\n');
 }
 
@@ -409,10 +397,10 @@ export async function saveCloneFragment(filePath, contentElement) {
         return;
     }
     
-    // 1. Get the current edited content
+    // Get current edited content
     const newContent = getEditableContentText(contentElement);
     
-    // 2. Get the file handle via path traversal (using the robust export function you just added)
+    // Get file handle via path traversal
     let fileHandle = null;
     try {
         // We reuse the robust path traversal logic from getFileContentByPath (without reading content)
@@ -432,7 +420,7 @@ export async function saveCloneFragment(filePath, contentElement) {
         return;
     }
 
-    // 3. Perform save operation
+    // Perform save 
     try {
         if (await verifyPermission(fileHandle, true) === false) {
             Util.showMessage("Write permission denied. Cannot save file.", 5000);
@@ -467,7 +455,7 @@ export function applyCloneFilter() {
         Util.cloneList.innerHTML = '';
         Util.cloneDiffContainer.innerHTML = ''; // Also clear the diff view
 
-        // Render filtered clone summaries (reusing logic from renderCloneAnalysis)
+        // Render filtered clone summaries
         filteredClones.forEach((cloneGroup, index) => {
             const typeClass = `summary-type-${cloneGroup.cloneType}`;
             const summaryDiv = document.createElement('div');

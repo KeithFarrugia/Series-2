@@ -33,7 +33,7 @@ list [Clone] findClonesOfType3Token(){
     list[Declaration] ast = genASTFromProject(projectRoot);
     list[TokenizedLine] lines =  tokeniseAST(ast, true);
     datetime t0 = now();
-    list [Clone] c =  applyTransitivity(mergeClonePairList(findType3(lines)));
+    list [Clone] c =  mergeClonePairList(findType3(lines));
     datetime t1 = now();
     println("Create M3 model    <durationToMillis(createDuration(t0, t1))>");
     println("Size               <size(c)>");

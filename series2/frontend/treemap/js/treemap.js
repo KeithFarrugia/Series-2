@@ -1,4 +1,3 @@
-/* ----------------- Render treemap with D3 -------------------- */
 export function renderTreemap(rootData){
   const container = document.getElementById("chart");
   container.innerHTML = ""; // reset
@@ -59,7 +58,7 @@ export function renderTreemap(rootData){
   const leaves = [];
   droot.each(node=>{
     if(node.children==null && node.depth>0){
-      // it's a file leaf. We'll push the data plus absolute positions.
+      // it's a file leaf. push the data plus absolute positions.
       leaves.push(node);
     }
   });

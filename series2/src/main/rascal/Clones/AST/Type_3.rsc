@@ -35,7 +35,7 @@ list [Clone] findClonesOfType3AST(){
         }
     }
 
-    return applyTransitivity(mergeClonePairList(buildASTCloneList(removeInternalCloneClasses(findClonesSets()), 3)));
+    return mergeClonePairList(buildASTCloneList(removeInternalCloneClasses(findClonesSets()), 3));
 }
 
 /* ============================================================================

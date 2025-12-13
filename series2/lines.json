@@ -1,108 +1,2508 @@
 {
-  "projectRoot": "clone-demo",
+  "projectRoot": "hsqldb-2.3.1",
   "modules": [
     {
-      "name": "characters",
+      "name": "auth",
       "files": [
         {
-          "name": "Hero.java",
-          "filePath": "src/main/java/com/example/characters/Hero.java",
-          "linesOfCode": 120
+          "name": "DenyException.java",
+          "filePath": "hsqldb/src/org/hsqldb/auth/DenyException.java",
+          "linesOfCode": 40
         },
         {
-          "name": "Mage.java",
-          "filePath": "src/main/java/com/example/characters/Mage.java",
+          "name": "AuthBeanMultiplexer.java",
+          "filePath": "hsqldb/src/org/hsqldb/auth/AuthBeanMultiplexer.java",
+          "linesOfCode": 275
+        },
+        {
+          "name": "JaasAuthBean.java",
+          "filePath": "hsqldb/src/org/hsqldb/auth/JaasAuthBean.java",
+          "linesOfCode": 301
+        },
+        {
+          "name": "LdapAuthBean.java",
+          "filePath": "hsqldb/src/org/hsqldb/auth/LdapAuthBean.java",
+          "linesOfCode": 749
+        },
+        {
+          "name": "AuthFunctionBean.java",
+          "filePath": "hsqldb/src/org/hsqldb/auth/AuthFunctionBean.java",
+          "linesOfCode": 62
+        },
+        {
+          "name": "HsqldbSlaveAuthBean.java",
+          "filePath": "hsqldb/src/org/hsqldb/auth/HsqldbSlaveAuthBean.java",
+          "linesOfCode": 175
+        },
+        {
+          "name": "AuthUtils.java",
+          "filePath": "hsqldb/src/org/hsqldb/auth/AuthUtils.java",
+          "linesOfCode": 100
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "files": [
+        {
+          "name": "build.javadoc.cmd",
+          "filePath": "hsqldb/build/build.javadoc.cmd",
+          "linesOfCode": 4
+        }
+      ]
+    },
+    {
+      "name": "cmdline",
+      "files": [
+        {
+          "name": "SqlFile.java",
+          "filePath": "hsqldb/src/org/hsqldb/cmdline/SqlFile.java",
+          "linesOfCode": 6358
+        },
+        {
+          "name": "SqlToolSprayer.java",
+          "filePath": "hsqldb/src/org/hsqldb/cmdline/SqlToolSprayer.java",
+          "linesOfCode": 179
+        },
+        {
+          "name": "SqlTool.java",
+          "filePath": "hsqldb/src/org/hsqldb/cmdline/SqlTool.java",
+          "linesOfCode": 784
+        },
+        {
+          "name": "SqltoolRB.java",
+          "filePath": "hsqldb/src/org/hsqldb/cmdline/SqltoolRB.java",
+          "linesOfCode": 344
+        },
+        {
+          "name": "SqlToolError.java",
+          "filePath": "hsqldb/src/org/hsqldb/cmdline/SqlToolError.java",
+          "linesOfCode": 65
+        }
+      ]
+    },
+    {
+      "name": "dbinfo",
+      "files": [
+        {
+          "name": "DatabaseInformationFull.java",
+          "filePath": "hsqldb/src/org/hsqldb/dbinfo/DatabaseInformationFull.java",
+          "linesOfCode": 8621
+        },
+        {
+          "name": "DITableInfo.java",
+          "filePath": "hsqldb/src/org/hsqldb/dbinfo/DITableInfo.java",
+          "linesOfCode": 264
+        },
+        {
+          "name": "DatabaseInformation.java",
+          "filePath": "hsqldb/src/org/hsqldb/dbinfo/DatabaseInformation.java",
+          "linesOfCode": 382
+        },
+        {
+          "name": "DatabaseInformationMain.java",
+          "filePath": "hsqldb/src/org/hsqldb/dbinfo/DatabaseInformationMain.java",
+          "linesOfCode": 3602
+        }
+      ]
+    },
+    {
+      "name": "dialect",
+      "files": [
+        {
+          "name": "HSQLDialect.java",
+          "filePath": "hsqldb/integration/hibernate/src/org/hibernate/dialect/HSQLDialect.java",
+          "linesOfCode": 707
+        },
+        {
+          "name": "HSQLDialect.java",
+          "filePath": "hsqldb/integration/hibernate_3_3_1/src/org/hibernate/dialect/HSQLDialect.java",
+          "linesOfCode": 651
+        }
+      ]
+    },
+    {
+      "name": "error",
+      "files": [
+        {
+          "name": "ErrorCode.java",
+          "filePath": "hsqldb/src/org/hsqldb/error/ErrorCode.java",
+          "linesOfCode": 687
+        },
+        {
+          "name": "Error.java",
+          "filePath": "hsqldb/src/org/hsqldb/error/Error.java",
+          "linesOfCode": 317
+        }
+      ]
+    },
+    {
+      "name": "hsqldb",
+      "files": [
+        {
+          "name": "Schema.java",
+          "filePath": "hsqldb/src/org/hsqldb/Schema.java",
+          "linesOfCode": 379
+        },
+        {
+          "name": "HsqlDateTime.java",
+          "filePath": "hsqldb/src/org/hsqldb/HsqlDateTime.java",
+          "linesOfCode": 927
+        },
+        {
+          "name": "StatementDMQL.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementDMQL.java",
+          "linesOfCode": 822
+        },
+        {
+          "name": "DatabaseManager.java",
+          "filePath": "hsqldb/src/org/hsqldb/DatabaseManager.java",
+          "linesOfCode": 532
+        },
+        {
+          "name": "SchemaObject.java",
+          "filePath": "hsqldb/src/org/hsqldb/SchemaObject.java",
+          "linesOfCode": 155
+        },
+        {
+          "name": "RowDiskDataChange.java",
+          "filePath": "hsqldb/src/org/hsqldb/RowDiskDataChange.java",
+          "linesOfCode": 176
+        },
+        {
+          "name": "ExpressionAccessor.java",
+          "filePath": "hsqldb/src/org/hsqldb/ExpressionAccessor.java",
+          "linesOfCode": 201
+        },
+        {
+          "name": "ExpressionLogical.java",
+          "filePath": "hsqldb/src/org/hsqldb/ExpressionLogical.java",
+          "linesOfCode": 2364
+        },
+        {
+          "name": "TableUtil.java",
+          "filePath": "hsqldb/src/org/hsqldb/TableUtil.java",
+          "linesOfCode": 114
+        },
+        {
+          "name": "StatementSchema.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementSchema.java",
+          "linesOfCode": 1565
+        },
+        {
+          "name": "StatementManager.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementManager.java",
+          "linesOfCode": 390
+        },
+        {
+          "name": "RowAction.java",
+          "filePath": "hsqldb/src/org/hsqldb/RowAction.java",
+          "linesOfCode": 933
+        },
+        {
+          "name": "ExpressionArrayAggregate.java",
+          "filePath": "hsqldb/src/org/hsqldb/ExpressionArrayAggregate.java",
+          "linesOfCode": 414
+        },
+        {
+          "name": "Statement.java",
+          "filePath": "hsqldb/src/org/hsqldb/Statement.java",
+          "linesOfCode": 274
+        },
+        {
+          "name": "RowAVL.java",
+          "filePath": "hsqldb/src/org/hsqldb/RowAVL.java",
+          "linesOfCode": 215
+        },
+        {
+          "name": "Constraint.java",
+          "filePath": "hsqldb/src/org/hsqldb/Constraint.java",
+          "linesOfCode": 1015
+        },
+        {
+          "name": "Table.java",
+          "filePath": "hsqldb/src/org/hsqldb/Table.java",
+          "linesOfCode": 3001
+        },
+        {
+          "name": "ConstraintCore.java",
+          "filePath": "hsqldb/src/org/hsqldb/ConstraintCore.java",
+          "linesOfCode": 95
+        },
+        {
+          "name": "StatementCommand.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementCommand.java",
+          "linesOfCode": 1352
+        },
+        {
+          "name": "Database.java",
+          "filePath": "hsqldb/src/org/hsqldb/Database.java",
+          "linesOfCode": 949
+        },
+        {
+          "name": "ExpressionOrderBy.java",
+          "filePath": "hsqldb/src/org/hsqldb/ExpressionOrderBy.java",
+          "linesOfCode": 147
+        },
+        {
+          "name": "ParserDDL.java",
+          "filePath": "hsqldb/src/org/hsqldb/ParserDDL.java",
+          "linesOfCode": 5206
+        },
+        {
+          "name": "QuerySpecification.java",
+          "filePath": "hsqldb/src/org/hsqldb/QuerySpecification.java",
+          "linesOfCode": 2591
+        },
+        {
+          "name": "StatementHandler.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementHandler.java",
+          "linesOfCode": 231
+        },
+        {
+          "name": "SchemaManager.java",
+          "filePath": "hsqldb/src/org/hsqldb/SchemaManager.java",
+          "linesOfCode": 2903
+        },
+        {
+          "name": "RowAVLDisk.java",
+          "filePath": "hsqldb/src/org/hsqldb/RowAVLDisk.java",
+          "linesOfCode": 401
+        },
+        {
+          "name": "ParserCommand.java",
+          "filePath": "hsqldb/src/org/hsqldb/ParserCommand.java",
+          "linesOfCode": 2288
+        },
+        {
+          "name": "Tokens.java",
+          "filePath": "hsqldb/src/org/hsqldb/Tokens.java",
+          "linesOfCode": 2595
+        },
+        {
+          "name": "TransactionManagerCommon.java",
+          "filePath": "hsqldb/src/org/hsqldb/TransactionManagerCommon.java",
+          "linesOfCode": 864
+        },
+        {
+          "name": "SessionContext.java",
+          "filePath": "hsqldb/src/org/hsqldb/SessionContext.java",
+          "linesOfCode": 349
+        },
+        {
+          "name": "ExpressionOp.java",
+          "filePath": "hsqldb/src/org/hsqldb/ExpressionOp.java",
+          "linesOfCode": 914
+        },
+        {
+          "name": "StatementQuery.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementQuery.java",
+          "linesOfCode": 118
+        },
+        {
+          "name": "SortAndSlice.java",
+          "filePath": "hsqldb/src/org/hsqldb/SortAndSlice.java",
+          "linesOfCode": 497
+        },
+        {
+          "name": "TransactionManagerMVCC.java",
+          "filePath": "hsqldb/src/org/hsqldb/TransactionManagerMVCC.java",
+          "linesOfCode": 982
+        },
+        {
+          "name": "Expression.java",
+          "filePath": "hsqldb/src/org/hsqldb/Expression.java",
+          "linesOfCode": 2140
+        },
+        {
+          "name": "SessionManager.java",
+          "filePath": "hsqldb/src/org/hsqldb/SessionManager.java",
+          "linesOfCode": 303
+        },
+        {
+          "name": "HsqlException.java",
+          "filePath": "hsqldb/src/org/hsqldb/HsqlException.java",
+          "linesOfCode": 169
+        },
+        {
+          "name": "Like.java",
+          "filePath": "hsqldb/src/org/hsqldb/Like.java",
+          "linesOfCode": 447
+        },
+        {
+          "name": "ColumnSchema.java",
+          "filePath": "hsqldb/src/org/hsqldb/ColumnSchema.java",
+          "linesOfCode": 414
+        },
+        {
+          "name": "StatementInsert.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementInsert.java",
+          "linesOfCode": 210
+        },
+        {
+          "name": "FunctionSQLInvoked.java",
+          "filePath": "hsqldb/src/org/hsqldb/FunctionSQLInvoked.java",
+          "linesOfCode": 335
+        },
+        {
+          "name": "StatementExpression.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementExpression.java",
+          "linesOfCode": 197
+        },
+        {
+          "name": "ExpressionColumnAccessor.java",
+          "filePath": "hsqldb/src/org/hsqldb/ExpressionColumnAccessor.java",
+          "linesOfCode": 172
+        },
+        {
+          "name": "ExpressionAggregate.java",
+          "filePath": "hsqldb/src/org/hsqldb/ExpressionAggregate.java",
+          "linesOfCode": 320
+        },
+        {
+          "name": "StatementDML.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementDML.java",
+          "linesOfCode": 1624
+        },
+        {
+          "name": "TableWorks.java",
+          "filePath": "hsqldb/src/org/hsqldb/TableWorks.java",
+          "linesOfCode": 1341
+        },
+        {
+          "name": "StatementSet.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementSet.java",
+          "linesOfCode": 426
+        },
+        {
+          "name": "StatementCursor.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementCursor.java",
+          "linesOfCode": 102
+        },
+        {
+          "name": "RoutineSchema.java",
+          "filePath": "hsqldb/src/org/hsqldb/RoutineSchema.java",
+          "linesOfCode": 350
+        },
+        {
+          "name": "ParserRoutine.java",
+          "filePath": "hsqldb/src/org/hsqldb/ParserRoutine.java",
+          "linesOfCode": 2234
+        },
+        {
+          "name": "Routine.java",
+          "filePath": "hsqldb/src/org/hsqldb/Routine.java",
+          "linesOfCode": 1414
+        },
+        {
+          "name": "ParserDML.java",
+          "filePath": "hsqldb/src/org/hsqldb/ParserDML.java",
+          "linesOfCode": 1252
+        },
+        {
+          "name": "ClientConnectionHTTP.java",
+          "filePath": "hsqldb/src/org/hsqldb/ClientConnectionHTTP.java",
+          "linesOfCode": 168
+        },
+        {
+          "name": "StatementSchemaDefinition.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementSchemaDefinition.java",
+          "linesOfCode": 244
+        },
+        {
+          "name": "ParserBase.java",
+          "filePath": "hsqldb/src/org/hsqldb/ParserBase.java",
+          "linesOfCode": 849
+        },
+        {
+          "name": "Tokens.java",
+          "filePath": "hsqldb/doc/verbatim/src/org/hsqldb/Tokens.java",
+          "linesOfCode": 2595
+        },
+        {
+          "name": "Trigger.java",
+          "filePath": "hsqldb/doc/verbatim/src/org/hsqldb/Trigger.java",
+          "linesOfCode": 128
+        },
+        {
+          "name": "RangeVariableJoined.java",
+          "filePath": "hsqldb/src/org/hsqldb/RangeVariableJoined.java",
+          "linesOfCode": 391
+        },
+        {
+          "name": "SchemaObjectSet.java",
+          "filePath": "hsqldb/src/org/hsqldb/SchemaObjectSet.java",
+          "linesOfCode": 559
+        },
+        {
+          "name": "RowAVLDiskLarge.java",
+          "filePath": "hsqldb/src/org/hsqldb/RowAVLDiskLarge.java",
+          "linesOfCode": 102
+        },
+        {
+          "name": "RowActionBase.java",
+          "filePath": "hsqldb/src/org/hsqldb/RowActionBase.java",
+          "linesOfCode": 96
+        },
+        {
+          "name": "TriggerDefSQL.java",
+          "filePath": "hsqldb/src/org/hsqldb/TriggerDefSQL.java",
+          "linesOfCode": 119
+        },
+        {
+          "name": "StatementSimple.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementSimple.java",
+          "linesOfCode": 226
+        },
+        {
+          "name": "TextTable.java",
+          "filePath": "hsqldb/src/org/hsqldb/TextTable.java",
+          "linesOfCode": 371
+        },
+        {
+          "name": "TransactionManager.java",
+          "filePath": "hsqldb/src/org/hsqldb/TransactionManager.java",
+          "linesOfCode": 125
+        },
+        {
+          "name": "TableDerived.java",
+          "filePath": "hsqldb/src/org/hsqldb/TableDerived.java",
+          "linesOfCode": 455
+        },
+        {
+          "name": "ExpressionLike.java",
+          "filePath": "hsqldb/src/org/hsqldb/ExpressionLike.java",
+          "linesOfCode": 373
+        },
+        {
+          "name": "SqlInvariants.java",
+          "filePath": "hsqldb/src/org/hsqldb/SqlInvariants.java",
+          "linesOfCode": 159
+        },
+        {
+          "name": "QueryExpression.java",
+          "filePath": "hsqldb/src/org/hsqldb/QueryExpression.java",
+          "linesOfCode": 1134
+        },
+        {
+          "name": "ParserDQL.java",
+          "filePath": "hsqldb/src/org/hsqldb/ParserDQL.java",
+          "linesOfCode": 6674
+        },
+        {
+          "name": "ExpressionColumn.java",
+          "filePath": "hsqldb/src/org/hsqldb/ExpressionColumn.java",
+          "linesOfCode": 1251
+        },
+        {
+          "name": "SessionData.java",
+          "filePath": "hsqldb/src/org/hsqldb/SessionData.java",
+          "linesOfCode": 706
+        },
+        {
+          "name": "TypeInvariants.java",
+          "filePath": "hsqldb/src/org/hsqldb/TypeInvariants.java",
+          "linesOfCode": 96
+        },
+        {
+          "name": "TransactionManager2PL.java",
+          "filePath": "hsqldb/src/org/hsqldb/TransactionManager2PL.java",
+          "linesOfCode": 338
+        },
+        {
+          "name": "TriggerDef.java",
+          "filePath": "hsqldb/src/org/hsqldb/TriggerDef.java",
+          "linesOfCode": 689
+        },
+        {
+          "name": "RangeVariableResolver.java",
+          "filePath": "hsqldb/src/org/hsqldb/RangeVariableResolver.java",
+          "linesOfCode": 1561
+        },
+        {
+          "name": "TableBase.java",
+          "filePath": "hsqldb/src/org/hsqldb/TableBase.java",
+          "linesOfCode": 564
+        },
+        {
+          "name": "Scanner.java",
+          "filePath": "hsqldb/src/org/hsqldb/Scanner.java",
+          "linesOfCode": 2597
+        },
+        {
+          "name": "HsqlNameManager.java",
+          "filePath": "hsqldb/src/org/hsqldb/HsqlNameManager.java",
+          "linesOfCode": 585
+        },
+        {
+          "name": "StatementTypes.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementTypes.java",
+          "linesOfCode": 300
+        },
+        {
+          "name": "NumberSequence.java",
+          "filePath": "hsqldb/src/org/hsqldb/NumberSequence.java",
+          "linesOfCode": 752
+        },
+        {
+          "name": "ClientConnection.java",
+          "filePath": "hsqldb/src/org/hsqldb/ClientConnection.java",
+          "linesOfCode": 669
+        },
+        {
+          "name": "FunctionCustom.java",
+          "filePath": "hsqldb/src/org/hsqldb/FunctionCustom.java",
+          "linesOfCode": 3831
+        },
+        {
+          "name": "Row.java",
+          "filePath": "hsqldb/src/org/hsqldb/Row.java",
+          "linesOfCode": 200
+        },
+        {
+          "name": "StatementCompound.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementCompound.java",
+          "linesOfCode": 982
+        },
+        {
+          "name": "SetFunction.java",
+          "filePath": "hsqldb/src/org/hsqldb/SetFunction.java",
+          "linesOfCode": 678
+        },
+        {
+          "name": "ColumnBase.java",
+          "filePath": "hsqldb/src/org/hsqldb/ColumnBase.java",
+          "linesOfCode": 157
+        },
+        {
+          "name": "Token.java",
+          "filePath": "hsqldb/src/org/hsqldb/Token.java",
+          "linesOfCode": 290
+        },
+        {
+          "name": "ExpressionValue.java",
+          "filePath": "hsqldb/src/org/hsqldb/ExpressionValue.java",
+          "linesOfCode": 117
+        },
+        {
+          "name": "StatementSession.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementSession.java",
+          "linesOfCode": 733
+        },
+        {
+          "name": "RangeVariable.java",
+          "filePath": "hsqldb/src/org/hsqldb/RangeVariable.java",
+          "linesOfCode": 2006
+        },
+        {
+          "name": "OpTypes.java",
+          "filePath": "hsqldb/src/org/hsqldb/OpTypes.java",
+          "linesOfCode": 125
+        },
+        {
+          "name": "Trigger.java",
+          "filePath": "hsqldb/src/org/hsqldb/Trigger.java",
+          "linesOfCode": 128
+        },
+        {
+          "name": "View.java",
+          "filePath": "hsqldb/src/org/hsqldb/View.java",
+          "linesOfCode": 288
+        },
+        {
+          "name": "TransactionManagerMV2PL.java",
+          "filePath": "hsqldb/src/org/hsqldb/TransactionManagerMV2PL.java",
+          "linesOfCode": 565
+        },
+        {
+          "name": "StatementProcedure.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementProcedure.java",
+          "linesOfCode": 396
+        },
+        {
+          "name": "FunctionSQL.java",
+          "filePath": "hsqldb/src/org/hsqldb/FunctionSQL.java",
+          "linesOfCode": 2142
+        },
+        {
+          "name": "RowAVLDiskData.java",
+          "filePath": "hsqldb/src/org/hsqldb/RowAVLDiskData.java",
+          "linesOfCode": 237
+        },
+        {
+          "name": "Session.java",
+          "filePath": "hsqldb/src/org/hsqldb/Session.java",
+          "linesOfCode": 2304
+        },
+        {
+          "name": "ExpressionTable.java",
+          "filePath": "hsqldb/src/org/hsqldb/ExpressionTable.java",
+          "linesOfCode": 270
+        },
+        {
+          "name": "SessionInterface.java",
+          "filePath": "hsqldb/src/org/hsqldb/SessionInterface.java",
+          "linesOfCode": 154
+        },
+        {
+          "name": "Server.java",
+          "filePath": "hsqldb/src/org/hsqldb/Server.java",
+          "linesOfCode": 36
+        },
+        {
+          "name": "StatementResultUpdate.java",
+          "filePath": "hsqldb/src/org/hsqldb/StatementResultUpdate.java",
+          "linesOfCode": 244
+        },
+        {
+          "name": "jdbcDriver.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbcDriver.java",
+          "linesOfCode": 36
+        },
+        {
+          "name": "DatabaseURL.java",
+          "filePath": "hsqldb/src/org/hsqldb/DatabaseURL.java",
+          "linesOfCode": 402
+        },
+        {
+          "name": "RangeGroup.java",
+          "filePath": "hsqldb/src/org/hsqldb/RangeGroup.java",
+          "linesOfCode": 108
+        },
+        {
+          "name": "ExpressionArithmetic.java",
+          "filePath": "hsqldb/src/org/hsqldb/ExpressionArithmetic.java",
+          "linesOfCode": 661
+        },
+        {
+          "name": "JavaSystem.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/java/JavaSystem.java",
+          "linesOfCode": 147
+        }
+      ]
+    },
+    {
+      "name": "index",
+      "files": [
+        {
+          "name": "NodeAVL.java",
+          "filePath": "hsqldb/src/org/hsqldb/index/NodeAVL.java",
+          "linesOfCode": 303
+        },
+        {
+          "name": "NodeAVLDiskLarge.java",
+          "filePath": "hsqldb/src/org/hsqldb/index/NodeAVLDiskLarge.java",
+          "linesOfCode": 550
+        },
+        {
+          "name": "Index.java",
+          "filePath": "hsqldb/src/org/hsqldb/index/Index.java",
+          "linesOfCode": 259
+        },
+        {
+          "name": "IndexAVLMemory.java",
+          "filePath": "hsqldb/src/org/hsqldb/index/IndexAVLMemory.java",
+          "linesOfCode": 559
+        },
+        {
+          "name": "NodeAVLDisk.java",
+          "filePath": "hsqldb/src/org/hsqldb/index/NodeAVLDisk.java",
+          "linesOfCode": 565
+        },
+        {
+          "name": "IndexAVL.java",
+          "filePath": "hsqldb/src/org/hsqldb/index/IndexAVL.java",
+          "linesOfCode": 2037
+        }
+      ]
+    },
+    {
+      "name": "jdbc",
+      "files": [
+        {
+          "name": "JDBCConnectionEventListener.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCConnectionEventListener.java",
+          "linesOfCode": 41
+        },
+        {
+          "name": "JDBCStatement.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCStatement.java",
+          "linesOfCode": 1828
+        },
+        {
+          "name": "JDBCUtil.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCUtil.java",
+          "linesOfCode": 959
+        },
+        {
+          "name": "JDBCConnection.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCConnection.java",
+          "linesOfCode": 3866
+        },
+        {
+          "name": "JDBCNClob.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCNClob.java",
+          "linesOfCode": 83
+        },
+        {
+          "name": "JDBCBlob.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCBlob.java",
+          "linesOfCode": 788
+        },
+        {
+          "name": "JDBCPool.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCPool.java",
+          "linesOfCode": 537
+        },
+        {
+          "name": "JDBCClob.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCClob.java",
+          "linesOfCode": 919
+        },
+        {
+          "name": "JDBCResultSet.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCResultSet.java",
+          "linesOfCode": 7664
+        },
+        {
+          "name": "JDBCDataSourceFactory.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCDataSourceFactory.java",
+          "linesOfCode": 235
+        },
+        {
+          "name": "JDBCBlobFile.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCBlobFile.java",
+          "linesOfCode": 915
+        },
+        {
+          "name": "JDBCClobFile.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCClobFile.java",
+          "linesOfCode": 1192
+        },
+        {
+          "name": "JDBCArrayBasic.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCArrayBasic.java",
+          "linesOfCode": 559
+        },
+        {
+          "name": "JDBCStatementBase.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCStatementBase.java",
+          "linesOfCode": 353
+        },
+        {
+          "name": "JDBCCommonDataSource.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCCommonDataSource.java",
+          "linesOfCode": 351
+        },
+        {
+          "name": "JDBCArray.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCArray.java",
+          "linesOfCode": 609
+        },
+        {
+          "name": "JDBCParameterMetaData.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCParameterMetaData.java",
+          "linesOfCode": 477
+        },
+        {
+          "name": "JDBCCallableStatement.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCCallableStatement.java",
+          "linesOfCode": 4997
+        },
+        {
+          "name": "JDBCDatabaseMetaData.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCDatabaseMetaData.java",
+          "linesOfCode": 6347
+        },
+        {
+          "name": "JDBCSQLXML.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCSQLXML.java",
+          "linesOfCode": 3141
+        },
+        {
+          "name": "JDBCRowId.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCRowId.java",
+          "linesOfCode": 223
+        },
+        {
+          "name": "JDBCBlobClient.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCBlobClient.java",
+          "linesOfCode": 395
+        },
+        {
+          "name": "JDBCResultSetMetaData.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCResultSetMetaData.java",
+          "linesOfCode": 1037
+        },
+        {
+          "name": "JDBCDriver.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCDriver.java",
+          "linesOfCode": 576
+        },
+        {
+          "name": "JDBCClobClient.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCClobClient.java",
+          "linesOfCode": 761
+        },
+        {
+          "name": "JDBCSavepoint.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCSavepoint.java",
+          "linesOfCode": 138
+        },
+        {
+          "name": "JDBCPreparedStatement.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCPreparedStatement.java",
+          "linesOfCode": 4738
+        },
+        {
+          "name": "JDBCDataSource.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCDataSource.java",
+          "linesOfCode": 275
+        },
+        {
+          "name": "JDBCColumnMetaData.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/JDBCColumnMetaData.java",
+          "linesOfCode": 161
+        }
+      ]
+    },
+    {
+      "name": "lib",
+      "files": [
+        {
+          "name": "LineReader.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/LineReader.java",
+          "linesOfCode": 128
+        },
+        {
+          "name": "LongKeyLongValueHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/LongKeyLongValueHashMap.java",
+          "linesOfCode": 209
+        },
+        {
+          "name": "IntKeyIntValueHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/IntKeyIntValueHashMap.java",
+          "linesOfCode": 202
+        },
+        {
+          "name": "LongLookup.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/LongLookup.java",
+          "linesOfCode": 53
+        },
+        {
+          "name": "ObjectComparator.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/ObjectComparator.java",
+          "linesOfCode": 41
+        },
+        {
+          "name": "AppendableException.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/AppendableException.java",
+          "linesOfCode": 99
+        },
+        {
+          "name": "ArrayUtil.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/ArrayUtil.java",
+          "linesOfCode": 1723
+        },
+        {
+          "name": "Storage.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/Storage.java",
+          "linesOfCode": 71
+        },
+        {
+          "name": "HsqlThreadFactory.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HsqlThreadFactory.java",
+          "linesOfCode": 111
+        },
+        {
+          "name": "DoubleIntIndex.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/DoubleIntIndex.java",
+          "linesOfCode": 866
+        },
+        {
+          "name": "ReadWriteLockDummy.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/ReadWriteLockDummy.java",
+          "linesOfCode": 70
+        },
+        {
+          "name": "HsqlDeque.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HsqlDeque.java",
+          "linesOfCode": 360
+        },
+        {
+          "name": "StringInputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/StringInputStream.java",
+          "linesOfCode": 81
+        },
+        {
+          "name": "StringUtil.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/StringUtil.java",
+          "linesOfCode": 413
+        },
+        {
+          "name": "HsqlHeap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HsqlHeap.java",
+          "linesOfCode": 103
+        },
+        {
+          "name": "OrderedLongKeyHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/OrderedLongKeyHashMap.java",
+          "linesOfCode": 244
+        },
+        {
+          "name": "OrderedIntKeyHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/OrderedIntKeyHashMap.java",
+          "linesOfCode": 201
+        },
+        {
+          "name": "ArraySort.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/ArraySort.java",
+          "linesOfCode": 207
+        },
+        {
+          "name": "MultiValueHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/MultiValueHashMap.java",
+          "linesOfCode": 204
+        },
+        {
+          "name": "CharArrayWriter.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/CharArrayWriter.java",
+          "linesOfCode": 186
+        },
+        {
+          "name": "IntKeyHashMapConcurrent.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/IntKeyHashMapConcurrent.java",
+          "linesOfCode": 240
+        },
+        {
+          "name": "InputStreamInterface.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/InputStreamInterface.java",
+          "linesOfCode": 62
+        },
+        {
+          "name": "BaseList.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/BaseList.java",
+          "linesOfCode": 205
+        },
+        {
+          "name": "ArrayListIdentity.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/ArrayListIdentity.java",
+          "linesOfCode": 46
+        },
+        {
+          "name": "Iterator.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/Iterator.java",
+          "linesOfCode": 55
+        },
+        {
+          "name": "HashSet.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HashSet.java",
+          "linesOfCode": 212
+        },
+        {
+          "name": "OrderedIntHashSet.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/OrderedIntHashSet.java",
+          "linesOfCode": 161
+        },
+        {
+          "name": "SimpleLog.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/SimpleLog.java",
+          "linesOfCode": 242
+        },
+        {
+          "name": "FileArchiver.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/FileArchiver.java",
+          "linesOfCode": 242
+        },
+        {
+          "name": "HsqlArrayList.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HsqlArrayList.java",
+          "linesOfCode": 399
+        },
+        {
+          "name": "OrderedLongHashSet.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/OrderedLongHashSet.java",
+          "linesOfCode": 161
+        },
+        {
+          "name": "LongKeyHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/LongKeyHashMap.java",
+          "linesOfCode": 274
+        },
+        {
+          "name": "DataOutputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/DataOutputStream.java",
+          "linesOfCode": 212
+        },
+        {
+          "name": "RefCapableRBInterface.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/RefCapableRBInterface.java",
+          "linesOfCode": 50
+        },
+        {
+          "name": "LongKeyIntValueHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/LongKeyIntValueHashMap.java",
+          "linesOfCode": 213
+        },
+        {
+          "name": "IntKeyLongValueHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/IntKeyLongValueHashMap.java",
+          "linesOfCode": 107
+        },
+        {
+          "name": "InputStreamWrapper.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/InputStreamWrapper.java",
+          "linesOfCode": 123
+        },
+        {
+          "name": "StringConverter.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/StringConverter.java",
+          "linesOfCode": 845
+        },
+        {
+          "name": "ClosableCharArrayWriter.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/ClosableCharArrayWriter.java",
+          "linesOfCode": 462
+        },
+        {
+          "name": "HashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HashMap.java",
+          "linesOfCode": 223
+        },
+        {
+          "name": "FrameworkLogger.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/FrameworkLogger.java",
+          "linesOfCode": 641
+        },
+        {
+          "name": "LineGroupReader.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/LineGroupReader.java",
+          "linesOfCode": 223
+        },
+        {
+          "name": "StringComparator.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/StringComparator.java",
+          "linesOfCode": 60
+        },
+        {
+          "name": "StopWatch.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/StopWatch.java",
+          "linesOfCode": 187
+        },
+        {
+          "name": "OrderedHashSet.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/OrderedHashSet.java",
+          "linesOfCode": 203
+        },
+        {
+          "name": "IntValueHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/IntValueHashMap.java",
+          "linesOfCode": 269
+        },
+        {
+          "name": "HsqlByteArrayOutputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HsqlByteArrayOutputStream.java",
+          "linesOfCode": 411
+        },
+        {
+          "name": "ClosableByteArrayOutputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/ClosableByteArrayOutputStream.java",
+          "linesOfCode": 455
+        },
+        {
+          "name": "InOutUtil.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/InOutUtil.java",
+          "linesOfCode": 259
+        },
+        {
+          "name": "HsqlList.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HsqlList.java",
+          "linesOfCode": 60
+        },
+        {
+          "name": "ArrayCounter.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/ArrayCounter.java",
+          "linesOfCode": 152
+        },
+        {
+          "name": "ValidatingResourceBundle.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/ValidatingResourceBundle.java",
+          "linesOfCode": 286
+        },
+        {
+          "name": "IntLookup.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/IntLookup.java",
+          "linesOfCode": 53
+        },
+        {
+          "name": "ReaderInputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/ReaderInputStream.java",
+          "linesOfCode": 76
+        },
+        {
+          "name": "FileAccess.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/FileAccess.java",
+          "linesOfCode": 71
+        },
+        {
+          "name": "HsqlTaskQueue.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HsqlTaskQueue.java",
+          "linesOfCode": 169
+        },
+        {
+          "name": "HsqlByteArrayInputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HsqlByteArrayInputStream.java",
+          "linesOfCode": 278
+        },
+        {
+          "name": "HashMappedList.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HashMappedList.java",
+          "linesOfCode": 239
+        },
+        {
+          "name": "LongDeque.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/LongDeque.java",
+          "linesOfCode": 335
+        },
+        {
+          "name": "FileUtil.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/FileUtil.java",
+          "linesOfCode": 600
+        },
+        {
+          "name": "RefCapablePropertyResourceBundle.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/RefCapablePropertyResourceBundle.java",
+          "linesOfCode": 472
+        },
+        {
+          "name": "Collection.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/Collection.java",
+          "linesOfCode": 71
+        },
+        {
+          "name": "BasicTextJdkLogFormatter.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/BasicTextJdkLogFormatter.java",
+          "linesOfCode": 84
+        },
+        {
+          "name": "Set.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/Set.java",
+          "linesOfCode": 76
+        },
+        {
+          "name": "RCData.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/RCData.java",
+          "linesOfCode": 500
+        },
+        {
+          "name": "WrapperIterator.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/WrapperIterator.java",
+          "linesOfCode": 214
+        },
+        {
+          "name": "ThreadFactory.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/ThreadFactory.java",
+          "linesOfCode": 42
+        },
+        {
+          "name": "CountdownInputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/CountdownInputStream.java",
+          "linesOfCode": 149
+        },
+        {
+          "name": "LongValueHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/LongValueHashMap.java",
+          "linesOfCode": 220
+        },
+        {
+          "name": "HsqlArrayHeap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HsqlArrayHeap.java",
+          "linesOfCode": 331
+        },
+        {
+          "name": "KMPSearchAlgorithm.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/KMPSearchAlgorithm.java",
+          "linesOfCode": 560
+        },
+        {
+          "name": "HsqlTimer.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/HsqlTimer.java",
+          "linesOfCode": 958
+        },
+        {
+          "name": "IntKeyHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/IntKeyHashMap.java",
+          "linesOfCode": 186
+        },
+        {
+          "name": "CountUpDownLatch.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/CountUpDownLatch.java",
+          "linesOfCode": 95
+        },
+        {
+          "name": "MD5.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/MD5.java",
+          "linesOfCode": 181
+        }
+      ]
+    },
+    {
+      "name": "map",
+      "files": [
+        {
+          "name": "HashIndex.java",
+          "filePath": "hsqldb/src/org/hsqldb/map/HashIndex.java",
+          "linesOfCode": 272
+        },
+        {
+          "name": "BaseHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/map/BaseHashMap.java",
+          "linesOfCode": 1700
+        },
+        {
+          "name": "ValuePoolHashMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/map/ValuePoolHashMap.java",
+          "linesOfCode": 414
+        },
+        {
+          "name": "ReusableObjectCache.java",
+          "filePath": "hsqldb/src/org/hsqldb/map/ReusableObjectCache.java",
+          "linesOfCode": 61
+        },
+        {
+          "name": "ValuePool.java",
+          "filePath": "hsqldb/src/org/hsqldb/map/ValuePool.java",
+          "linesOfCode": 213
+        },
+        {
+          "name": "BitMap.java",
+          "filePath": "hsqldb/src/org/hsqldb/map/BitMap.java",
+          "linesOfCode": 707
+        }
+      ]
+    },
+    {
+      "name": "navigator",
+      "files": [
+        {
+          "name": "RangeIterator.java",
+          "filePath": "hsqldb/src/org/hsqldb/navigator/RangeIterator.java",
+          "linesOfCode": 60
+        },
+        {
+          "name": "RowSetNavigatorDataChangeMemory.java",
+          "filePath": "hsqldb/src/org/hsqldb/navigator/RowSetNavigatorDataChangeMemory.java",
+          "linesOfCode": 216
+        },
+        {
+          "name": "RowSetNavigatorDataChange.java",
+          "filePath": "hsqldb/src/org/hsqldb/navigator/RowSetNavigatorDataChange.java",
+          "linesOfCode": 80
+        },
+        {
+          "name": "RowIterator.java",
+          "filePath": "hsqldb/src/org/hsqldb/navigator/RowIterator.java",
+          "linesOfCode": 57
+        },
+        {
+          "name": "RowSetNavigatorClient.java",
+          "filePath": "hsqldb/src/org/hsqldb/navigator/RowSetNavigatorClient.java",
+          "linesOfCode": 274
+        },
+        {
+          "name": "RowSetNavigatorData.java",
+          "filePath": "hsqldb/src/org/hsqldb/navigator/RowSetNavigatorData.java",
+          "linesOfCode": 701
+        },
+        {
+          "name": "RowSetNavigatorDataTable.java",
+          "filePath": "hsqldb/src/org/hsqldb/navigator/RowSetNavigatorDataTable.java",
+          "linesOfCode": 629
+        },
+        {
+          "name": "RowSetNavigator.java",
+          "filePath": "hsqldb/src/org/hsqldb/navigator/RowSetNavigator.java",
+          "linesOfCode": 334
+        }
+      ]
+    },
+    {
+      "name": "persist",
+      "files": [
+        {
+          "name": "RowStoreAVLDisk.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RowStoreAVLDisk.java",
+          "linesOfCode": 471
+        },
+        {
+          "name": "RowStoreAVLHybrid.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RowStoreAVLHybrid.java",
+          "linesOfCode": 407
+        },
+        {
+          "name": "DataSpaceManagerSimple.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/DataSpaceManagerSimple.java",
+          "linesOfCode": 216
+        },
+        {
+          "name": "RAFileInJar.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RAFileInJar.java",
+          "linesOfCode": 277
+        },
+        {
+          "name": "PersistentStore.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/PersistentStore.java",
+          "linesOfCode": 169
+        },
+        {
+          "name": "LobStore.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/LobStore.java",
+          "linesOfCode": 57
+        },
+        {
+          "name": "DirectoryBlockCachedObject.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/DirectoryBlockCachedObject.java",
+          "linesOfCode": 151
+        },
+        {
+          "name": "Crypto.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/Crypto.java",
+          "linesOfCode": 216
+        },
+        {
+          "name": "RowStoreDataChange.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RowStoreDataChange.java",
+          "linesOfCode": 85
+        },
+        {
+          "name": "CachedObject.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/CachedObject.java",
+          "linesOfCode": 90
+        },
+        {
+          "name": "RAFileNIO.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RAFileNIO.java",
+          "linesOfCode": 550
+        },
+        {
+          "name": "PersistentStoreCollection.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/PersistentStoreCollection.java",
+          "linesOfCode": 41
+        },
+        {
+          "name": "TableSpaceManagerSimple.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/TableSpaceManagerSimple.java",
+          "linesOfCode": 106
+        },
+        {
+          "name": "RAFileSimple.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RAFileSimple.java",
+          "linesOfCode": 158
+        },
+        {
+          "name": "RowStoreAVLHybridExtended.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RowStoreAVLHybridExtended.java",
+          "linesOfCode": 257
+        },
+        {
+          "name": "Log.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/Log.java",
+          "linesOfCode": 879
+        },
+        {
+          "name": "PersistentStoreCollectionDatabase.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/PersistentStoreCollectionDatabase.java",
+          "linesOfCode": 141
+        },
+        {
+          "name": "ScriptRunner.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/ScriptRunner.java",
+          "linesOfCode": 310
+        },
+        {
+          "name": "Cache.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/Cache.java",
+          "linesOfCode": 440
+        },
+        {
+          "name": "DataFileCacheSession.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/DataFileCacheSession.java",
+          "linesOfCode": 163
+        },
+        {
+          "name": "HsqlProperties.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/HsqlProperties.java",
+          "linesOfCode": 582
+        },
+        {
+          "name": "DataFileDefrag.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/DataFileDefrag.java",
+          "linesOfCode": 225
+        },
+        {
+          "name": "DataSpaceManagerBlocks.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/DataSpaceManagerBlocks.java",
+          "linesOfCode": 933
+        },
+        {
+          "name": "BlockObjectStore.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/BlockObjectStore.java",
+          "linesOfCode": 140
+        },
+        {
+          "name": "DataFileCache.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/DataFileCache.java",
+          "linesOfCode": 1688
+        },
+        {
+          "name": "HsqlDatabaseProperties.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/HsqlDatabaseProperties.java",
+          "linesOfCode": 1013
+        },
+        {
+          "name": "TableSpaceManagerBlocks.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/TableSpaceManagerBlocks.java",
+          "linesOfCode": 281
+        },
+        {
+          "name": "CachedObjectBase.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/CachedObjectBase.java",
+          "linesOfCode": 126
+        },
+        {
+          "name": "DataSpaceManager.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/DataSpaceManager.java",
+          "linesOfCode": 75
+        },
+        {
+          "name": "Logger.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/Logger.java",
+          "linesOfCode": 2472
+        },
+        {
+          "name": "BitMapCachedObject.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/BitMapCachedObject.java",
+          "linesOfCode": 111
+        },
+        {
+          "name": "RowStoreAVLDiskData.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RowStoreAVLDiskData.java",
+          "linesOfCode": 286
+        },
+        {
+          "name": "LobManager.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/LobManager.java",
+          "linesOfCode": 2296
+        },
+        {
+          "name": "PersistentStoreCollectionSession.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/PersistentStoreCollectionSession.java",
+          "linesOfCode": 432
+        },
+        {
+          "name": "LobStoreRAFile.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/LobStoreRAFile.java",
+          "linesOfCode": 189
+        },
+        {
+          "name": "TextCache.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/TextCache.java",
+          "linesOfCode": 474
+        },
+        {
+          "name": "TableSpaceManager.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/TableSpaceManager.java",
+          "linesOfCode": 69
+        },
+        {
+          "name": "LobStoreInJar.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/LobStoreInJar.java",
+          "linesOfCode": 169
+        },
+        {
+          "name": "TextFileSettings.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/TextFileSettings.java",
+          "linesOfCode": 287
+        },
+        {
+          "name": "TextFileReader.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/TextFileReader.java",
+          "linesOfCode": 316
+        },
+        {
+          "name": "IntArrayCachedObject.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/IntArrayCachedObject.java",
+          "linesOfCode": 108
+        },
+        {
+          "name": "LobStoreMem.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/LobStoreMem.java",
+          "linesOfCode": 159
+        },
+        {
+          "name": "RAFile.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RAFile.java",
+          "linesOfCode": 501
+        },
+        {
+          "name": "RAShadowFile.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RAShadowFile.java",
+          "linesOfCode": 346
+        },
+        {
+          "name": "RandomAccessInterface.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RandomAccessInterface.java",
+          "linesOfCode": 72
+        },
+        {
+          "name": "RowStoreAVLMemory.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RowStoreAVLMemory.java",
+          "linesOfCode": 199
+        },
+        {
+          "name": "RowStoreAVL.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RowStoreAVL.java",
+          "linesOfCode": 656
+        },
+        {
+          "name": "LockFile.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/LockFile.java",
+          "linesOfCode": 2390
+        },
+        {
+          "name": "RAFileHybrid.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RAFileHybrid.java",
+          "linesOfCode": 194
+        },
+        {
+          "name": "SimpleStore.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/SimpleStore.java",
+          "linesOfCode": 215
+        },
+        {
+          "name": "RAStorageWrapper.java",
+          "filePath": "hsqldb/src/org/hsqldb/persist/RAStorageWrapper.java",
+          "linesOfCode": 115
+        }
+      ]
+    },
+    {
+      "name": "pool",
+      "files": [
+        {
+          "name": "JDBCXAConnection.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/pool/JDBCXAConnection.java",
+          "linesOfCode": 95
+        },
+        {
+          "name": "JDBCXAConnectionWrapper.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/pool/JDBCXAConnectionWrapper.java",
+          "linesOfCode": 189
+        },
+        {
+          "name": "JDBCPooledDataSource.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/pool/JDBCPooledDataSource.java",
+          "linesOfCode": 113
+        },
+        {
+          "name": "JDBCPooledConnection.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/pool/JDBCPooledConnection.java",
+          "linesOfCode": 208
+        },
+        {
+          "name": "JDBCXAResource.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/pool/JDBCXAResource.java",
+          "linesOfCode": 478
+        },
+        {
+          "name": "JDBCXADataSource.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/pool/JDBCXADataSource.java",
+          "linesOfCode": 211
+        },
+        {
+          "name": "JDBCXID.java",
+          "filePath": "hsqldb/src/org/hsqldb/jdbc/pool/JDBCXID.java",
+          "linesOfCode": 225
+        }
+      ]
+    },
+    {
+      "name": "preprocessor",
+      "files": [
+        {
+          "name": "LineType.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/LineType.java",
+          "linesOfCode": 128
+        },
+        {
+          "name": "PreprocessorException.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/PreprocessorException.java",
+          "linesOfCode": 47
+        },
+        {
+          "name": "PreprocessorAntTask.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/PreprocessorAntTask.java",
+          "linesOfCode": 243
+        },
+        {
+          "name": "Token.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/Token.java",
+          "linesOfCode": 107
+        },
+        {
+          "name": "Defines.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/Defines.java",
+          "linesOfCode": 202
+        },
+        {
+          "name": "Parser.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/Parser.java",
+          "linesOfCode": 277
+        },
+        {
+          "name": "Tokenizer.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/Tokenizer.java",
+          "linesOfCode": 245
+        },
+        {
+          "name": "BasicResolver.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/BasicResolver.java",
+          "linesOfCode": 81
+        },
+        {
+          "name": "Document.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/Document.java",
+          "linesOfCode": 292
+        },
+        {
+          "name": "IResolver.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/IResolver.java",
+          "linesOfCode": 54
+        },
+        {
+          "name": "AntResolver.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/AntResolver.java",
+          "linesOfCode": 62
+        },
+        {
+          "name": "Option.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/Option.java",
+          "linesOfCode": 101
+        },
+        {
+          "name": "Line.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/Line.java",
+          "linesOfCode": 163
+        },
+        {
+          "name": "Preprocessor.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/preprocessor/Preprocessor.java",
+          "linesOfCode": 738
+        }
+      ]
+    },
+    {
+      "name": "resources",
+      "files": [
+        {
+          "name": "ResourceBundleHandler.java",
+          "filePath": "hsqldb/src/org/hsqldb/resources/ResourceBundleHandler.java",
+          "linesOfCode": 246
+        }
+      ]
+    },
+    {
+      "name": "result",
+      "files": [
+        {
+          "name": "ResultConstants.java",
+          "filePath": "hsqldb/src/org/hsqldb/result/ResultConstants.java",
+          "linesOfCode": 729
+        },
+        {
+          "name": "Result.java",
+          "filePath": "hsqldb/src/org/hsqldb/result/Result.java",
+          "linesOfCode": 1608
+        },
+        {
+          "name": "ResultProperties.java",
+          "filePath": "hsqldb/src/org/hsqldb/result/ResultProperties.java",
+          "linesOfCode": 150
+        },
+        {
+          "name": "ResultLob.java",
+          "filePath": "hsqldb/src/org/hsqldb/result/ResultLob.java",
+          "linesOfCode": 719
+        },
+        {
+          "name": "ResultMetaData.java",
+          "filePath": "hsqldb/src/org/hsqldb/result/ResultMetaData.java",
+          "linesOfCode": 529
+        }
+      ]
+    },
+    {
+      "name": "rights",
+      "files": [
+        {
+          "name": "GrantConstants.java",
+          "filePath": "hsqldb/src/org/hsqldb/rights/GrantConstants.java",
+          "linesOfCode": 69
+        },
+        {
+          "name": "GranteeManager.java",
+          "filePath": "hsqldb/src/org/hsqldb/rights/GranteeManager.java",
+          "linesOfCode": 810
+        },
+        {
+          "name": "User.java",
+          "filePath": "hsqldb/src/org/hsqldb/rights/User.java",
+          "linesOfCode": 243
+        },
+        {
+          "name": "UserManager.java",
+          "filePath": "hsqldb/src/org/hsqldb/rights/UserManager.java",
+          "linesOfCode": 488
+        },
+        {
+          "name": "Right.java",
+          "filePath": "hsqldb/src/org/hsqldb/rights/Right.java",
+          "linesOfCode": 1001
+        },
+        {
+          "name": "Grantee.java",
+          "filePath": "hsqldb/src/org/hsqldb/rights/Grantee.java",
+          "linesOfCode": 1222
+        }
+      ]
+    },
+    {
+      "name": "rowio",
+      "files": [
+        {
+          "name": "RowInputBinary.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowInputBinary.java",
+          "linesOfCode": 317
+        },
+        {
+          "name": "RowOutputBinary180.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowOutputBinary180.java",
+          "linesOfCode": 97
+        },
+        {
+          "name": "RowOutputBinary.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowOutputBinary.java",
+          "linesOfCode": 480
+        },
+        {
+          "name": "RowInputBinary180.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowInputBinary180.java",
+          "linesOfCode": 98
+        },
+        {
+          "name": "RowInputTextQuoted.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowInputTextQuoted.java",
+          "linesOfCode": 152
+        },
+        {
+          "name": "RowOutputBinaryEncode.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowOutputBinaryEncode.java",
+          "linesOfCode": 98
+        },
+        {
+          "name": "RowInputBase.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowInputBase.java",
+          "linesOfCode": 333
+        },
+        {
+          "name": "RowOutputTextQuoted.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowOutputTextQuoted.java",
+          "linesOfCode": 73
+        },
+        {
+          "name": "RowInputBinaryDecode.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowInputBinaryDecode.java",
+          "linesOfCode": 68
+        },
+        {
+          "name": "RowOutputInterface.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowOutputInterface.java",
+          "linesOfCode": 96
+        },
+        {
+          "name": "RowInputText.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowInputText.java",
+          "linesOfCode": 567
+        },
+        {
+          "name": "RowOutputBase.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowOutputBase.java",
+          "linesOfCode": 310
+        },
+        {
+          "name": "RowOutputTextLog.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowOutputTextLog.java",
+          "linesOfCode": 297
+        },
+        {
+          "name": "RowInputInterface.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowInputInterface.java",
+          "linesOfCode": 73
+        },
+        {
+          "name": "RowOutputText.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowOutputText.java",
+          "linesOfCode": 384
+        },
+        {
+          "name": "RowInputTextLog.java",
+          "filePath": "hsqldb/src/org/hsqldb/rowio/RowInputTextLog.java",
+          "linesOfCode": 553
+        }
+      ]
+    },
+    {
+      "name": "sample",
+      "files": [
+        {
+          "name": "ConnectionTypesSample.java",
+          "filePath": "hsqldb/src/org/hsqldb/sample/ConnectionTypesSample.java",
+          "linesOfCode": 54
+        },
+        {
+          "name": "SqlFileEmbedder.java",
+          "filePath": "hsqldb/src/org/hsqldb/sample/SqlFileEmbedder.java",
+          "linesOfCode": 150
+        },
+        {
+          "name": "TriggerSample.java",
+          "filePath": "hsqldb/src/org/hsqldb/sample/TriggerSample.java",
+          "linesOfCode": 505
+        },
+        {
+          "name": "DatabaseManagerSample.java",
+          "filePath": "hsqldb/src/org/hsqldb/sample/DatabaseManagerSample.java",
+          "linesOfCode": 52
+        },
+        {
+          "name": "SqlFileEmbedder.java",
+          "filePath": "hsqldb/doc/verbatim/src/org/hsqldb/sample/SqlFileEmbedder.java",
+          "linesOfCode": 150
+        },
+        {
+          "name": "TriggerSample.java",
+          "filePath": "hsqldb/doc/verbatim/src/org/hsqldb/sample/TriggerSample.java",
+          "linesOfCode": 505
+        },
+        {
+          "name": "JdbcAppClass.java",
+          "filePath": "hsqldb/integration/extAuthWithSpring/src/org/hsqldb/sample/JdbcAppClass.java",
+          "linesOfCode": 110
+        },
+        {
+          "name": "Testdb.java",
+          "filePath": "hsqldb/doc/verbatim/src/org/hsqldb/sample/Testdb.java",
+          "linesOfCode": 202
+        },
+        {
+          "name": "SpringExtAuth.java",
+          "filePath": "hsqldb/integration/extAuthWithSpring/src/org/hsqldb/sample/SpringExtAuth.java",
+          "linesOfCode": 176
+        },
+        {
+          "name": "FindFile.java",
+          "filePath": "hsqldb/src/org/hsqldb/sample/FindFile.java",
+          "linesOfCode": 258
+        },
+        {
+          "name": "Testdb.java",
+          "filePath": "hsqldb/src/org/hsqldb/sample/Testdb.java",
+          "linesOfCode": 202
+        }
+      ]
+    },
+    {
+      "name": "scriptio",
+      "files": [
+        {
+          "name": "ScriptWriterEncode.java",
+          "filePath": "hsqldb/src/org/hsqldb/scriptio/ScriptWriterEncode.java",
+          "linesOfCode": 159
+        },
+        {
+          "name": "ScriptWriterBase.java",
+          "filePath": "hsqldb/src/org/hsqldb/scriptio/ScriptWriterBase.java",
+          "linesOfCode": 445
+        },
+        {
+          "name": "ScriptWriterText.java",
+          "filePath": "hsqldb/src/org/hsqldb/scriptio/ScriptWriterText.java",
+          "linesOfCode": 321
+        },
+        {
+          "name": "ScriptReaderBase.java",
+          "filePath": "hsqldb/src/org/hsqldb/scriptio/ScriptReaderBase.java",
+          "linesOfCode": 123
+        },
+        {
+          "name": "ScriptReaderDecode.java",
+          "filePath": "hsqldb/src/org/hsqldb/scriptio/ScriptReaderDecode.java",
+          "linesOfCode": 145
+        },
+        {
+          "name": "ScriptReaderText.java",
+          "filePath": "hsqldb/src/org/hsqldb/scriptio/ScriptReaderText.java",
+          "linesOfCode": 332
+        }
+      ]
+    },
+    {
+      "name": "server",
+      "files": [
+        {
+          "name": "WebServer.java",
+          "filePath": "hsqldb/doc/verbatim/src/org/hsqldb/server/WebServer.java",
+          "linesOfCode": 280
+        },
+        {
+          "name": "OdbcPacketInputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/OdbcPacketInputStream.java",
+          "linesOfCode": 226
+        },
+        {
+          "name": "ServerConstants.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/ServerConstants.java",
+          "linesOfCode": 82
+        },
+        {
+          "name": "Server.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/Server.java",
+          "linesOfCode": 2535
+        },
+        {
+          "name": "HsqlSocketFactorySecure.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/HsqlSocketFactorySecure.java",
+          "linesOfCode": 404
+        },
+        {
+          "name": "ServerConnection.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/ServerConnection.java",
+          "linesOfCode": 1982
+        },
+        {
+          "name": "ServerAcl.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/ServerAcl.java",
+          "linesOfCode": 525
+        },
+        {
+          "name": "OdbcPacketOutputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/OdbcPacketOutputStream.java",
+          "linesOfCode": 157
+        },
+        {
+          "name": "Servlet.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/Servlet.java",
+          "linesOfCode": 345
+        },
+        {
+          "name": "HsqlServerFactory.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/HsqlServerFactory.java",
+          "linesOfCode": 92
+        },
+        {
+          "name": "OdbcUtil.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/OdbcUtil.java",
+          "linesOfCode": 291
+        },
+        {
+          "name": "RecoverableOdbcFailure.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/RecoverableOdbcFailure.java",
+          "linesOfCode": 83
+        },
+        {
+          "name": "ServerProperties.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/ServerProperties.java",
+          "linesOfCode": 333
+        },
+        {
+          "name": "OdbcPreparedStatement.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/OdbcPreparedStatement.java",
+          "linesOfCode": 115
+        },
+        {
+          "name": "StatementPortal.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/StatementPortal.java",
+          "linesOfCode": 138
+        },
+        {
+          "name": "Servlet.java",
+          "filePath": "hsqldb/doc/verbatim/src/org/hsqldb/server/Servlet.java",
+          "linesOfCode": 345
+        },
+        {
+          "name": "HsqlSocketRequestHandler.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/HsqlSocketRequestHandler.java",
+          "linesOfCode": 51
+        },
+        {
+          "name": "WebServer.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/WebServer.java",
+          "linesOfCode": 280
+        },
+        {
+          "name": "PgType.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/PgType.java",
+          "linesOfCode": 540
+        },
+        {
+          "name": "WebServerConnection.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/WebServerConnection.java",
+          "linesOfCode": 591
+        },
+        {
+          "name": "ServerConfiguration.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/ServerConfiguration.java",
+          "linesOfCode": 292
+        },
+        {
+          "name": "HsqlSocketFactory.java",
+          "filePath": "hsqldb/src/org/hsqldb/server/HsqlSocketFactory.java",
+          "linesOfCode": 221
+        }
+      ]
+    },
+    {
+      "name": "sqltool",
+      "files": [
+        {
+          "name": "SqlFileScanner.java",
+          "filePath": "hsqldb/src/org/hsqldb/cmdline/sqltool/SqlFileScanner.java",
+          "linesOfCode": 1106
+        },
+        {
+          "name": "Token.java",
+          "filePath": "hsqldb/src/org/hsqldb/cmdline/sqltool/Token.java",
+          "linesOfCode": 153
+        },
+        {
+          "name": "TokenList.java",
+          "filePath": "hsqldb/src/org/hsqldb/cmdline/sqltool/TokenList.java",
+          "linesOfCode": 60
+        },
+        {
+          "name": "FileRecordReader.java",
+          "filePath": "hsqldb/src/org/hsqldb/cmdline/sqltool/FileRecordReader.java",
+          "linesOfCode": 174
+        },
+        {
+          "name": "TokenSource.java",
+          "filePath": "hsqldb/src/org/hsqldb/cmdline/sqltool/TokenSource.java",
+          "linesOfCode": 40
+        },
+        {
+          "name": "Calculator.java",
+          "filePath": "hsqldb/src/org/hsqldb/cmdline/sqltool/Calculator.java",
+          "linesOfCode": 396
+        }
+      ]
+    },
+    {
+      "name": "tar",
+      "files": [
+        {
+          "name": "TarMalformatException.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/tar/TarMalformatException.java",
+          "linesOfCode": 40
+        },
+        {
+          "name": "TarFileInputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/tar/TarFileInputStream.java",
+          "linesOfCode": 307
+        },
+        {
+          "name": "TarHeaderField.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/tar/TarHeaderField.java",
+          "linesOfCode": 119
+        },
+        {
+          "name": "TarFileOutputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/tar/TarFileOutputStream.java",
+          "linesOfCode": 372
+        },
+        {
+          "name": "PIFGenerator.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/tar/PIFGenerator.java",
+          "linesOfCode": 181
+        },
+        {
+          "name": "DbBackup.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/tar/DbBackup.java",
+          "linesOfCode": 552
+        },
+        {
+          "name": "PIFData.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/tar/PIFData.java",
           "linesOfCode": 116
-        }
-      ]
-    },
-    {
-      "name": "combat",
-      "files": [
-        {
-          "name": "BattleSimulator.java",
-          "filePath": "src/main/java/com/example/combat/BattleSimulator.java",
-          "linesOfCode": 129
-        }
-      ]
-    },
-    {
-      "name": "enemies",
-      "files": [
-        {
-          "name": "Orc.java",
-          "filePath": "src/main/java/com/example/enemies/Orc.java",
-          "linesOfCode": 67
         },
         {
-          "name": "Goblin.java",
-          "filePath": "src/main/java/com/example/enemies/Goblin.java",
-          "linesOfCode": 66
-        }
-      ]
-    },
-    {
-      "name": "example",
-      "files": [
-        {
-          "name": "Main.java",
-          "filePath": "src/main/java/com/example/Main.java",
-          "linesOfCode": 44
-        }
-      ]
-    },
-    {
-      "name": "items",
-      "files": [
-        {
-          "name": "Usable.java",
-          "filePath": "src/main/java/com/example/items/Usable.java",
-          "linesOfCode": 9
+          "name": "RB.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/tar/RB.java",
+          "linesOfCode": 179
         },
         {
-          "name": "Potion.java",
-          "filePath": "src/main/java/com/example/items/Potion.java",
+          "name": "TarGenerator.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/tar/TarGenerator.java",
+          "linesOfCode": 726
+        },
+        {
+          "name": "TarReader.java",
+          "filePath": "hsqldb/src/org/hsqldb/lib/tar/TarReader.java",
+          "linesOfCode": 798
+        }
+      ]
+    },
+    {
+      "name": "types",
+      "files": [
+        {
+          "name": "JavaObjectData.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/JavaObjectData.java",
+          "linesOfCode": 134
+        },
+        {
+          "name": "LobData.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/LobData.java",
+          "linesOfCode": 56
+        },
+        {
+          "name": "BinaryData.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/BinaryData.java",
+          "linesOfCode": 313
+        },
+        {
+          "name": "Collation.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/Collation.java",
+          "linesOfCode": 568
+        },
+        {
+          "name": "BitType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/BitType.java",
+          "linesOfCode": 580
+        },
+        {
+          "name": "BlobData.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/BlobData.java",
+          "linesOfCode": 96
+        },
+        {
+          "name": "IntervalMonthData.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/IntervalMonthData.java",
+          "linesOfCode": 115
+        },
+        {
+          "name": "ClobData.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/ClobData.java",
+          "linesOfCode": 85
+        },
+        {
+          "name": "CharacterType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/CharacterType.java",
+          "linesOfCode": 1156
+        },
+        {
+          "name": "BooleanType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/BooleanType.java",
+          "linesOfCode": 297
+        },
+        {
+          "name": "NumberType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/NumberType.java",
+          "linesOfCode": 2029
+        },
+        {
+          "name": "IntervalSecondData.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/IntervalSecondData.java",
+          "linesOfCode": 185
+        },
+        {
+          "name": "TimestampData.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/TimestampData.java",
+          "linesOfCode": 114
+        },
+        {
+          "name": "BlobDataID.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/BlobDataID.java",
+          "linesOfCode": 273
+        },
+        {
+          "name": "NullType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/NullType.java",
+          "linesOfCode": 119
+        },
+        {
+          "name": "ClobDataID.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/ClobDataID.java",
+          "linesOfCode": 268
+        },
+        {
+          "name": "IntervalType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/IntervalType.java",
+          "linesOfCode": 1659
+        },
+        {
+          "name": "UserTypeModifier.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/UserTypeModifier.java",
+          "linesOfCode": 231
+        },
+        {
+          "name": "Types.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/Types.java",
+          "linesOfCode": 796
+        },
+        {
+          "name": "BinaryType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/BinaryType.java",
+          "linesOfCode": 790
+        },
+        {
+          "name": "Type.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/Type.java",
+          "linesOfCode": 1231
+        },
+        {
+          "name": "TimeData.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/TimeData.java",
+          "linesOfCode": 108
+        },
+        {
+          "name": "BlobType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/BlobType.java",
+          "linesOfCode": 317
+        },
+        {
+          "name": "ClobType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/ClobType.java",
+          "linesOfCode": 229
+        },
+        {
+          "name": "RowType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/RowType.java",
+          "linesOfCode": 503
+        },
+        {
+          "name": "ArrayType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/ArrayType.java",
+          "linesOfCode": 527
+        },
+        {
+          "name": "DTIType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/DTIType.java",
+          "linesOfCode": 489
+        },
+        {
+          "name": "DateTimeType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/DateTimeType.java",
+          "linesOfCode": 1934
+        },
+        {
+          "name": "ClobInputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/ClobInputStream.java",
+          "linesOfCode": 173
+        },
+        {
+          "name": "BlobInputStream.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/BlobInputStream.java",
+          "linesOfCode": 156
+        },
+        {
+          "name": "Charset.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/Charset.java",
+          "linesOfCode": 276
+        },
+        {
+          "name": "OtherType.java",
+          "filePath": "hsqldb/src/org/hsqldb/types/OtherType.java",
+          "linesOfCode": 197
+        }
+      ]
+    },
+    {
+      "name": "util",
+      "files": [
+        {
+          "name": "ConnectionDialog.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/ConnectionDialog.java",
+          "linesOfCode": 352
+        },
+        {
+          "name": "Grid.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/Grid.java",
+          "linesOfCode": 615
+        },
+        {
+          "name": "SqlServerTransferHelper.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/SqlServerTransferHelper.java",
+          "linesOfCode": 131
+        },
+        {
+          "name": "McKoiTransferHelper.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/McKoiTransferHelper.java",
+          "linesOfCode": 84
+        },
+        {
+          "name": "FontDialogSwing.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/FontDialogSwing.java",
+          "linesOfCode": 326
+        },
+        {
+          "name": "Tree.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/Tree.java",
+          "linesOfCode": 536
+        },
+        {
+          "name": "HsqldbTransferHelper.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/HsqldbTransferHelper.java",
+          "linesOfCode": 111
+        },
+        {
+          "name": "TransferTable.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/TransferTable.java",
+          "linesOfCode": 471
+        },
+        {
+          "name": "DataAccessPoint.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/DataAccessPoint.java",
+          "linesOfCode": 138
+        },
+        {
+          "name": "MainInvoker.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/MainInvoker.java",
+          "linesOfCode": 148
+        },
+        {
+          "name": "TransferHelper.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/TransferHelper.java",
+          "linesOfCode": 207
+        },
+        {
+          "name": "OracleTransferHelper.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/OracleTransferHelper.java",
+          "linesOfCode": 183
+        },
+        {
+          "name": "Traceable.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/Traceable.java",
           "linesOfCode": 45
-        }
-      ]
-    },
-    {
-      "name": "ui",
-      "files": [
-        {
-          "name": "GameWindow.java",
-          "filePath": "src/main/java/com/example/ui/GameWindow.java",
-          "linesOfCode": 30
         },
         {
-          "name": "ConsoleRenderer.java",
-          "filePath": "src/main/java/com/example/ui/ConsoleRenderer.java",
-          "linesOfCode": 15
+          "name": "JDBCTypes.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/JDBCTypes.java",
+          "linesOfCode": 146
         },
         {
-          "name": "BattlePanel.java",
-          "filePath": "src/main/java/com/example/ui/BattlePanel.java",
-          "linesOfCode": 193
+          "name": "TransferCommon.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/TransferCommon.java",
+          "linesOfCode": 163
         },
         {
-          "name": "MenuPrinter.java",
-          "filePath": "src/main/java/com/example/ui/MenuPrinter.java",
-          "linesOfCode": 14
-        }
-      ]
-    },
-    {
-      "name": "utils",
-      "files": [
-        {
-          "name": "RandomUtils.java",
-          "filePath": "src/main/java/com/example/utils/RandomUtils.java",
-          "linesOfCode": 34
+          "name": "DatabaseManagerCommon.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/DatabaseManagerCommon.java",
+          "linesOfCode": 385
         },
         {
-          "name": "MathUtils.java",
-          "filePath": "src/main/java/com/example/utils/MathUtils.java",
-          "linesOfCode": 34
+          "name": "HelperFactory.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/HelperFactory.java",
+          "linesOfCode": 70
+        },
+        {
+          "name": "PostgresTransferHelper.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/PostgresTransferHelper.java",
+          "linesOfCode": 168
+        },
+        {
+          "name": "TransferResultSet.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/TransferResultSet.java",
+          "linesOfCode": 172
+        },
+        {
+          "name": "TableSorter.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/TableSorter.java",
+          "linesOfCode": 622
+        },
+        {
+          "name": "InformixTransferHelper.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/InformixTransferHelper.java",
+          "linesOfCode": 95
+        },
+        {
+          "name": "ConnectionDialogCommon.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/ConnectionDialogCommon.java",
+          "linesOfCode": 332
+        },
+        {
+          "name": "CSVWriter.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/CSVWriter.java",
+          "linesOfCode": 141
+        },
+        {
+          "name": "GridSwing.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/GridSwing.java",
+          "linesOfCode": 235
+        },
+        {
+          "name": "ConnectionDialogSwing.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/ConnectionDialogSwing.java",
+          "linesOfCode": 392
+        },
+        {
+          "name": "CodeSwitcher.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/CodeSwitcher.java",
+          "linesOfCode": 536
+        },
+        {
+          "name": "DataAccessPointException.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/DataAccessPointException.java",
+          "linesOfCode": 48
+        },
+        {
+          "name": "DatabaseManagerSwing.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/DatabaseManagerSwing.java",
+          "linesOfCode": 3095
+        },
+        {
+          "name": "CommonSwing.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/CommonSwing.java",
+          "linesOfCode": 239
+        },
+        {
+          "name": "Transfer.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/Transfer.java",
+          "linesOfCode": 1290
+        },
+        {
+          "name": "DatabaseManager.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/DatabaseManager.java",
+          "linesOfCode": 1365
+        },
+        {
+          "name": "SQLStatements.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/SQLStatements.java",
+          "linesOfCode": 100
+        },
+        {
+          "name": "ConnectionSetting.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/ConnectionSetting.java",
+          "linesOfCode": 101
+        },
+        {
+          "name": "TransferDb.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/TransferDb.java",
+          "linesOfCode": 951
+        },
+        {
+          "name": "TransferSQLText.java",
+          "filePath": "hsqldb/src/org/hsqldb/util/TransferSQLText.java",
+          "linesOfCode": 865
         }
       ]
     }

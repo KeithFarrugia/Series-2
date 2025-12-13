@@ -1,16 +1,14 @@
-// script.js (updated fetch logic)
 import { prepareData } from "./js/data.js";
 import { buildHierarchy } from "./js/hierarchy.js";
 import { setupFilters } from "./js/filters.js";
 import { renderTreemap } from "./js/treemap.js";
 
-let fileStructure = null; // Renamed 'data' to 'fileStructure' for clarity
+let fileStructure = null; 
 let cloneData = null;
 
 async function init(){
-  // Fetching two JSON files concurrently
   const [linesResponse, clonesResponse] = await Promise.all([
-    fetch("../lines.json"), // Assuming lines.json contains the structure/LOC
+    fetch("../lines.json"), 
     fetch("../clones.json")
   ]);
 

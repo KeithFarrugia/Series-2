@@ -1,4 +1,3 @@
-// hierarchy.js (FIXED: Children not showing due to incorrect property access in filtering)
 import { calculateFilteredDuplication } from "./data.js";
 
 /* ------------- Build D3 hierarchy (modules -> files). value = linesOfCode ------------- */
@@ -43,7 +42,6 @@ export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoCl
         name: file.name,
         filePath: file.filePath,
         linesOfCode: file.linesOfCode || 0,
-        // *** CRITICAL FIX: Use the calculated filteredMetrics properties ***
         duplicationPercent: filteredMetrics.duplicationPercent,
         duplicatedLines: filteredMetrics.duplicatedLines,
         mergedRanges: filteredMetrics.mergedRanges,
@@ -51,7 +49,6 @@ export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoCl
       
       modNode.children.push(fileNode);
 
-      // Accumulate metrics for module-level aggregation (Polymetric View requirement)
       // Accumulate the duplicationPercent of the files added to the module
       modTotalDuplicationPercentWeighted += fileNode.duplicationPercent;
       modTotalFileCount++;
@@ -60,14 +57,14 @@ export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoCl
     // only add module if it has children after filtering
     if(modNode.children.length>0) {
       
-      // 1. Calculate Average Duplication Percent for the Module (Level 1)
+      // Calculate Average Duplication Percent for the Module (Level 1)
       if (modTotalFileCount > 0) {
           modNode.duplicationPercent = modTotalDuplicationPercentWeighted / modTotalFileCount;
       } else {
           modNode.duplicationPercent = 0;
       }
 
-      // 2. Add the file count metric
+      // Add the file count metric
       modNode.fileCount = modTotalFileCount;
 
       root.children.push(modNode);
@@ -77,7 +74,7 @@ export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoCl
   // Attach project-wide averages
   root.projectMetrics = data.projectMetrics;
 
-  // AGGREGATE ROOT METRICS (Polymetric View requirement)
+  // Aggregrate root metrics
   let rootTotalDuplicationPercentWeighted = 0;
   let rootTotalFileCount = 0;
 
