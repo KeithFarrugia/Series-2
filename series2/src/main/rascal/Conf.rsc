@@ -1,12 +1,17 @@
 module Conf
 
-public str rootPath = "/dev/software_evo/Series-2/hsqldb-2.3.1";
-public loc clonesJson = |project://series2/clones.json|;
-public loc linesJson = |project://series2/lines.json|;
+// Change this value to the project you want to run the clone detection on
+public loc projectRoot = |project://hsqldb-2.3.1|; 
+// public loc projectRoot = |project://clone-demo|;
+// public loc projectRoot = |project://smallsql0.21_src|;
 
-public loc projectRoot = |project://clone-demo|;
-//public loc projectRoot = |project://smallsql0.21_src|;
-// public loc projectRoot = |project://hsqldb-2.3.1|;
+// Change this to match the absolute filepath of the project you're analysing 
+public str rootPath = "/dev/software_evo/Series-2/hsqldb-2.3.1";
+
+// ===========================
+// The below is used to create the clones.json
+public loc clonesJson = |project://series2/clones.json|;
+
 
 
 public int  DUPLICATION_THRESHOLD   = 6;
@@ -22,7 +27,6 @@ public data Clone = clone(
     str name
 );
 
-// Ignore for now
 // Represents an individual location in the JSON 'locations' list
 public data Location = location(
     str filePath,
@@ -36,7 +40,10 @@ public data ProjectClones = projectClones(
     list[Clone] clones
 );
 
-// For lines.json
+// ===========================
+// The below is used to create the lines.json
+public loc linesJson = |project://series2/lines.json|;
+
 // Maps to the file object in JSON
 public data FileMetrics = fileMetrics(
     str name, 

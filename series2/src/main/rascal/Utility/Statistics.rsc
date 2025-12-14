@@ -12,7 +12,7 @@ import Utility::LinesOfCode;
 /* ============================================================================
  *                           getLocationFilePath
  * ----------------------------------------------------------------------------
- * Extract the file path from a Location object.
+ * Retrieves the file path string from a Location data structure.
  * ============================================================================
  */
 str getLocationFilePath(Location l) {
@@ -22,7 +22,9 @@ str getLocationFilePath(Location l) {
 /* ============================================================================
  *                           sortLocations
  * ----------------------------------------------------------------------------
- * Sort a list of Location objects by startLine using manual selection sort.
+ * Sorts a list of Location records in ascending order based on the 
+ * 'startLine' field.
+ * Note: Uses selection sort.
  * ============================================================================
  */
 list[Location] sortLocations(list[Location] locations) {
@@ -58,50 +60,56 @@ list[Location] sortLocations(list[Location] locations) {
 /* ============================================================================
  *                           mergeRanges
  * ----------------------------------------------------------------------------
- * Merge overlapping line ranges for a set of Location objects and
- * return the total number of unique lines.
+ * Calculates the total number of unique lines covered by a set of Location 
+ * ranges, merging any overlapping or adjacent ranges within the same file.
+ * * This process involves:
+ *  1. Grouping all Location ranges by their file path.
+ *  2. Sorting the ranges within each file by their start line.
+ *  3. Iterating through the sorted ranges, merging any where the next 
+ *     range's start 
+ * is less than or equal to the current merged range's end line + 1.
  * ============================================================================
  */
 public int mergeRanges(set[Location] ranges) {
-    // 1. Manual Grouping
+    // Grouping
     map[str, list[Location]] rangesByFile = ();
 
-    for (l <- ranges) {
+    for (l <- ranges) { // Iterate over all clone locations
         str file = l.filePath;
         if (file in rangesByFile) {
             rangesByFile[file] = rangesByFile[file] + [l];
         } else {
             rangesByFile[file] = [l];
         }
-    }
+    } // Group ranges by their file path
 
     int totalUniqueLines = 0;
     
-    for (filePath <- domain(rangesByFile)) {
+    for (filePath <- domain(rangesByFile)) { // Process one file at a time
         
         list[Location] fileRanges = rangesByFile[filePath]; 
-        list[Location] sortedFileRanges = sortLocations(fileRanges);
+        list[Location] sortedFileRanges = sortLocations(fileRanges); // Sort ranges by start line
 
         if (size(sortedFileRanges) == 0) continue;
         
-        // Use simple integers to track the merged range extent
+        // Track start and end lines of the current source
         int currentStart = sortedFileRanges[0].startLine;
         int currentEnd = sortedFileRanges[0].endLine;
         
         if (size(sortedFileRanges) > 1) {
-            for (i <- [1..size(sortedFileRanges)-1]) { 
+            for (i <- [1..size(sortedFileRanges)-1]) {  // Iterate through the rest of the ranges
                 Location next = sortedFileRanges[i];
                 
                 // Check for overlap (inclusive end lines)
-                if (next.startLine <= currentEnd + 1) {
-                    // MERGE: Update the end line if the next range extends it
+                if (next.startLine <= currentEnd + 1) { // Ranges are overlapping or adjacent
+                    // Update the end line if the next range extends it
                     if (next.endLine > currentEnd) {
-                        currentEnd = next.endLine;
+                        currentEnd = next.endLine; // Extend the merged range end
                     }
                 } else {
-                    // NO OVERLAP: Finalize the current merged range, add its length, and start a new one
+                    // No overlap: Finalise the current merged range, add its length, and start a new one
                     int rangeLength = currentEnd - currentStart + 1;
-                    totalUniqueLines += rangeLength;
+                    totalUniqueLines += rangeLength; // Add length of the finished merged range
                     
                     // Start a new range
                     currentStart = next.startLine;
@@ -110,9 +118,9 @@ public int mergeRanges(set[Location] ranges) {
             }
         }
         
-        // FINALIZATION: The last merged/unmerged range must be counted after the loop finishes.
+        // The last merged/unmerged range must be counted after the loop finishes.
         int rangeLength = currentEnd - currentStart + 1;
-        totalUniqueLines += rangeLength;
+        totalUniqueLines += rangeLength; // Add length of the final merged range
     }
     
     return totalUniqueLines;
@@ -121,8 +129,12 @@ public int mergeRanges(set[Location] ranges) {
 /* ============================================================================
  *                           printStatisticsForProject
  * ----------------------------------------------------------------------------
- * Print project-level clone statistics including number of classes,
- * instances, duplicated lines, total LOC, and duplication percentage.
+ * Calculates and prints needed statistics for a specified type of clones in the project.
+ * * Statistics include:
+ *  - Total number of unique duplicated lines (by merging overlapping ranges).
+ *  - Total lines of code in the project.
+ *  - Number of clone classes and instances for the specified clone type.
+ *  - Duplication percentage based on unique duplicated lines.
  * ============================================================================
  */
 public void printStatisticsForProject(list[Clone] projectClones, int cloneType) {
@@ -134,20 +146,19 @@ public void printStatisticsForProject(list[Clone] projectClones, int cloneType) 
     
     int typeXInstances = sum([size(c.locations) | c <- typeXClones]);
 
-    // 1. Collect all unique Location objects
+    // Collect all unique Location objects
     set[Location] allLocations = {};
     for (Clone c <- typeXClones) {
         allLocations += toSet(c.locations);
     }
     
-    // 2. Merge overlapping line ranges and calculate sum in one go (returns INT)
+    // Merge overlapping line ranges and calculate sum
     int typeXDuplicatedLines = mergeRanges(allLocations);
     
     println("Duplicated Lines: <typeXDuplicatedLines>");
-    println("Total LOC: <totalLinesOfCode>");
-
-    // 4. Calculate Duplication Percentage based on unique lines
-    // Capping added to ensure percentage is not > 100% due to LOC definition
+    
+    // Calculate Duplication Percentage based on unique lines
+    // Capping added to ensure percentage is not > 100% just in case
     int actualDuplicatedLines = typeXDuplicatedLines;
     if (actualDuplicatedLines > totalLinesOfCode) {
         actualDuplicatedLines = totalLinesOfCode;

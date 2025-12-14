@@ -19,6 +19,7 @@ public str cleanSource(str sourcestr) {
     
     /* -------------------------------------------------------------------- 
      * Step 1: Normalise all whitespace characters to newline
+     * This is a safety step against unprintable characters.
      * -------------------------------------------------------------------- */
     str normalizedWhitespace = replaceAll(sourcestr, "[\\p{Z}\\s]", "\n");
 
