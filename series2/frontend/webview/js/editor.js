@@ -62,7 +62,7 @@ export function updateLineNumbers() {
 }
 
 /**
- * Handles the synchronization of line numbers and content scrolling.
+ * Handles the synchronisation of line numbers and content scrolling.
  */
 export function syncScroll() {
     Util.lineNumbers.scrollTop = Util.editorContent.scrollTop;

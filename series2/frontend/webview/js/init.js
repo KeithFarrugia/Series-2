@@ -23,7 +23,7 @@ export function initializeApp() {
         }
     });
 
-    // Scroll synchronization
+    // Scroll synchronisation
     Util.editorContent.addEventListener('scroll', syncScroll);
 
     // Keyboard Shortcut for Save (Ctrl+S / Cmd+S)

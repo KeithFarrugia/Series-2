@@ -64,7 +64,7 @@ async function init(){
 
   } catch (error) {
     // Display error prominently to the user
-    console.error("Initialization Error:", error);
+    console.error("Initialisation Error:", error);
     const chartWrap = document.getElementById("chartWrap");
     if (chartWrap) {
         chartWrap.innerHTML = `<h2 style="color: red; text-align: center;">Data Loading Error:</h2><p style="text-align: center;">${error.message}</p>`;

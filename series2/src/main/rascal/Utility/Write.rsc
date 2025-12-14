@@ -6,34 +6,18 @@ import String;
 import Grammar;
 import lang::json::IO;
 
-// loc1 = location("src/main/java/org/sigmetrics/Calculator.java", 13, 19);
-// loc2 = location("src/main/java/org/sigmetrics/Duplication.java", 14, 20);
-
-// loc4 = location("src/main/java/org/sigmetrics/Duplication.java", 14, 20);
-// loc5 = location("src/main/java/org/sigmetrics/Complexity.java", 14, 23);
-
-// list[Location] locs1 = [loc1,loc2,];
-
-// list[Location] locs2 = [
-//     loc4,
-//     loc5
-// ];
-
-// clone1 = clone(locs1, 7, 1, "c1", "Exact Match");
-// clone2 = clone(locs2, 7, 1, "c2", "Near-Miss");
-// clonesList = [clone1, clone2];
-
-// Define a function that creates the JSON structure and returns it as a string
+// Writes a list of clones to a json to be consumed by the frontend
 void writeClonesToJson(list[Clone] clonesList) {
-    // 1. Create the top-level ProjectClones data structure
+    // Create the top-level ProjectClones data structure
     ProjectClones projectData = projectClones(rootPath, clonesList);
     
-    // 2. Write the structure directly to the file as JSON
+    // Write the structure directly to the file as JSON
     // We use an indent of 2 for pretty-printing, and dropOrigins=true 
     // to ensure clean JSON output without Rascal internal metadata.
     writeJSON(clonesJson, projectData, indent=2, dropOrigins=true);
 }
 
+// Same Logic as writeClones
 void writeLinesOfCodeToJson(ProjectMetrics projectMetrics) {
     writeJSON(linesJson, projectMetrics, indent=2, dropOrigins=true);
 }

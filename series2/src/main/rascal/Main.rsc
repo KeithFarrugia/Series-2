@@ -30,7 +30,7 @@ int durationToMillis(Duration d) {
 
 void main() { 
     int methodType = 1;
-    int cloneType = 3;
+    int cloneType = 1;
     list [Clone] clones;
     datetime t0 = now();
     switch (methodType) {
