@@ -4,18 +4,18 @@ import { loadSampleJson, toggleView, applyCloneFilter } from './cloneView.js';
 import * as Util from './util.js';
 
 export function initializeApp() {
-    // 1. Open Directory Button
+    // Open Directory Button
     Util.openDirBtn.addEventListener('click', openDirectory);
-    // 2. Save Button
+    // Save Button
     Util.saveBtn.addEventListener('click', saveFile);
 
-    // 3. Load Clones Button
+    // Load Clones Button
     Util.loadClonesBtn.addEventListener('click', loadSampleJson);
 
-    // 4. Close Clones Button
+    // Close Clones Button
     Util.closeClonesBtn.addEventListener('click', () => toggleView(false));
 
-    // 5. Editor Content and Line Number Sync
+    // Editor Content and Line Number Sync
     Util.editorContent.addEventListener('input', () => {
         updateLineNumbers();
         if (currentFileHandle) {
@@ -23,10 +23,10 @@ export function initializeApp() {
         }
     });
 
-    // 6. Scroll synchronization
+    // Scroll synchronization
     Util.editorContent.addEventListener('scroll', syncScroll);
 
-    // 7. Keyboard Shortcut for Save (Ctrl+S / Cmd+S)
+    // Keyboard Shortcut for Save (Ctrl+S / Cmd+S)
     document.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key === 's') {
             e.preventDefault();
@@ -34,7 +34,7 @@ export function initializeApp() {
         }
     });
 
-    // 8. Initial setup
+    // Initial setup
     window.addEventListener('load', () => {
         updateLineNumbers(); 
         if (!('showDirectoryPicker' in window)) {
@@ -54,12 +54,12 @@ export function initializeApp() {
         // Check if elements exist (only available in the clone view)
         if (filterHeader && filterControls && filterIcon) {
             
-            // 1. Initial State: Start collapsed to save vertical space
-            // We set this here in JS to ensure the filters work before the view is toggled
+            // Initial State: Start collapsed to save vertical space
+            // Ensures the filters work before the view is toggled
             filterControls.classList.add('hidden');
             filterIcon.classList.remove('rotate-180'); // Icon pointing down when closed
 
-            // 2. Click Handler
+            // Click Handler
             filterHeader.addEventListener('click', () => {
                 filterControls.classList.toggle('hidden');
                 // Toggle icon rotation (180deg when open, 0deg when closed)

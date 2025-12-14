@@ -57,7 +57,7 @@ public class BattleSimulator {
         while (hero.getHealth() > 0 && mage.getHp() > 0 && (goblin.getHp() > 0 || orc.getLife() > 0)) {
             renderer.printLine("\n--- Round " + round + " ---\n");
 
-            // 1. HERO ATTACKS (Action Display Logic Added)
+            // HERO ATTACKS (Action Display Logic)
             if (goblin.getHp() > 0) {
                 int damage = hero.slash();
                 renderer.printLine("-> " + hero.getName() + " attacks Goblin for " + damage + " damage.");
@@ -72,7 +72,7 @@ public class BattleSimulator {
                 orc.suffer(damage);
             }
             
-            // 2. MAGE ATTACKS (Action Display Logic Added)
+            // Mage attacks
             if (orc.getLife() > 0) {
                 int damage = mage.cast();
                 renderer.printLine("-> " + mage.getAlias() + " casts on Orc for " + damage + " magic damage.");
@@ -90,14 +90,14 @@ public class BattleSimulator {
             if (round > 10) break; // Safety break
         }
 
-        // 4. POST-BATTLE LOGIC (CLONE TARGET)
+        // POST-BATTLE LOGIC (CLONE TARGET)
         if (hero.getHealth() > 0 || mage.getHp() > 0) {
             renderer.printHeader("VICTORY!");
             
             int totalXP = 0;
             int totalGold = 0;
             
-            // This entire reward section provides an excellent block for Type 1, 2, and 3 clones in future expansions.
+            // Reward section for defeating enemies
             if (goblin.getHp() <= 0) {
                 int xp = calculateXpReward(1);
                 int gold = calculateGoldReward(1);

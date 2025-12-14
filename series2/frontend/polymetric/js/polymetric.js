@@ -23,12 +23,12 @@ export function renderPolymetric(rootData) {
   const baseHeight = 30;
   const minVisualSize = 5;
 
-  // 1. Convert data to D3 hierarchy (using LOC for value)
+  // Convert data to D3 hierarchy (using LOC for value)
   const root = d3.hierarchy(rootData)
     .sum(d => d.linesOfCode || d.fileCount || 0) // Sum LOC for files, fileCount for dirs
     .sort((a, b) => b.value - a.value);
 
-  // 2. Define the D3 Tree Layout
+  // Define the D3 Tree Layout
   const treeLayout = d3.tree()
     .size([height + 800 , width - 1200])
     .separation((a, b) => {
@@ -37,12 +37,12 @@ export function renderPolymetric(rootData) {
       // This ensures constant vertical spacing between siblings (1.5) and non-siblings (2.5)
     });
 
-  // 3. Compute the layout
+  // Compute the layout
   const nodes = treeLayout(root).descendants();
 
-  // 4. Calculate visual dimensions and adjust coordinates
+  // Calculate visual dimensions and adjust coordinates
   nodes.forEach(d => {
-    // --- HEIGHT (Length) ---
+    // Height
     if (d.data.linesOfCode !== undefined) {
       // Files: Height relative to project average LOC
       d.visualHeight = Math.max(minVisualSize, baseHeight * (d.data.linesOfCode / avgLOC));
@@ -51,7 +51,7 @@ export function renderPolymetric(rootData) {
       d.visualHeight = baseHeight;
     }
 
-    // --- WIDTH ---
+    // Width
     if (d.data.fileCount !== undefined) {
       // Directories (Module): Width relative to project average file count
       d.visualWidth = Math.max(baseWidth, baseWidth * (d.data.fileCount / avgFileCount));

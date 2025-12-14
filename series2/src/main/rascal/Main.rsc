@@ -66,26 +66,3 @@ void main() { // bug in ast one
     writeClonesToJson(clones);
     writeLinesOfCodeToJson(getAllFilesFromProjectRoot());
 }
-
-
-// void testMergeType1And2() {
-//     println("=== GENERATING CLONES ===");
-
-//     list[Clone] type1 = findClonesOfType1Or2Token(1);
-//     list[Clone] type2 = findClonesOfType1Or2Token(2);
-
-//     println("\n--- BEFORE MERGE ---");
-//     println("Type-1 Clones (<size(type1)>):");
-
-//     println("\nType-2 Clones (<size(type2)>):");
-
-//     println("\n=== MERGING TYPE-1 AND TYPE-2 CLONES ===");
-
-//     list[Clone] merged = mergeCloneTypes(type1 + type2);
-
-//     println("\n--- AFTER MERGE ---");
-//     println("Merged Clones (<size(merged)>):");
-//     writeClonesToJson(merged);
-//     writeLinesOfCodeToJson(getAllFilesFromProjectRoot(projectRoot));
-//     println("\n=== MERGE DONE ===");
-// }

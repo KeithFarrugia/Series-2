@@ -23,7 +23,7 @@ const server = http.createServer((req, res) => {
         filePath = './index.html';
     }
 
-    // If someone requests /polymetric, load /polymetric/index.html
+    // ex: if someone requests /polymetric, load /polymetric/index.html
     if (fs.existsSync('.' + req.url) && fs.lstatSync('.' + req.url).isDirectory()) {
         filePath = '.' + req.url + '/index.html';
     }

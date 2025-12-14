@@ -13,7 +13,7 @@ public class GameWindow extends JFrame {
         
         // Setup the frame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(800, 600)); // Set a reasonable size
+        setPreferredSize(new Dimension(800, 600)); 
         
         // Add the panel that handles all rendering
         add(battlePanel);

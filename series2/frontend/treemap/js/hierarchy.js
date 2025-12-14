@@ -4,7 +4,7 @@ import { calculateFilteredDuplication } from "./data.js"; // Import the new func
 export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoClones){
   // data is the file structure merged with raw clone ranges
   const root = { name: data.projectRoot, children: [] };
-  const allCloneTypes = ['type1', 'type2', 'type3']; // Used for checking if a file has *any* clones
+  const allCloneTypes = ['type1', 'type2', 'type3']; // Used for checking if a file has any clones
 
   // Fallback: If no type filters are active, treat it as "show all"
   const activeTypeFilterSet = typeFilterSet.size > 0 ? typeFilterSet : new Set(allCloneTypes);
@@ -15,7 +15,7 @@ export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoCl
     const modNode = { name: mod.name, children: [] };
     for(const file of mod.files){
       
-      // Calculate the metrics based *only* on the active type filters
+      // Calculate the metrics based only on the active type filters
       const filteredMetrics = calculateFilteredDuplication(file, activeTypeFilterSet);
       
       let passesFilter = true;
@@ -24,7 +24,7 @@ export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoCl
       if (typeFilterSet.size > 0 && !includeNoClones && filteredMetrics.duplicatedLines === 0) {
           passesFilter = false;
       }
-      // IMPORTANT EXCEPTION: If the user has *NO* filters selected, we use the 
+      // IMPORTANT EXCEPTION: If the user has no filters selected, we use the 
       // default metric (which is calculated above by `activeTypeFilterSet`), 
       // and we always include all files for the initial view.
       if (typeFilterSet.size === 0) {
@@ -38,7 +38,6 @@ export function buildHierarchy(data, moduleFilterSet, typeFilterSet, includeNoCl
         name: file.name,
         filePath: file.filePath,
         linesOfCode: file.linesOfCode || 0,
-        // USE THE NEWLY CALCULATED FILTERED METRICS
         duplicationPercent: filteredMetrics.duplicationPercent,
         duplicatedLines: filteredMetrics.duplicatedLines,
         mergedRanges: filteredMetrics.mergedRanges,

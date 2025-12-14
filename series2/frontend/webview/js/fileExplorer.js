@@ -140,19 +140,17 @@ export async function getFileContentByPath(filePath) {
     }
 
     try {
-        // 1. Clean the path and split into segments
+        // Clean the path and split into segments
         const pathSegments = filePath.split('/').filter(p => p.length > 0);
         let currentHandle = directoryHandle;
 
-        // 2. Traverse the directory segments (all except the last one, which is the file)
+        // Traverse the directory segments (all except the last one, which is the file)
         for (let i = 0; i < pathSegments.length - 1; i++) {
             const dirName = pathSegments[i];
-            
-            // Crucial: Use getDirectoryHandle for all intermediate parts
             currentHandle = await currentHandle.getDirectoryHandle(dirName);
         }
 
-        // 3. Get the final file handle
+        // Get the final file handle
         const fileName = pathSegments[pathSegments.length - 1];
         const fileHandle = await currentHandle.getFileHandle(fileName);
         

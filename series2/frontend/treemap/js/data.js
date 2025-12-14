@@ -1,6 +1,5 @@
 /** Merge overlapping ranges array [{start,end},...] and return merged array */
 export function mergeRanges(ranges){
-  // (mergeRanges function remains unchanged)
   if(!ranges || ranges.length===0) return [];
   const arr = ranges.map(r=>({start: r.start, end: r.end})).sort((a,b)=>a.start-b.start);
   const out = [arr[0]];
@@ -30,7 +29,7 @@ function prepareFileRawRanges(file, allClones){
     for(const loc of cloneGroup.locations){
       if(loc.filePath === file.filePath){
         if(typeof loc.startLine === "number" && typeof loc.endLine === "number"){
-          // We must use the absolute line numbers provided by the cloning tool
+          // We use the absolute line numbers provided by the cloning tool
           // as they refer to the physical lines, allowing clones outside the
           // non-commented LOC range to be counted.
           const start = Math.max(1, loc.startLine);
@@ -50,8 +49,6 @@ function prepareFileRawRanges(file, allClones){
   file._rawCloneRanges = cloneTypeRanges;
 }
 
-
-/* ------------- Prepare data: only prepare raw ranges, no final metrics ------------- */
 /** Merges clone information into the file structure. */
 export function prepareData(fileStructure, cloneData){
   for(const module of fileStructure.modules){
@@ -61,18 +58,17 @@ export function prepareData(fileStructure, cloneData){
   }
 }
 
-// NEW FUNCTION: Calculates metrics based on a specific filter set
 export function calculateFilteredDuplication(file, typeFilterSet) {
     const allRanges = [];
 
-    // 1. Collect ranges only from the types present in the filter set
-    for (const t of typeFilterSet) { // t is like 'type1', 'type2', etc.
+    // Collect ranges only from the types present in the filter set
+    for (const t of typeFilterSet) { // t is like 'type1' etc.
         if (file._rawCloneRanges && file._rawCloneRanges[t]) {
             allRanges.push(...file._rawCloneRanges[t]);
         }
     }
 
-    // 2. Compute merged duplicated lines and percentage
+    // Compute merged duplicated lines and percentage
     const merged = mergeRanges(allRanges);
     let duplicatedLines = 0;
     for(const r of merged) duplicatedLines += (r.end - r.start + 1);

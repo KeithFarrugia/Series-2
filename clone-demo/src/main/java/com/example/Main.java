@@ -15,7 +15,7 @@ import com.example.ui.BattlePanel;
 public class Main {
     public static void main(String[] args) {
         
-        // 1. INITIALIZE UI COMPONENTS
+        // Init ui components
         ConsoleRenderer renderer = new ConsoleRenderer();
         MenuPrinter menu = new MenuPrinter();
         
@@ -25,18 +25,18 @@ public class Main {
         renderer.printHeader("CLONE DETECTOR RPG BENCHMARK");
         menu.showTitle("Welcome to the Graphical Demo");
 
-        // 2. Initialization (Characters and Enemies)
+        // Init (Characters and Enemies)
         Hero hero = new Hero("Jacob", 50, 10, 5);
         Mage mage = new Mage("Keith", 40, 12, 3);
         Goblin goblin = new Goblin();
         Orc orc = new Orc();
         
-        // 3. Combat Simulation - Pass the UI components
+        // Combat Simulation - Pass the UI components
         BattleSimulator simulator = new BattleSimulator(renderer, gameWindow, battlePanel);
         simulator.startBattle(hero, mage, goblin, orc);
 
 
-        // 5. Final Status
+        // Final Stats
         renderer.printHeader("POST-BATTLE STATUS");
         hero.printStats();
         mage.showStats();

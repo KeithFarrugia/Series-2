@@ -8,13 +8,11 @@ let cloneData = null;
 
 async function init(){
   try {
-    // 1. Fetching two JSON files concurrently
     const [linesResponse, clonesResponse] = await Promise.all([
       fetch("../lines.json"), 
       fetch("../clones.json")
     ]);
     
-    // Check for success responses
     if (!linesResponse.ok) {
         throw new Error(`Failed to load lines.json: ${linesResponse.status} ${linesResponse.statusText}`);
     }
@@ -22,16 +20,16 @@ async function init(){
         throw new Error(`Failed to load clones.json: ${clonesResponse.status} ${clonesResponse.statusText}`);
     }
 
-    // 2. Parse JSON data
+    // Parse JSON data
     fileStructure = await linesResponse.json();
     cloneData = await clonesResponse.json();
     
-    // 3. Post-parse structure check (Crucial for the 'clones.clones' iterable error)
+    // Post-parse structure check (Crucial for the 'clones.clones' iterable error)
     if (!cloneData || !Array.isArray(cloneData.clones)) {
          throw new Error("clones.json loaded but is missing the expected 'clones' array structure.");
     }
 
-    // 4. Prepare and Render
+    // Prepare and Render
     prepareData(fileStructure, cloneData);
 
     const onChange = () => {

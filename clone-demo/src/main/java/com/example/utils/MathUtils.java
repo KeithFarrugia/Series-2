@@ -10,7 +10,7 @@ private static final Random RAND = new Random();
     public static int clamp(int value, int min, int max) {
         int result = value;
         
-        // Use Math.min/max for a different implementation structure
+        // Use Math.min/max
         result = Math.min(result, max);
         result = Math.max(result, min);
 
