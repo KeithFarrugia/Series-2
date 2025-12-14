@@ -30,7 +30,7 @@ Location toLocation(list[TokenizedLine] lines, int startIndex, int t) {
 }
 
 void testBlocks() {
-    list[Declaration] ast = [createAstFromFile(|project://sig-metrics-test/src/main/java/org/sigmetrics/Duplication.java|, true)];
+    list[Declaration] ast = [createAstFromFile(|project://clone-demo/src/main/java/com/example/items/Usable.java|, true)];
     for (cu <- ast) {
         Declaration norm = normaliseDeclaration(cu);
         loc cuLoc        = norm.src;
@@ -287,9 +287,9 @@ list[TokenizedLine] tokenizeLines(Declaration cu) {
                 if (token == "") {
                     tuple[list[node], bool] subNodes = filterOutSubNodes(n);
 
-                    if (!subNodes[1]) { // no children
+                     if (!subNodes[1]) { // no children
                         byLine[line] += toString(unsetRec(n));
-                    }
+                     }
 
                     for (s <- subNodes[0]) {
                         byLine[line] += toString(unsetRec(s));

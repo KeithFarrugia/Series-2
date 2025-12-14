@@ -78,7 +78,7 @@ str buildLineKey(TokenizedLine ln) {
     for (t <- sort(toList(ln.tokens))) {
         out += "\<<t>\>";
     }
-     return out;
+    return out;
 }
 
 list[Clone] findDuplicates(list[TokenizedLine] lines, int cloneType) {
