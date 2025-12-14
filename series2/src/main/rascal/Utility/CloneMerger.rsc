@@ -17,32 +17,46 @@ import util::FileSystem;
 import util::Reflective;
 import Conf;
 
-// Helper: Check if two clones share at least one identical Location object.
-// This is the correct condition for applying transitivity (A=B and B=C implies A=C).
+/* ============================================================================
+ *                          Clone Transitivity
+ * ----------------------------------------------------------------------------
+ * Helper: Check if two clones share at least one identical Location object.
+ * If true, they can be merged (transitivity: A=B and B=C implies A=C).
+ * ============================================================================
+ */
 bool shouldMerge(Clone c1, Clone c2) {
-    // Convert the location lists to sets for efficient intersection check.
     set[Location] locs1 = toSet(c1.locations);
     set[Location] locs2 = toSet(c2.locations);
-    
-    // If the intersection is non-empty, they share an identical location.
+
     return size(locs1 & locs2) > 0;
 }
+
+/* ============================================================================
+ *                          Apply Transitivity
+ * ----------------------------------------------------------------------------
+ * Iteratively merges all clones that share a location until no further
+ * merges are possible.
+ * ============================================================================
+ */
 public list[Clone] applyTransitivity(list[Clone] clones) {
-
-
     bool changed = true;
 
     while (changed) {
-        changed = false;
-        list[Clone] result = [];
+                    changed = false;
+        list[Clone] result  = [];
 
         for (Clone c <- clones) {
             bool merged = false;
-
-            // Iterate over the result list (clones already processed)
+            
+            /* -------------------------------------------------
+             * Iterate over the result list (clones already 
+             * processed)
+             * ------------------------------------------------- */
             for (i <- index(result)) {
                 
-                // 1. Use the STRONG transitivity condition
+                /* -------------------------------------------------
+                 * 1. Use the STRONG transitivity condition
+                 * ------------------------------------------------- */
                 if (shouldMerge(c, result[i])) {
 
                     // Deconstruct and reconstruct the clone objects
@@ -54,19 +68,32 @@ public list[Clone] applyTransitivity(list[Clone] clones) {
 
                     list[Location] locs2       = c.locations;
 
-                    // 2. Merge locations with deduplication using a set
+                    /* -------------------------------------------------
+                     * 2. Merge locations with deduplication using a set
+                     * ------------------------------------------------- */
                     set[Location] mergedLocsSet = toSet(locs1) + toSet(locs2);
 
                     // Convert the unique locations back to a list
                     list[Location] mergedLocs = toList(mergedLocsSet);
 
-                    // 3. Replace the existing clone with the merged one
-                    // Note: We arbitrarily keep the metadata (fl1, t1, id1, name1) from the first clone (result[i]).
+                    
+                    /* -------------------------------------------------
+                     * 3. Replace the existing clone with the merged one
+                     * Note: We arbitrarily keep the metadata (fl1, t1, 
+                     * id1, name1) from the first clone (result[i]).
+                     * ------------------------------------------------- */
                     result[i] = clone(mergedLocs, fl1, t1, id1, name1);
-
-                    merged = true;
-                    changed = true; // Signal that a merge occurred, requiring another pass
-                    break;          // Stop searching for overlaps for clone 'c' and move to the next 'c'
+                    
+                    
+                    /* -------------------------------------------------
+                     * Signal that a merge occurred, requiring 
+                     * another pass
+                     * Stop searching for overlaps for clone 'c' and 
+                     * move to the next 'c'
+                     * ------------------------------------------------- */
+                    merged  = true;
+                    changed = true;
+                    break;
                 }
             }
 
@@ -82,18 +109,24 @@ public list[Clone] applyTransitivity(list[Clone] clones) {
 }
 
 
-// ------------------------------------------------------------
-// Checks if two locations overlap or are adjacent
-// ------------------------------------------------------------
+/* ============================================================================
+ *                          overlapsOrAdjacent
+ * ----------------------------------------------------------------------------
+ * Check if two locations overlap or are directly adjacent.
+ * ============================================================================
+ */
 bool overlapsOrAdjacent(Location a, Location b) {
     return a.filePath == b.filePath
         && a.startLine <= b.endLine + 1
         && b.startLine <= a.endLine + 1;
 }
 
-// ------------------------------------------------------------
-// Merge two locations into one interval
-// ------------------------------------------------------------
+/* ============================================================================
+ *                          mergeLocations
+ * ----------------------------------------------------------------------------
+ * Merge two overlapping or adjacent locations into one interval.
+ * ============================================================================
+ */
 Location mergeLocations(Location a, Location b) {
     return location(
         a.filePath,
@@ -102,65 +135,63 @@ Location mergeLocations(Location a, Location b) {
     );
 }
 
-// ------------------------------------------------------------
-// Checks if two clone pairs overlap in aligned or swapped order
-// ------------------------------------------------------------
+/* ============================================================================
+ *                          clonePairsOverlap
+ * ----------------------------------------------------------------------------
+ * Check if two clone pairs overlap in aligned or swapped order.
+ * ============================================================================
+ */
 bool clonePairsOverlap(Clone c1, Clone c2) {
-    if (size(c1.locations) < 2 || size(c2.locations) < 2) {
-        // If the merge is attempting to merge single fragments, 
-        // they cannot "overlap" as a pair, unless your definition of "pair" 
-        // simply means two single locations. 
-        // Assuming your intention is to merge classes (which should have >= 2 instances):
-        return false; 
-    }
-    // aligned: c1.locations[0] ↔ c2.locations[0] AND c1.locations[1] ↔ c2.locations[1]
-    bool aligned = overlapsOrAdjacent(c1.locations[0], c2.locations[0])
-                && overlapsOrAdjacent(c1.locations[1], c2.locations[1]);
+    if (size(c1.locations) < 2 || size(c2.locations) < 2) return false;
 
-    // swapped: c1.locations[0] ↔ c2.locations[1] AND c1.locations[1] ↔ c2.locations[0]
-    bool swapped = overlapsOrAdjacent(c1.locations[0], c2.locations[1])
-                && overlapsOrAdjacent(c1.locations[1], c2.locations[0]);
+    bool aligned = 
+        overlapsOrAdjacent(c1.locations[0], c2.locations[0]) && 
+        overlapsOrAdjacent(c1.locations[1], c2.locations[1]);
+
+    bool swapped = 
+        overlapsOrAdjacent(c1.locations[0], c2.locations[1]) && 
+        overlapsOrAdjacent(c1.locations[1], c2.locations[0]);
 
     return aligned || swapped;
 }
 
-// ------------------------------------------------------------
-// Merge two clone pairs into one (supports swapped order)
-// ------------------------------------------------------------
+
+/* ============================================================================
+ *                           mergeClonePairs
+ * ----------------------------------------------------------------------------
+ * Merge two overlapping clone pairs into a single clone.
+ * ============================================================================
+ */
 Clone mergeClonePairs(Clone c1, Clone c2) {
     list[Location] merged = [];
 
-    // Decide alignment
-    bool aligned = overlapsOrAdjacent(c1.locations[0], c2.locations[0])
-                && overlapsOrAdjacent(c1.locations[1], c2.locations[1]);
+    bool aligned = 
+        overlapsOrAdjacent(c1.locations[0], c2.locations[0]) && 
+        overlapsOrAdjacent(c1.locations[1], c2.locations[1]);
 
     if (aligned) {
         merged += [ mergeLocations(c1.locations[0], c2.locations[0]) ];
         merged += [ mergeLocations(c1.locations[1], c2.locations[1]) ];
     } else {
-        // assume swapped
         merged += [ mergeLocations(c1.locations[0], c2.locations[1]) ];
         merged += [ mergeLocations(c1.locations[1], c2.locations[0]) ];
     }
 
-    // Compute max fragment length
     int maxLength = max([
         merged[0].endLine - merged[0].startLine + 1,
         merged[1].endLine - merged[1].startLine + 1
     ]);
 
-    return clone(
-        merged,
-        maxLength,
-        c1.cloneType,
-        c1._id,
-        c1.name
-    );
+    return clone(merged, maxLength, c1.cloneType, c1._id, c1.name);
 }
 
-// ------------------------------------------------------------
-// Merge all overlapping clone pairs in a list
-// ------------------------------------------------------------
+
+/* ============================================================================
+ *                           mergeClonePairList
+ * ----------------------------------------------------------------------------
+ * Iteratively merges all overlapping clone pairs in a list.
+ * ============================================================================
+ */
 list[Clone] mergeClonePairList(list[Clone] clones) {
     bool changed = true;
 
@@ -194,25 +225,39 @@ list[Clone] mergeClonePairList(list[Clone] clones) {
 
 
 
-
-/*
- * Normalise a clone so that the location pair is always ordered the same.
- * This way [locA, locB] is equal to [locB, locA].
+/* ============================================================================
+ *                           normalise
+ * ----------------------------------------------------------------------------
+ * Ensure the two locations of a clone are always in a consistent order.
+ * ============================================================================
  */
 Clone normalise(Clone c) {
     list[Location] locs = c.locations;
     if (locs[0] < locs[1]) {
-        return clone([locs[0], locs[1]], c.fragmentLength, c.cloneType, c._id, c.name);
+        return clone(
+            [locs[0], locs[1]], 
+            c.fragmentLength, 
+            c.cloneType, 
+            c._id, c.name
+        );
     } else {
-        return clone([locs[1], locs[0]], c.fragmentLength, c.cloneType, c._id, c.name);
+        return clone(
+            [locs[1], locs[0]], 
+            c.fragmentLength, 
+            c.cloneType, 
+            c._id, 
+            c.name
+        );
     }
 }
-
-/*
+/* ============================================================================
+ *                           cloneKey
+ * ----------------------------------------------------------------------------
  * Create a strong equality key for exact-match clones.
  * Two clones are considered equal ONLY if:
- *   - locations match EXACTLY
- *   - fragmentLength matches
+ *  - locations match EXACTLY
+ *  - fragmentLength matches
+ * ============================================================================
  */
 str cloneKey(Clone c) {
     Location a = c.locations[0];
@@ -223,9 +268,12 @@ str cloneKey(Clone c) {
          + "<c.fragmentLength>";
 }
 
-/*
- * Merge clones with preference:
- *   Type 1 > Type 2 > Type 3
+
+/* ============================================================================
+ *                           mergeCloneTypes
+ * ----------------------------------------------------------------------------
+ * Merge exact-match clones, preferring Type 1 > Type 2 > Type 3.
+ * ============================================================================
  */
 list[Clone] mergeCloneTypes(list[Clone] clones) {
     map[str, Clone] best = ();
@@ -235,11 +283,9 @@ list[Clone] mergeCloneTypes(list[Clone] clones) {
         str key = cloneKey(n);
 
         if (key notin best) {
-            best[key] = n;        // first clone of this exact pair
+            best[key] = n;
         } else {
             Clone existing = best[key];
-
-            // keep the one with the lowest cloneType number (1 is strongest)
             if (n.cloneType < existing.cloneType) {
                 best[key] = n;
             }

@@ -6,139 +6,163 @@ import List;
 import Set;
 import util::Math;
 import Map;
+import DateTime;
+
+import lang::java::m3::Core;
+import lang::java::m3::AST;
+
+import Conf;
 import Utility::Hash;
 import Utility::Reader;
 import Utility::TokenAST;
-import lang::java::m3::Core;
-import lang::java::m3::AST;
-import Conf;
-import Utility::Write;
-import Utility::LinesOfCode;
 import Utility::CloneMerger;
-import DateTime;
+import Utility::Timings;
 
-int DUPLICATION_THRESHOLD = 6;
-
-int durationToMillis(Duration d) {
-  return  d.years   * 1000 * 60 * 60 * 24 * 365
-        + d.months  * 1000 * 60 * 60 * 24 * 30
-        + d.days    * 1000 * 60 * 60 * 24
-        + d.hours   * 1000 * 60 * 60
-        + d.minutes * 1000 * 60
-        + d.seconds * 1000
-        + d.milliseconds;
-}
 /* ============================================================================
- *                          testDuplicateLineCount
+ *                     findClonesOfType1Or2Token
  * ----------------------------------------------------------------------------
- *  Ensures that countDuplicates(M3) returns the expected number of duplicated
- *  lines in the test Maven project. This verifies that the final duplicate-line
- *  count, after combining all duplicate blocks, is correct.
+ *  Entry point for Type-1 and Type-2 token-based clone detection. Generates
+ *  the AST, tokenises lines as required, detects duplicate blocks, merges
+ *  clone pairs, and applies transitive reduction.
  * ============================================================================
  */
+list[Clone] findClonesOfType1Or2Token(int cloneType) {
+    list[Declaration]   ast         = genASTFromProject(projectRoot);
+    bool                tokenise    = cloneType == 2;
+    list[TokenizedLine] lines       = tokeniseAST(ast, tokenise);
 
-list [Clone] findClonesOfType1Or2Token(int cloneType){
-    list[Declaration] ast = genASTFromProject(projectRoot);
-    bool tokenise = false;
-    if (cloneType == 2){
-        tokenise = true;
-    }
-    list[TokenizedLine] lines =  tokeniseAST(ast, tokenise);
-    list [Clone] c =  mergeClonePairList(findDuplicates (lines, cloneType));
-    list [Clone] reducedClasses = applyTransitivity(c);
-    return reducedClasses;
+    datetime t0 = now();
+    list[Clone] rawClones = mergeClonePairList(findDuplicates(lines, cloneType));
+    list[Clone] reduced   = applyTransitivity(rawClones);
+    datetime t1 = now();
+
+    println("Clone detection time  (Token Type <cloneType>) <calcTime(t0, t1)>");
+
+    return reduced;
 }
 
+/* ============================================================================
+ *                               hashBlock
+ * ----------------------------------------------------------------------------
+ *  Computes a hash for a block of tokenised lines starting at index s with
+ *  length t, ensuring all lines belong to the same source file.
+ * ============================================================================
+ */
 int hashBlock(list[TokenizedLine] lines, int s, int t) {
-    // Make sure all lines in the block belong to the same file
     str file = lines[s].sourceLoc.uri;
-
     list[set[str]] block = [];
+
     for (k <- [0 .. t]) {
-        if (lines[s + k].sourceLoc.uri != file) {
-            return -1;  // invalid → this block is ignored
+        /* -------------------------------------------------------------------- 
+         * Check if all lines are containined in same file 
+         * -------------------------------------------------------------------- */
+        if (lines[s + k].sourceLoc.uri != file){
+            return -1;
         }
-        if (size(lines[s + k].tokens) == 0)
-            continue;
-        block += lines[s + k].tokens;
+
+        /* -------------------------------------------------------------------- 
+         * Concatinate lines
+         * -------------------------------------------------------------------- */
+        if (size(lines[s + k].tokens) > 0){
+            block += lines[s + k].tokens;
+        }
     }
 
     return hash(block);
 }
 
 /* ============================================================================
- *                             countDuplicates
+ *                               buildLineKey
  * ----------------------------------------------------------------------------
- *  Counts the number of lines that are part of duplicate blocks in the model.
- *  Delegates the work to findDuplicates after converting the model to lines.
+ *  Builds a deterministic string representation of a tokenised line by
+ *  sorting and concatenating its tokens.
  * ============================================================================
  */
 str buildLineKey(TokenizedLine ln) {
     str out = "";
-    for (t <- sort(toList(ln.tokens))) {
+
+    for (t <- sort(toList(ln.tokens))){
         out += "\<<t>\>";
     }
+
     return out;
 }
 
+/* ============================================================================
+ *                              findDuplicates
+ * ----------------------------------------------------------------------------
+ *  Detects Type-1 or Type-2 token-based clone blocks using hashing and exact
+ *  matching. Hash collisions are resolved through secondary grouping.
+ * ============================================================================
+ */
 list[Clone] findDuplicates(list[TokenizedLine] lines, int cloneType) {
 
-    lines = removeEmptyTokenLines(lines);
-    int t = DUPLICATION_THRESHOLD;
+                lines   = removeEmptyTokenLines(lines);
+    int         t       = DUPLICATION_THRESHOLD;
+    int         n       = size(lines);
+    list[Clone] clones  = [];
 
-    int n = size(lines);
-    if (n < t) return [];
+    if (n < t){ return []; }
 
-    // 1) Build the same fast hashMap: hash -> starting indices
+
+    /* -------------------------------------------------------------------- 
+     *  Step 1: Build hash buckets of candidate blocks
+     * -------------------------------------------------------------------- */
     map[int, list[int]] hashMap = ();
+
     for (i <- [0 .. n - t]) {
         int h = hashBlock(lines, i, t);
         if (h == -1) continue;
+
         hashMap[h] ?= [];
         hashMap[h] += [i];
     }
 
-    list[Clone] clones = [];
-
-    // Precompute deterministic key per line (cheap, done once)
+    /* --------------------------------------------------------------------
+     * Step 2: Precompute per-line deterministic keys
+     * -------------------------------------------------------------------- */
     list[str] lineKey = [ "" | _ <- [0 .. n] ];
     for (i <- [0 .. n]) {
         lineKey[i] = buildLineKey(lines[i]);
     }
 
-    // 2) For each hash bucket, group by exact block content (resolve collisions)
+     /* --------------------------------------------------------------------
+     * Step 3: Resolve hash collisions and emit clone pairs
+     * -------------------------------------------------------------------- */
     for (h <- hashMap) {
         list[int] bucket = hashMap[h];
         if (size(bucket) < 2) continue;
 
-        // Use int hash of block string as primary partition key (smaller map keys)
-        // then keep a nested map from blockString -> list[int] to verify equality
+        /* -----------------------------------------------
+         * These are the two smaller hash maps we use to
+         * resolve collisions (optimisation) */
+        
         map[int, list[int]] byBlockHash = ();
-        map[str, list[int]] exactMap = ();
+        map[str, list[int]] exactMap    = ();
 
+    
+        /* --------------------------------------------------------------------
+         * Step 3.1: First Collision reduction
+         * -------------------------------------------------------------------- */
         for (s <- bucket) {
-            // build compact block string from precomputed lineKey entries
             str blockStr = "";
             for (k <- [0 .. t]) {
-                blockStr += "|" + lineKey[s + k];   // leading '|' avoids accidental merges
+                blockStr += "|" + lineKey[s + k];
             }
 
             int bh = hash(blockStr);
             byBlockHash[bh] ?= [];
             byBlockHash[bh] += [s];
-
-            // store in exactMap only for the small subset sharing bh
-            // (we still need exactMap grouping later)
-            // We'll fill exactMap in the next step to avoid string work for unique bhs
         }
 
-        // Now for each bh group build the exactMap (string equality groups)
+        /* --------------------------------------------------------------------
+         * Step 3.2: Second Collision reduction
+         * -------------------------------------------------------------------- */
         for (bh <- byBlockHash) {
             list[int] groupIdx = byBlockHash[bh];
             if (size(groupIdx) < 2) continue;
 
             for (s <- groupIdx) {
-                // build exact blockStr again (only for indices in this small group)
                 str blockStr = "";
                 for (k <- [0 .. t]) {
                     blockStr += "|" + lineKey[s + k];
@@ -148,28 +172,28 @@ list[Clone] findDuplicates(list[TokenizedLine] lines, int cloneType) {
             }
         }
 
-        // 3) For each exact-equality group, emit only (m-1) pairs:
+        /* --------------------------------------------------------------------
+         * Step 3.3: Creating the actual Pairs
+         * -------------------------------------------------------------------- */
         for (bk <- exactMap) {
-            list[int] group = exactMap[bk];
-            int m = size(group);
-            if (m < 2) continue;
+            list[int]   group   = exactMap[bk];
+            int         m       = size(group);
+            int         rep     = group[0];
 
-            int rep = group[0];
+            if (m < 2){ continue; }
+
             for (idx <- [1 .. m]) {
                 int other = group[idx];
 
                 Location loc1 = toLocation(lines, rep, t);
                 Location loc2 = toLocation(lines, other, t);
 
-                str id = "<h>-<rep>-<other>";
-                str name = "TokenClone_<rep>_<other>";
-
                 clones += clone(
-                    [loc1, loc2],
-                    t,
-                    cloneType,
-                    id,
-                    name
+                    [loc1, loc2],                   // 2 Locations (Block A and B)
+                    t,                              // Block size
+                    cloneType,                      // Clone Type
+                    "<h>-<rep>-<other>",            // ID
+                    "TokenClone_<rep>_<other>"      // Clone Class Name
                 );
             }
         }

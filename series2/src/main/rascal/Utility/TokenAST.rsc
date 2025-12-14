@@ -15,9 +15,24 @@ import util::Math;
 import util::FileSystem;
 import util::Reflective;
 import Conf;
+
+/* ============================================================================
+ *                           removeEmptyTokenLines
+ * ----------------------------------------------------------------------------
+ * Remove lines from a tokenised list that contain no tokens.
+ * ============================================================================
+ */
 list[TokenizedLine] removeEmptyTokenLines(list[TokenizedLine] lines) {
     return [ l | l <- lines, size(l.tokens) > 0 ];
 }
+
+/* ============================================================================
+ *                           toLocation
+ * ----------------------------------------------------------------------------
+ *  short: Convert a sublist of tokenized lines to a Location object based on
+ *         the first and last lines in the range.
+ * ============================================================================
+ */
 Location toLocation(list[TokenizedLine] lines, int startIndex, int t) {
     TokenizedLine first = lines[startIndex];
     TokenizedLine last  = lines[startIndex + t-1];
@@ -27,31 +42,6 @@ Location toLocation(list[TokenizedLine] lines, int startIndex, int t) {
     int endLine        = last.sourceLoc.begin.line;
 
     return location(filePath, startLine, endLine);
-}
-
-void testBlocks() {
-    list[Declaration] ast = [createAstFromFile(|project://clone-demo/src/main/java/com/example/items/Usable.java|, true)];
-    for (cu <- ast) {
-        Declaration norm = normaliseDeclaration(cu);
-        loc cuLoc        = norm.src;
-        list[TokenizedLine] lines = tokenizeLines(cu);
-
-        println(" ===================================== ");
-        println("LINES");
-        for(l <- lines) {
-            println(" --- Line: <l.lineNumber> ----------------- ");
-            // Print the line number and source location
-            println("Line <l.lineNumber> (Loc: <l.sourceLoc>): Tokens {");
-            
-            // Print each token in the set
-            for(token <- l.tokens) {
-                println("    \"<token>\"");
-            }
-            
-            println("}");
-        }
-        println(" ===================================== ");
-    }
 }
 
 /* ============================================================================
@@ -204,12 +194,14 @@ Declaration normaliseDeclaration(Declaration d) {
 
         /* ------------------------------ Types ------------------------------- */
         case \simpleType        (_)         => \simpleType        (id("TYPE"))
-        case \qualifiedType     (_, Type typeQualifier, _) => \qualifiedType     ([], simpleType(id("TYPE")), id("TYPE"))
-        case \qualifiedType     (_, Expression expr, _)   => \qualifiedType     ([], id("TYPE"), id("TYPE"))
         case \arrayType         (_)         => \arrayType         (simpleType (id("TYPE")))
         case \parameterizedType (_, _)      => \parameterizedType (simpleType (id("TYPE")), [])
         case \unionType         (_)         => \unionType         ([simpleType(id("TYPE"))])
         case \intersectionType  (_)         => \intersectionType  ([simpleType(id("TYPE"))])
+
+        
+        case \qualifiedType     (_, Type typeQualifier, _)  => \qualifiedType  ([], simpleType(id("TYPE")), id("TYPE"))
+        case \qualifiedType     (_, Expression expr   , _) => \qualifiedType   ([], id("TYPE")            , id("TYPE"))
      
         /* --------------------------- Primitives ----------------------------- */
         case \int               ()          => \simpleType(id("TYPE"))

@@ -1,128 +1,137 @@
 module Clones::AST::Type_1_2
 
-import Clones::AST::Common_AST;
-import Utility::TokenAST;
-import Utility::Reader;
 import IO;
 import String;
 import List;
 import Set;
+import util::Math;
 import Map;
-import Node;
-import Location;
+import DateTime;
+
 import lang::java::m3::Core;
 import lang::java::m3::AST;
-extend lang::java::m3::TypeSymbol;
-import util::Math;
-import util::FileSystem;
-import util::Reflective;
-import Utility::CloneMerger;
+
 import Conf;
-
-
+import Utility::Reader;
+import Utility::TokenAST;
+import Utility::CloneMerger;
+import Utility::Timings;
+import Utility::Common_AST;
+/* ============================================================================
+ *                                 buckets
+ * ----------------------------------------------------------------------------
+ * Stores AST nodes grouped by their 'mass' signature for clone detection.
+ * (Note: It is included here because the linter didn't recognise its Type)
+ * ============================================================================
+ */
 map[node, lrel[node, loc]] buckets  = ();
 
-list [Clone] findClonesOfType1Or2AST(int cloneType){
-    buckets  = ();
-    list[Declaration] ast = genASTFromProject(projectRoot);
-    list[Declaration] norm_ast = [];
-    
-    if(cloneType == 2){
-        for(d <- ast){
+/* ============================================================================
+ *                     findClonesOfType1Or2AST
+ * ----------------------------------------------------------------------------
+ *  Entry point for AST-based Type-1 and Type-2 clone detection. Normalises
+ *  AST nodes if required, builds node buckets, generates clone pairs, merges
+ *  and applies transitive reduction.
+ * ============================================================================
+ */
+list[Clone] findClonesOfType1Or2AST(int cloneType) {
+                        buckets     = ();
+    list[Declaration]   ast         = genASTFromProject(projectRoot);
+    list[Declaration]   norm_ast    = [];
+
+    if (cloneType == 2) {
+        for (d <- ast)
             norm_ast += normaliseDeclaration(d);
-        }
-    }else{
+    } else {
         norm_ast = ast;
     }
 
     visit (norm_ast) {
         case node x: {
-            int currentMass = mass(x);
-            if (currentMass >= MASS_THRESHOLD) {
+            if (mass(x) >= MASS_THRESHOLD)
                 addNodeToMap(x);
-            }
         }
     }
-    
-    list [Clone] c = buildASTCloneList(removeInternalCloneClasses(findClonesSets()), cloneType);
-    return applyTransitivity(mergeClonePairList(c));
+
+    datetime     t0 = now();
+    list[Clone] clones = 
+        applyTransitivity(
+            mergeClonePairList(
+                buildASTCloneList(
+                    removeInternalCloneClasses(findClonesSets()),
+                    cloneType
+        )));
+    datetime     t1 = now();
+
+    println("Clone detection time  (AST Type <cloneType>) <calcTime(t0, t1)>");
+
+    return clones;
 }
 
 /* ============================================================================
- *                             addNodeToMap()
+ *                               addNodeToMap
  * ----------------------------------------------------------------------------
- * Basically: 
- * A node is added to the bucket if:
- *      - It contains the minimum number of lines required
- *      - This is stored in the DUPLICATION_THRESHOLD at "Clones::AST::Common_AST"
- *        Usually set to 6 lines.
+ *  Adds a node to the buckets map if:
+ *    - It contains at least the minimum number of lines
+ *    - Stores node keyed by its mass signature
  * ============================================================================
  */
-void addNodeToMap(
-    node n
-) {
+void addNodeToMap(node n) {
     loc location;
-    if(n has src){
+
+    if (n has src) {
         location = getLocation(n.src);
-    }
-    else {
-        return;
-    }
-    // println("Before Cleaning\n <n>");
-    // println("After Cleaning\n <unsetRec(n)>");
-    // println("Before Cleaning 2\n <n>");
-    if (minNodeLines(location) == false) {
-        return;
-    }
-    println("<location>");
-    if (buckets[unsetRec(n)]?) {
-        if(location != buckets[unsetRec(n)][0][1]){
-            buckets[unsetRec(n)] += <unsetRec(n), location>;
-        }
     } else {
-        buckets[unsetRec(n)] = [<unsetRec(n), location>];
+        return;
+    }
+
+    if (!minNodeLines(location))
+        return;
+
+    println("<location>");
+
+    node key = unsetRec(n);
+
+    if (buckets[key]?) {
+        if (location != buckets[key][0][1])
+            buckets[key] += <key, location>;
+    } else {
+        buckets[key] = [<key, location>];
     }
 }
 
-map[node, lrel[node_loc, node_loc]] findClonesSets(){
+/* ============================================================================
+ *                             findClonesSets
+ * ----------------------------------------------------------------------------
+ *  Constructs clone sets from the buckets by computing all pairwise node
+ *  combinations, removing reflective and symmetric pairs.
+ * ============================================================================
+ */
+map[node, lrel[node_loc, node_loc]] findClonesSets() {
     map[node, lrel[node_loc, node_loc]] clonesSet = ();
 
     for (bucket <- buckets) {
         if (size(buckets[bucket]) >= 2) {
+
             lrel[tuple[node,loc] L, tuple[node,loc] R] complementBucket = [];
             complementBucket += buckets[bucket] * buckets[bucket];
-            // Removing reflective pairs
+
+            // Remove reflective pairs
             complementBucket = [p | p <- complementBucket, p.L != p.R];
-            // Cleanup symmetric clones, they are useless.
+
+            // Remove symmetric duplicates
             complementBucket = delSymmPairs(complementBucket);
-                
+
             for (treeRelation <- complementBucket) {
-                if (clonesSet[treeRelation[0][0]]?) {
-                    clonesSet[treeRelation[0][0]] += treeRelation;
-                } else {
-                    clonesSet[treeRelation[0][0]] = [treeRelation];
-                }
+                node key = treeRelation[0][0];
+
+                if (clonesSet[key]?)
+                    clonesSet[key] += treeRelation;
+                else
+                    clonesSet[key] = [treeRelation];
             }
         }
     }
+
     return clonesSet;
-}
-
-void printCloneSets(map[node, lrel[node_loc, node_loc]] clonesSet) {
-    int classId = 1;
-
-    for (k <- domain(clonesSet)) {
-        println("==========================================");
-        println("Clone Class <classId>");
-        println("AST Key:");
-        println("<k>");
-        println("Pairs:");
-
-        for (<L, R> <- clonesSet[k]) {
-            println("  \t (< L[1] >)  \nCLONE OF\n \t <R[1] >");
-        }
-
-        classId += 1;
-        println("");
-    }
 }

@@ -9,16 +9,22 @@ import Conf;
 import Utility::LinesOfCode;
 
 
-// *****************************************************************
-// NAMED HELPER FUNCTIONS (To replace grouping and sorting logic)
-// *****************************************************************
-
-// Helper function for grouping ranges by file path
+/* ============================================================================
+ *                           getLocationFilePath
+ * ----------------------------------------------------------------------------
+ * Extract the file path from a Location object.
+ * ============================================================================
+ */
 str getLocationFilePath(Location l) {
     return l.filePath;
 }
 
-// Helper function to manually sort locations by startLine (Selection Sort replacement)
+/* ============================================================================
+ *                           sortLocations
+ * ----------------------------------------------------------------------------
+ * Sort a list of Location objects by startLine using manual selection sort.
+ * ============================================================================
+ */
 list[Location] sortLocations(list[Location] locations) {
     list[Location] sorted = [];
     list[Location] remaining = locations; 
@@ -48,9 +54,14 @@ list[Location] sortLocations(list[Location] locations) {
 }
 
 
-// *****************************************************************
-// MERGE RANGES FUNCTION (FINAL FIX: Map Iteration)
-// *****************************************************************
+
+/* ============================================================================
+ *                           mergeRanges
+ * ----------------------------------------------------------------------------
+ * Merge overlapping line ranges for a set of Location objects and
+ * return the total number of unique lines.
+ * ============================================================================
+ */
 public int mergeRanges(set[Location] ranges) {
     // 1. Manual Grouping
     map[str, list[Location]] rangesByFile = ();
@@ -107,6 +118,13 @@ public int mergeRanges(set[Location] ranges) {
     return totalUniqueLines;
 }
 
+/* ============================================================================
+ *                           printStatisticsForProject
+ * ----------------------------------------------------------------------------
+ * Print project-level clone statistics including number of classes,
+ * instances, duplicated lines, total LOC, and duplication percentage.
+ * ============================================================================
+ */
 public void printStatisticsForProject(list[Clone] projectClones, int cloneType) {
     // total lines in the project
     int totalLinesOfCode = totalProjectLOC();

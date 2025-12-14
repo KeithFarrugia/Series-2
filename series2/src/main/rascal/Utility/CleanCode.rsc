@@ -6,44 +6,59 @@ import String;
 import Set;
 
 /* ============================================================================
- *                              countLOC
+ *                              cleanSource
  * ----------------------------------------------------------------------------
- *  Count the number of non-empty, non-comment lines in a given source string.
- *  This function first cleans the source code using cleanSource, then counts
- *  lines that contain actual code (ignores empty lines).
+ *  Cleans a source string by:
+ *   1. Normalising all whitespace characters to a standard newline.
+ *   2. Removing multi-line comments (/* ... * /).
+ *   3. Removing single-line comments (// ...).
+ *   4. Collapsing multiple consecutive blank lines to a single blank line.
  * ============================================================================
  */
 public str cleanSource(str sourcestr) {
     
-    // 1. Normalise all non-standard whitespace characters (like non-breaking space) 
-    // to a standard space for consistency.
-    // This is a safety step against unprintable characters.
+    /* -------------------------------------------------------------------- 
+     * Step 1: Normalise all whitespace characters to newline
+     * -------------------------------------------------------------------- */
     str normalizedWhitespace = replaceAll(sourcestr, "[\\p{Z}\\s]", "\n");
 
-    // 2. Remove Multi-line comments: /* ... */
+    /* -------------------------------------------------------------------- 
+    // Step 2: Remove multi-line comments
+     * -------------------------------------------------------------------- */
     str noMultiLineComments = visit(normalizedWhitespace) {
         case /\/\*[\s\S]*?\*\// => "\n"
     };
 
-    // 3. Remove Single-line comments: // ...
+    /* -------------------------------------------------------------------- 
+     * Step 3: Remove single-line comments
+     * -------------------------------------------------------------------- */
     str noAllComments = visit(noMultiLineComments) {
-        case /\/\/[^\n]*/ => "\n" 
+        case /\/\/[^\n]*/ => "\n"
     };
 
-    // 4. Collapse multiple consecutive blank lines into a single blank line
+    /* -------------------------------------------------------------------- 
+     * Step 4: Collapse multiple consecutive blank lines into 
+     * a single newline
+     * -------------------------------------------------------------------- */
     str finalCleanstr = visit(noAllComments) {
-        case /^\n[ \t\n]*\n/ => "\n"  
+        case /^\n[ \t\n]*\n/ => "\n"
     };
 
     return finalCleanstr;
 }
 
-public str stripCompilationUnitPrefix(str location){
-    str cleaned = 
-        replaceAll(
-            replaceAll(
-                location, "java+compilationUnit:///", "")
-            , "project://", ""
-        );
+/* ============================================================================
+ *                        stripCompilationUnitPrefix
+ * ----------------------------------------------------------------------------
+ *  Cleans a location string by removing prefixes such as:
+ *   - java+compilationUnit:///
+ *   - project://
+ * ============================================================================
+ */
+public str stripCompilationUnitPrefix(str location) {
+    str cleaned = replaceAll(
+        replaceAll(location, "java\\+compilationUnit:///", ""), 
+        "project://", ""
+    );
     return cleaned;
 }

@@ -14,6 +14,13 @@ import lang::java::m3::Core;
 import lang::java::m3::AST;
 import Conf;
 
+
+/* ============================================================================
+ *                           totalProjectLOC
+ * ----------------------------------------------------------------------------
+ *  short: Compute total Lines of Code (LoC) for the entire project.
+ * ============================================================================
+ */
 public int totalProjectLOC(){
     set[loc] allFiles = files(projectRoot);
     set[loc] allJavaFiles = {
@@ -31,6 +38,14 @@ public int totalProjectLOC(){
     return sum(locsPerFile);
 
 }
+
+/* ============================================================================
+ *                           getAllFilesFromProjectRoot
+ * ----------------------------------------------------------------------------
+ *  short: Collect all Java files, categorise them into modules, and return
+ *         ProjectMetrics with per-file LOC data.
+ * ============================================================================
+ */
 public ProjectMetrics getAllFilesFromProjectRoot() {
     set[loc] allFiles = files(projectRoot);
     set[loc] allJavaFiles = {
@@ -133,6 +148,12 @@ public int countLinesOfCode(loc location) {
     return size(codeLines);
 }
 
+/* ============================================================================
+ *                           stripProjectPrefix
+ * ----------------------------------------------------------------------------
+ *  short: Remove 'project://' prefix from a file location URI.
+ * ============================================================================
+ */
 str stripProjectPrefix(loc location) {
     str fullPath = location.uri;
     str cleaned = replaceAll(fullPath, "project://", "");
@@ -140,6 +161,12 @@ str stripProjectPrefix(loc location) {
     return cleaned;
 }
 
+/* ============================================================================
+ *                           stripRootPrefix
+ * ----------------------------------------------------------------------------
+ *  short: Remove the project root prefix from a file location URI.
+ * ============================================================================
+ */
 str stripRootPrefix(loc location) {
     str rootPath = projectRoot.uri;
     str fullPath = location.uri;

@@ -1,27 +1,41 @@
 module Clones::AST::Type_3
 
-import Clones::AST::Common_AST;
-import Utility::TokenAST;
+
 import IO;
 import String;
 import List;
 import Set;
+import util::Math;
 import Map;
-import Node;
-import Location;
+import DateTime;
+
 import lang::java::m3::Core;
 import lang::java::m3::AST;
-extend lang::java::m3::TypeSymbol;
-import util::Math;
-import Utility::Reader;
-import util::FileSystem;
-import util::Reflective;
-import Utility::CloneMerger;
+
 import Conf;
+import Utility::Hash;
+import Utility::Reader;
+import Utility::TokenAST;
+import Utility::CloneMerger;
+import Utility::Common_AST;
+import Utility::Timings;
 
-
+/* ============================================================================
+ *                                 buckets
+ * ----------------------------------------------------------------------------
+ *  Stores AST nodes grouped by coarse mass fingerprint for approximate Type-3
+ *  clone detection.
+ * ============================================================================
+ */
 map[int, lrel[node, loc]] buckets  = ();
 
+/* ============================================================================
+ *                       findClonesOfType3AST
+ * ----------------------------------------------------------------------------
+ *  Entry point for AST-based Type-3 clone detection. Traverses AST, buckets
+ *  nodes by mass and similarity, and builds clone pairs.
+ * ============================================================================
+ */
 list [Clone] findClonesOfType3AST(){
     buckets  = ();
     list[Declaration] ast = genASTFromProject(projectRoot);
@@ -34,8 +48,19 @@ list [Clone] findClonesOfType3AST(){
             }
         }
     }
+    
+    datetime     t0 = now();
+    list[Clone] clones = 
+        mergeClonePairList(
+            buildASTCloneList(
+                removeInternalCloneClasses(findClonesSets()),
+                3
+        ));
+    datetime     t1 = now();
 
-    return mergeClonePairList(buildASTCloneList(removeInternalCloneClasses(findClonesSets()), 3));
+    println("Clone detection time  (AST Type 3) <calcTime(t0, t1)>");
+
+    return clones;
 }
 
 /* ============================================================================
@@ -48,26 +73,19 @@ list [Clone] findClonesOfType3AST(){
  *        Usually set to 6 lines.
  * ============================================================================
  */
-// Compute a simple fingerprint for fast pre-bucketing
 void addNodeToMap(node n) {
     if (!n has src) return;
 
     loc location = getLocation(n.src);
     if (!minNodeLines(location)) return;
 
-    // Precompute clean node once
     node clean = unsetRec(n);
     tuple[node, loc] entry = <n, location>;
 
-    // Use mass as coarse fingerprint
     int fp = mass(n);
 
-    // Create bucket for this mass if it does not exist
-    if (!buckets[fp]?) {
-        buckets[fp] = [];
-    }
+    buckets[fp] ?= [];
 
-    // Find best match within this bucket only
     list[tuple[node, loc]] bucket = buckets[fp];
     node bestKey = clean;
     num bestSim = 0;
@@ -81,60 +99,37 @@ void addNodeToMap(node n) {
         }
     }
 
-    // If a similar node was found, merge with that node's bucket
-    if (bestSim > 0) {
-        // Add to the same mass bucket
-        buckets[fp] += entry;
-    } else {
-        buckets[fp] += entry;
-    }
+    // Add to the bucket regardless; merged logic keeps duplicates safe
+    buckets[fp] += entry;
 }
-
+/* ============================================================================
+ *                             findClonesSets
+ * ----------------------------------------------------------------------------
+ *  Constructs clone sets from mass buckets by comparing the first node in
+ *  each bucket with the others and collecting pairs into a map.
+ * ============================================================================
+ */
 map[node, lrel[node_loc, node_loc]] findClonesSets() {
     map[node, lrel[node_loc, node_loc]] clonesSet = ();
 
-    for (fp <- domain(buckets)) {  // fp is int, not node
+    for (fp <- domain(buckets)) {
         list[tuple[node, loc]] nodes = buckets[fp];
 
         if (size(nodes) >= 2) {
             lrel[tuple[node, loc] L, tuple[node, loc] R] complementBucket = [];
 
-            // Only compare the first element with the rest
             tuple[node, loc] first = nodes[0];
-            for (j <- [1..size(nodes)-1]) {
+            for (j <- [1 .. size(nodes) - 1]) {
                 complementBucket += [<first, nodes[j]>];
             }
 
-            // Add pairs to the clonesSet map
             for (treeRelation <- complementBucket) {
                 node key = treeRelation[0][0];
-                if (clonesSet[key]?) {
-                    clonesSet[key] += treeRelation;
-                } else {
-                    clonesSet[key] = [treeRelation];
-                }
+                clonesSet[key] ?= [];
+                clonesSet[key] += treeRelation;
             }
         }
     }
-    println("Found Clones");
+
     return clonesSet;
-}
-
-void printCloneSets(map[node, lrel[node_loc, node_loc]] clonesSet) {
-    int classId = 1;
-
-    for (k <- domain(clonesSet)) {
-        println("==========================================");
-        println("Clone Class <classId>");
-        println("AST Key:");
-        println("<k>");
-        println("Pairs:");
-
-        for (<L, R> <- clonesSet[k]) {
-            println("  \t (< L[1] >)  \nCLONE OF\n \t <R[1] >");
-        }
-
-        classId += 1;
-        println("");
-    }
 }
