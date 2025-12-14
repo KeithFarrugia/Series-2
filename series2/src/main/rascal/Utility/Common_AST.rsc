@@ -255,6 +255,7 @@ public map[node, lrel[node_loc, node_loc]] removeInternalCloneClasses(
 list[Clone] buildASTCloneList(
     map[node, lrel[node_loc, node_loc]] cloneSet, int cloneType
 ) {
+    int counter = 0;
     list[Clone] result = [];
 
     for (root <- domain(cloneSet)) {
@@ -280,7 +281,7 @@ list[Clone] buildASTCloneList(
             if (len > maxLength) maxLength = len;
         }
 
-        str id = "<root>";
+        str id = "<counter>";
         str name = "ASTClone_Class_<size(result)>";
 
         result += clone(
@@ -290,6 +291,7 @@ list[Clone] buildASTCloneList(
             id, 
             name
         );
+        counter += 1;
     }
 
     return result;

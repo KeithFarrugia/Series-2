@@ -1,0 +1,57 @@
+AST-1:
+Time: 45200
+Duplicated Lines: 8509
+Total LOC: 249303
+Project statistics:
+Total lines of code: 249303
+
+Type-1 clones: 369 clone classes, 814 instances, 3.413115767% duplication
+ok
+rascal>
+
+AST-2:
+Finished removeInternalCloneClasses
+Final cloneSet size 1744
+Time: 65978
+Duplicated Lines: 36686
+Total LOC: 249303
+Project statistics:
+Total lines of code: 249303
+
+Type-2 clones: 959 clone classes, 2647 instances, 14.71542661% duplication
+ok
+
+AST-3:
+Final cloneSet size 704
+Time: 319528
+Duplicated Lines: 204338
+Total LOC: 249303
+Project statistics:
+Total lines of code: 249303
+
+Type-3 clones: 703 clone classes, 24319 instances, 81.96371484% duplication
+ok
+
+Token-1:
+Using Token-based clone detection...
+Time: 155850
+Duplicated Lines: 19219
+Total LOC: 249303
+Project statistics:
+Total lines of code: 249303
+
+Type-1 clones: 755 clone classes, 1691 instances, 7.709092951% duplication
+ok
+
+Token-2:
+Using Token-based clone detection...
+Time: 2216265
+Duplicated Lines: 92008
+Total LOC: 249303
+Project statistics:
+Total lines of code: 249303
+
+Type-2 clones: 2946 clone classes, 8724 instances, 36.90609419% duplication
+
+Token-3:
+----

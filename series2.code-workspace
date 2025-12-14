@@ -1,16 +1,20 @@
 {
 	"folders": [
 		{
+			"name": "series2",
 			"path": "series2"
 		},
 		{
+			"name": "clone-demo",
+			"path": "clone-demo"
+		},
+		{
+			"name": "hsqldb-2.3.1",
 			"path": "hsqldb-2.3.1"
 		},
 		{
+			"name": "smallsql0.21_src",
 			"path": "smallsql0.21_src"
-		},
-		{
-			"path": "clone-demo"
 		}
 	]
 }

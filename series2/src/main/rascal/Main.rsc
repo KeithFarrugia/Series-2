@@ -86,9 +86,7 @@ list[Clone] generateClones(int methodType, int cloneType) {
  *  Prints statistics for the generated clones before returning them.
  * ============================================================================
  */
- void main() { 
-    int methodType  =  1;
-    int cloneType   = -1;
+void main(int methodType, int cloneType) { 
     list [Clone] clones = [];
 
     datetime t0 = now();

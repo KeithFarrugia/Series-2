@@ -1,0 +1,61 @@
+AST-1
+Time: 9856
+Duplicated Lines: 313
+Total LOC: 33859
+Project statistics:
+Total lines of code: 33859
+
+Type-1 clones: 16 clone classes, 35 instances, 0.9244218672% duplication
+ok
+
+AST-2
+Final cloneSet size 148
+Time: 9342
+Duplicated Lines: 2338
+Total LOC: 33859
+Project statistics:
+Total lines of code: 33859
+
+Type-2 clones: 66 clone classes, 156 instances, 6.905106471% duplication
+ok
+
+AST-3
+Time: 15548
+Duplicated Lines: 18004
+Total LOC: 33859
+Project statistics:
+Total lines of code: 33859
+
+Type-3 clones: 298 clone classes, 2381 instances, 53.17345462% duplication
+ok
+
+Token-1
+Time: 16871
+Duplicated Lines: 2090
+Total LOC: 33859
+Project statistics:
+Total lines of code: 33859
+
+Type-1 clones: 109 clone classes, 249 instances, 6.172657196% duplication
+ok
+
+Token-2
+Time: 51126
+Duplicated Lines: 10877
+Total LOC: 33859
+Project statistics:
+Total lines of code: 33859
+
+Type-2 clones: 543 clone classes, 1323 instances, 32.12439824% duplication
+ok
+
+Token-3
+Size               3956
+Time: 934608
+Duplicated Lines: 6824
+Total LOC: 33859
+Project statistics:
+Total lines of code: 33859
+
+Type-3 clones: 3956 clone classes, 7912 instances, 20.15416876% duplication
+ok

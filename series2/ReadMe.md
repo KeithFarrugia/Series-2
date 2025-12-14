@@ -11,6 +11,8 @@ The project structure is organised for clarity, separating source code, configur
 | `Conf.rsc` | The main Configuration module. It defines project paths (rootPath), output file locations (clonesJson, linesJson), and Rascal data types used across the project. |
 | `Main.rsc` | The project's Entry Point module. |
 
+The benchmark project and frontend visualisations are also found here, inside `benchmark-project` and `frontend`.
+
 ## Running the Project
 
 The project is designed to be executed directly within the Rascal Terminal.
@@ -20,9 +22,13 @@ The project is designed to be executed directly within the Rascal Terminal.
 3.  **Run Main Module:** Execute the main Rascal module:
     ```rascal
     import main;
-    main();
+    main(1,-1);
     ```
-    This command initiates the clone detection process based on the settings defined in the `conf` directory.
+    This command initiates the clone detection process based on the settings defined in the `conf` directory. The paramaters for main are as follows:
+    ```rascal
+    void main(int methodType, int cloneType)
+    ```
+    The method type accepts 1 and 2 for the AST-based detector and the token-based detector respectively. The cloneType describes what clones to detect with -1 being for all supported types, and 1,2,3 being for types 1-3. 
 
 ## Configuration
 
@@ -35,7 +41,9 @@ Before running the project, you must adjust the configuration file in the `conf`
 3.  Change the value of `rootPath` to the project's absolute file path to match the equivalent location on your local filesystem.
 
 ## Results and Visualisations
-Upon successful completion of the program, the Rascal terminal will display summary statistics, and two JSON files will be generated in the root directory (the same level as this `ReadMe.md`).
+Upon successful completion of the program, the Rascal terminal will display summary statistics, and two JSON files will be generated in the root directory (the same level as this `ReadMe.md`). 
+
+To view the textual results for smallsql and hsql you may either view the `smallsql/hsql_outputs.txt` or the json and text results found in the `results/` directory which contains all the results for each of the algorithms.
 
 ### Summary Statistics
 

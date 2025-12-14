@@ -39,8 +39,6 @@ list [Clone] findClonesOfType3Token(){
     return c;
 }
 
-
-
 /* ============================================================================
  * Flatten a block of t lines into a single set of tokens
  * ============================================================================
@@ -52,7 +50,6 @@ set[str] flattenBlock(list[TokenizedLine] lines, int s, int t) {
     }
     return group;
 }
-
 
 /* ============================================================================
  *                              fastJaccard
@@ -111,9 +108,6 @@ int fastHash(set[str] toks) {
     return acc % 5000;
 }
 
-
-
-
 /* ============================================================================
  *                                findType3
  * ----------------------------------------------------------------------------
@@ -165,7 +159,7 @@ list[Clone] findType3(list[TokenizedLine] lines) {
 
                 real sim = fastJaccard(blocks[i], blocks[j]);
 
-                if (sim >= SIM_THRESHOLD && sim < 1.0) {
+                if (sim >= SIMILARITY_THRESHOLD && sim < 1.0) {
                     
                     Location loc1 = toLocation(lines, i, t);
                     Location loc2 = toLocation(lines, j, t);
