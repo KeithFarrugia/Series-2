@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 public class BattlePanel extends JPanel implements java.awt.event.ActionListener {
     
-    private static final int ANIMATION_FRAMES = 35; // Increased frames for longer animation
+    private static final int ANIMATION_FRAMES = 35;
     private static final int UNIT_SIZE = 100;
     private static final int GROUND_Y = 350;
 
@@ -23,7 +23,7 @@ public class BattlePanel extends JPanel implements java.awt.event.ActionListener
     private String currentTarget;
     private String currentAction;
     
-    // Placeholder Images
+    // Images for the simulation
     private Image heroImage;
     private Image mageImage;
     private Image goblinImage;
@@ -96,19 +96,19 @@ public class BattlePanel extends JPanel implements java.awt.event.ActionListener
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        // 1. Draw Static Background/Characters
+        // Draw Static Background
         g.setColor(Color.GREEN.darker());
-        g.fillRect(50, 450, 700, 100); // Ground
+        g.fillRect(50, 450, 700, 100); // Fake ground
         
-        // --- DRAW HERO ---
+        // Draw hero
         if (heroImage != null) {
             g.drawImage(heroImage, 100, GROUND_Y, UNIT_SIZE, UNIT_SIZE, this);
-        } else {
+        } else { // Fallback
             g.setColor(Color.BLUE); g.fillRect(100, GROUND_Y, UNIT_SIZE, UNIT_SIZE);
             g.setColor(Color.WHITE); g.drawString("HERO", 120, GROUND_Y + 50);
         }
         
-        // --- DRAW MAGE ---
+        // Draw Mage
         if (mageImage != null) {
             g.drawImage(mageImage, 250, GROUND_Y, UNIT_SIZE, UNIT_SIZE, this);
         } else {
@@ -116,7 +116,7 @@ public class BattlePanel extends JPanel implements java.awt.event.ActionListener
             g.setColor(Color.WHITE); g.drawString("MAGE", 270, GROUND_Y + 50);
         }
 
-        // --- DRAW GOBLIN ---
+        // Draw Goblin
         if (goblinImage != null) {
             g.drawImage(goblinImage, 450, GROUND_Y, UNIT_SIZE, UNIT_SIZE, this);
         } else {
@@ -124,7 +124,7 @@ public class BattlePanel extends JPanel implements java.awt.event.ActionListener
             g.setColor(Color.BLACK); g.drawString("GOBLIN", 460, GROUND_Y + 50);
         }
         
-        // --- DRAW ORC ---
+        // Draw Orc
         if (orcImage != null) { 
             g.drawImage(orcImage, 600, GROUND_Y, UNIT_SIZE, UNIT_SIZE, this);
         } else {
@@ -133,7 +133,7 @@ public class BattlePanel extends JPanel implements java.awt.event.ActionListener
             g.setColor(Color.WHITE); g.drawString("ORC", 620, GROUND_Y + 50);
         }
 
-        // 2. Draw Animation (FIXED to use image/color)
+        // Draw Animation
         if (animating) {
             int startX = currentAttacker.equals("Arin") ? 150 : 650;
             int endX = currentTarget.equals("Goblin") ? 450 : 600;
@@ -157,7 +157,7 @@ public class BattlePanel extends JPanel implements java.awt.event.ActionListener
             if (effectImage != null) {
                 g.drawImage(effectImage, xPos, 300, 50, 50, this);
             } else {
-                // Fallback: Use the appropriate color
+                // Fallback in case image not present
                 g.setColor(fallbackColor);
                 g.fillOval(xPos, 300, 30, 30);
             }
@@ -174,7 +174,7 @@ public class BattlePanel extends JPanel implements java.awt.event.ActionListener
         g.drawString("Orc HP: XX/XX", 600, 320);
     }
     
-    // This method is key to pausing the battle logic
+    // This method helps in pausing the battle logic
     public void waitForAnimation() {
         // CLONE TYPE 4: Semantic clone of a standard Thread.sleep() or delay loop
         try {
@@ -185,7 +185,7 @@ public class BattlePanel extends JPanel implements java.awt.event.ActionListener
                 }
             }
         } catch (InterruptedException e) {
-            // Handle interrupted exception gracefully
+            // Error log
             Thread.currentThread().interrupt();
             System.err.println("Animation interrupted.");
         }
