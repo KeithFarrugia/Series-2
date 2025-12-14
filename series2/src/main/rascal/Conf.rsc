@@ -6,6 +6,7 @@ public loc linesJson = |project://series2/lines.json|;
 
 public loc projectRoot = |project://clone-demo|;
 //public loc projectRoot = |project://smallsql0.21_src|;
+// public loc projectRoot = |project://hsqldb-2.3.1|;
 
 public data Clone = clone(
     list [Location] locations,
