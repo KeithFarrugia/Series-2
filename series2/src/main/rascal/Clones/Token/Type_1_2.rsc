@@ -36,7 +36,7 @@ list[Clone] findClonesOfType1Or2Token(int cloneType) {
     list[Clone] reduced   = applyTransitivity(rawClones);
     datetime t1 = now();
 
-    println("Clone detection time  (Token Type <cloneType>) <calcTime(t0, t1)>");
+    println("Clone detection time  (Token Type <cloneType>) <calcTime(t0, t1)>ms");
 
     return reduced;
 }

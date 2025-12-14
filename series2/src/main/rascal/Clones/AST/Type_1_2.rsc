@@ -7,6 +7,7 @@ import Set;
 import util::Math;
 import Map;
 import DateTime;
+import Node;
 
 import lang::java::m3::Core;
 import lang::java::m3::AST;
@@ -63,7 +64,7 @@ list[Clone] findClonesOfType1Or2AST(int cloneType) {
         )));
     datetime     t1 = now();
 
-    println("Clone detection time  (AST Type <cloneType>) <calcTime(t0, t1)>");
+    println("Clone detection time  (AST Type <cloneType>) <calcTime(t0, t1)>ms");
 
     return clones;
 }
@@ -87,8 +88,6 @@ void addNodeToMap(node n) {
 
     if (!minNodeLines(location))
         return;
-
-    println("<location>");
 
     node key = unsetRec(n);
 

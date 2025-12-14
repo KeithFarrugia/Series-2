@@ -58,7 +58,10 @@ public str cleanSource(str sourcestr) {
  */
 public str stripCompilationUnitPrefix(str location) {
     str cleaned = replaceAll(
-        replaceAll(location, "java\\+compilationUnit:///", ""), 
+        replaceAll(
+            replaceAll(location, "java\\+compilationUnit:///", ""),
+            "java+compilationUnit:///", ""
+        ), 
         "project://", ""
     );
     return cleaned;

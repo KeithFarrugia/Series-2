@@ -8,6 +8,7 @@ import Set;
 import util::Math;
 import Map;
 import DateTime;
+import Node;
 
 import lang::java::m3::Core;
 import lang::java::m3::AST;
@@ -58,7 +59,7 @@ list [Clone] findClonesOfType3AST(){
         ));
     datetime     t1 = now();
 
-    println("Clone detection time  (AST Type 3) <calcTime(t0, t1)>");
+    println("Clone detection time  (AST Type 3) <calcTime(t0, t1)>ms");
 
     return clones;
 }

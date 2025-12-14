@@ -1,24 +1,42 @@
 module Conf
 
-// Change this value to the project you want to run the clone detection on
-public loc projectRoot = |project://hsqldb-2.3.1|; 
-// public loc projectRoot = |project://clone-demo|;
+/* ============================================================================
+ *                           Project Configuration
+ * ----------------------------------------------------------------------------
+ * Set the target project for clone detection and analysis.
+ * Change this value to the project you want to run the clone detection on
+ * ============================================================================ 
+ */
+// public loc projectRoot = |project://hsqldb-2.3.1|; 
+ public loc projectRoot = |project://clone-demo|;
 // public loc projectRoot = |project://smallsql0.21_src|;
 
 // Change this to match the absolute filepath of the project you're analysing 
 public str rootPath = "/dev/software_evo/Series-2/hsqldb-2.3.1";
 
-// ===========================
+/* ============================================================================
+ *                           Clone Output Configuration
+ * ----------------------------------------------------------------------------
+ *  File location for the clones.json output and detection thresholds.
+ * ============================================================================ 
+ */
 // The below is used to create the clones.json
 public loc clonesJson = |project://series2/clones.json|;
 
-
-
+/* ============================================================================
+ *                           Constants
+ * ----------------------------------------------------------------------------
+ * ============================================================================ 
+ */
 public int  DUPLICATION_THRESHOLD   = 6;
 public int  MASS_THRESHOLD          = 12;
-public real SIM_THRESHOLD           = 0.70;
+public real SIMILARITY_THRESHOLD    = 0.70;
 
-
+/* ============================================================================
+ *                           Clone Data Structures
+ * ----------------------------------------------------------------------------
+ *  Definitions for Clone, Location, and ProjectClones JSON representations.
+ * ============================================================================ */
 public data Clone = clone(
     list [Location] locations,
     int fragmentLength,
@@ -40,7 +58,11 @@ public data ProjectClones = projectClones(
     list[Clone] clones
 );
 
-// ===========================
+/* ============================================================================
+ *                           Lines of Code Output Configuration
+ * ----------------------------------------------------------------------------
+ *  File location for the lines.json output and supporting data structures.
+ * ============================================================================ */
 // The below is used to create the lines.json
 public loc linesJson = |project://series2/lines.json|;
 

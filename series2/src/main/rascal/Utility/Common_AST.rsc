@@ -266,7 +266,8 @@ list[Clone] buildASTCloneList(
                 L[1].end.line
             );
             Location loc2 = 
-                location(stripCompilationUnitPrefix(R[1].uri),
+                location(
+                stripCompilationUnitPrefix(R[1].uri),
                 R[1].begin.line,
                 R[1].end.line
             );

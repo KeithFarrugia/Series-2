@@ -35,7 +35,7 @@ list [Clone] findClonesOfType3Token(){
     list [Clone] c  = mergeClonePairList(findType3(lines));
     datetime     t1 = now();
 
-    println("Clone detection time  (Token Type 3) <calcTime(t0, t1)>");
+    println("Clone detection time  (Token Type 3) <calcTime(t0, t1)>ms");
     return c;
 }
 

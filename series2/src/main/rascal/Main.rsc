@@ -13,56 +13,100 @@ import Clones::Token::Type_3;
 import Clones::AST::Type_1_2;
 import Clones::AST::Type_3;
 
+import Conf;
 import Utility::Write;
 import Utility::LinesOfCode;
-import Conf;
 import Utility::Statistics;
+import Utility::Timings;
+import Utility::CloneMerger;
 
-int durationToMillis(Duration d) {
-  return  d.years   * 1000 * 60 * 60 * 24 * 365
-        + d.months  * 1000 * 60 * 60 * 24 * 30
-        + d.days    * 1000 * 60 * 60 * 24
-        + d.hours   * 1000 * 60 * 60
-        + d.minutes * 1000 * 60
-        + d.seconds * 1000
-        + d.milliseconds;
+/* ============================================================================
+ *                     Token-based Clone Generation
+ * ----------------------------------------------------------------------------
+ *  Generates clones of the specified type using the Token-based detector.
+ *  Returns a list of clones.
+ * ============================================================================
+ */
+list[Clone] generateTokenClones(int cloneType) {
+    switch (cloneType) {
+        case 1: {return findClonesOfType1Or2Token(1);}
+        case 2: {return findClonesOfType1Or2Token(2);}
+        case 3: {return findClonesOfType3Token   ( );}
+
+        default: {println("Invalid clone type: <cloneType>"); return [];}
+    }
 }
 
-void main() { 
-    int methodType = 1;
-    int cloneType = 1;
-    list [Clone] clones;
-    datetime t0 = now();
-    switch (methodType) {
-        case 1: {
-            println("Using AST-based clone detection...");
+/* ============================================================================
+ *                     AST-based Clone Generation
+ * ----------------------------------------------------------------------------
+ *  Generates clones of the specified type using the AST-based detector.
+ *  Returns a list of clones.
+ * ============================================================================
+ */
+list[Clone] generateASTClones(int cloneType) {
+    switch (cloneType) {
+        case 1: {return findClonesOfType1Or2AST(1);}
+        case 2: {return findClonesOfType1Or2AST(2);}
+        case 3: {return findClonesOfType3AST   ( );}
 
-            switch (cloneType) {
-                case 1: clones = findClonesOfType1Or2AST(1);
-                case 2: clones = findClonesOfType1Or2AST(2);
-                case 3: clones = findClonesOfType3AST();
-                default: println("Invalid clone type chosen.");
-            }
-        }
-
-        case 2: {
-            println("Using Token-based clone detection...");
-
-            switch (cloneType) {
-                case 1: clones = findClonesOfType1Or2Token(1);
-                case 2: clones = findClonesOfType1Or2Token(2);
-                case 3: clones = findClonesOfType3Token();
-                default: println("Invalid clone type chosen.");
-            }
-        }
-
-        default: println("Invalid method chosen.");
+        default: {println("Invalid clone type: <cloneType>"); return [];}
     }
-    // println("<size(clones)> detected");
-    datetime t1 = now();
-    println("Time: <durationToMillis(createDuration(t0, t1))>");
+}
+
+/* ============================================================================
+ *                     General Clone Generation
+ * ----------------------------------------------------------------------------
+ *  Generates clones using the specified method (AST=1, Token=2) and type.
+ *  Prints statistics for the generated clones before returning them.
+ * ============================================================================
+ */
+list[Clone] generateClones(int methodType, int cloneType) {
+    if (methodType == 1) {
+        println("Using AST-based clone detection...");
+        list[Clone] clones = generateASTClones(cloneType);
+        printStatisticsForProject(clones, cloneType);
+        return clones;
+    } else if (methodType == 2) {
+        println("Using Token-based clone detection...");
+        list[Clone] clones = generateTokenClones(cloneType);
+        printStatisticsForProject(clones, cloneType);
+        return clones;
+    } else {
+        println("Invalid method type: <methodType>");
+        return [];
+    }
+}
+
+
+/* ============================================================================
+ *                     General Clone Generation
+ * ----------------------------------------------------------------------------
+ *  Generates clones using the specified method (AST=1, Token=2) and type.
+ *  Prints statistics for the generated clones before returning them.
+ * ============================================================================
+ */
+ void main() { 
+    int methodType  =  1;
+    int cloneType   = -1;
+    list [Clone] clones = [];
+
+    datetime t0 = now();
     
-    printStatisticsForProject(clones, cloneType);
+    if(cloneType == -1){
+        println("Generating all clone types separately...");
+        list[Clone] allClones = [];
+        for (int ct <- [1,2,3]) {
+            allClones += generateClones(methodType, ct);
+        }
+        clones = mergeCloneTypes(allClones);
+    }else{
+        clones = generateClones(methodType, cloneType);
+    }
+
+    datetime t1 = now();
+    println("Total Time: <calcTime(t0, t1)>");
+    
     writeClonesToJson(clones);
     writeLinesOfCodeToJson(getAllFilesFromProjectRoot());
 }
